@@ -16,7 +16,8 @@ class _SplashState extends State<Splash> {
 
   _navigateToLogin() async {
     await Future.delayed(Duration(milliseconds: 2000), () {});
-    Navigator.pushReplacementNamed(context, "/login");
+    // Navigator.pushReplacementNamed(context, "/login");
+    Navigator.pushReplacementNamed(context, "/profile");
   }
 
   @override

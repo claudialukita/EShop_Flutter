@@ -1,4 +1,5 @@
 import 'package:eshop_flutter/login/login_screen.dart';
+import 'package:eshop_flutter/profile/profile_screen.dart';
 import 'package:eshop_flutter/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -16,6 +17,6 @@ class MyApp extends StatelessWidget {
         //   primarySwatch: Colors.blue,
         // ),
         initialRoute: '/',
-        routes: {'/': (context) => Splash(), '/login': (context) => Login()});
+        routes: {'/': (context) => Splash(), '/login': (context) => Login(), '/profile': (context) => Profile()});
   }
 }
