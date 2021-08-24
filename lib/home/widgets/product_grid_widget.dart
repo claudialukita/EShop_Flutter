@@ -43,7 +43,7 @@ class ProductGridWidget extends ConsumerWidget {
                     Container(
                       width: 155,
                       child: Text("Nike Air Max 270 React ENG",
-                          style: Theme.of(context).textTheme.headline3,
+                          style: Theme.of(context).textTheme.headline3!.apply(color: Color(0xFF223263)),
                           textAlign: TextAlign.start),
                     ),
                     Container(
@@ -72,7 +72,7 @@ class ProductGridWidget extends ConsumerWidget {
                       padding: EdgeInsets.symmetric(vertical: 15),
                       width: 155,
                       child: Text("\$299,43",
-                          style: Theme.of(context).textTheme.headline4,
+                          style: Theme.of(context).textTheme.headline3!.apply(color: Color(0xFF40BFFF)),
                           textAlign: TextAlign.start),
                     ),
                   ],

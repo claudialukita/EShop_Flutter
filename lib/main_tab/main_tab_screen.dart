@@ -1,3 +1,4 @@
+import 'package:eshop_flutter/cart/cart_screen.dart';
 import 'package:eshop_flutter/home/home_screen.dart';
 import 'package:eshop_flutter/main_tab/main_tab_view_model.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,7 +12,7 @@ class MainTabScreen extends ConsumerWidget {
       case 0:
         return HomeScreen();
       case 1:
-        return HomeScreen();
+        return CartScreen();
       case 2:
         return HomeScreen();
       case 3:

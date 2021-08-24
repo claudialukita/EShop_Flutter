@@ -1,8 +1,12 @@
+import 'package:eshop_flutter/card_detail/card_detail_screen.dart';
+import 'package:eshop_flutter/commit_order/commit_order_screen.dart';
 import 'package:eshop_flutter/main_tab/main_tab_screen.dart';
 import 'package:eshop_flutter/product_detail/product_detail_screen.dart';
 import 'package:eshop_flutter/product_search/product_search_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'delivery_detail/delivery_detail_screen.dart';
 
 void main() {
   runApp(ProviderScope(child: MyApp()));
@@ -23,11 +27,9 @@ class MyApp extends StatelessWidget {
                 fontSize: 21, color: Colors.white, fontWeight: FontWeight.w700),
             headline3: TextStyle(
                 fontSize: 12,
-                color: Color(0xFF223263),
                 fontWeight: FontWeight.w700),
             headline4: TextStyle(
-                fontSize: 12,
-                color: Color(0xFF40BFFF),
+                fontSize: 16,
                 fontWeight: FontWeight.w700),
             headline5: TextStyle(
                 fontSize: 21, color: Colors.black, fontWeight: FontWeight.w700),
@@ -65,7 +67,7 @@ class MyApp extends StatelessWidget {
           ),
           primarySwatch: Colors.blue,
         ),
-        initialRoute: '/',
+        initialRoute: '/MainTabDumDumScreen',
         // navigatorObservers: [
         //   FirebaseAnalyticsObserver(analytics: context.read(analyticsProvider)),
         // ],
@@ -73,6 +75,10 @@ class MyApp extends StatelessWidget {
           '/': (context) => MainTabScreen(),
           '/ProductSearchScreen': (context) => ProductSearchScreen(),
           '/ProductDetailScreen': (context) => ProductDetailScreen(),
+          '/DeliveryDetailScreen': (context) => DeliveryDetailScreen(),
+          '/CardDetailScreen': (context) => CardDetailScreen(),
+          '/CommitOrderScreen': (context) => CommitOrderScreen(),
+          // '/CounterScreen': (context) => FlutterExample(),
         });
   }
 }
