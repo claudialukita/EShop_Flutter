@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ProductDetailScreen extends ConsumerWidget {
+
   @override
   Widget build(BuildContext context, watch) {
+    var shoeId = ModalRoute.of(context)!.settings.arguments as String;
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 78,
@@ -43,7 +45,7 @@ class ProductDetailScreen extends ConsumerWidget {
         child: Column(
           children: <Widget>[
             CarouselSliderDetailWidget(),
-            ProductDetailWidget(),
+            ProductDetailWidget(shoeId: shoeId),
           ],
         ),
       ),

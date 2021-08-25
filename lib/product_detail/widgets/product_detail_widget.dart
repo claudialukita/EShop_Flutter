@@ -1,13 +1,18 @@
 import 'dart:math';
 
+import 'package:eshop_flutter/product_detail/product_detail_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ProductDetailWidget extends ConsumerWidget {
+  String shoeId;
+  ProductDetailWidget({required this.shoeId});
   @override
   Widget build(BuildContext context, ScopedReader watch) {
+    print(shoeId);
+    String shoeColor = "", shoeSize = "";
     return Container(
       padding: EdgeInsets.all(16),
       width: MediaQuery.of(context).size.width,
@@ -84,14 +89,17 @@ class ProductDetailWidget extends ConsumerWidget {
                           ),
                           child: new SizedBox(
                             child: FloatingActionButton(
+                              heroTag: null,
                               elevation: 0,
                               backgroundColor: Colors.transparent,
                               child: Text(
                                 index.toString(),
                                 style: Theme.of(context).textTheme.subtitle2,
                               ),
-                              onPressed: () {
-                                print("Cliked");
+                              onPressed: ()
+                              {
+                                print("Cliked size ${index}");
+                                shoeSize = "Cliked size ${index}";
                               },
                             ),
                           ),
@@ -134,6 +142,7 @@ class ProductDetailWidget extends ConsumerWidget {
                           ),
                           child: new SizedBox(
                             child: FloatingActionButton(
+                              heroTag: null,
                               elevation: 0,
                               backgroundColor: Color(
                                       (Random().nextDouble() * 0xFFFFFF)
@@ -144,7 +153,8 @@ class ProductDetailWidget extends ConsumerWidget {
                                 style: Theme.of(context).textTheme.subtitle2,
                               ),
                               onPressed: () {
-                                print("Cliked");
+                                print("Cliked color ${index}");
+                                shoeColor = "Cliked color ${index}";
                               },
                             ),
                           ),
@@ -247,6 +257,7 @@ class ProductDetailWidget extends ConsumerWidget {
             child: ElevatedButton(
               onPressed: () => {
                 /*Navigator.pushNamed(context, '/CarsCard')*/
+                context.read(productDetailViewModelProvider.notifier).addToCart(shoeColor, shoeSize, shoeId, "shoeName", 123.33, "shoeImageUrl")
               },
               style: Theme.of(context)
                   .elevatedButtonTheme

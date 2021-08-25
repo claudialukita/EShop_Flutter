@@ -67,7 +67,7 @@ class MyApp extends StatelessWidget {
           ),
           primarySwatch: Colors.blue,
         ),
-        initialRoute: '/MainTabDumDumScreen',
+        initialRoute: '/',
         // navigatorObservers: [
         //   FirebaseAnalyticsObserver(analytics: context.read(analyticsProvider)),
         // ],
