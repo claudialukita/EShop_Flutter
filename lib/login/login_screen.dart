@@ -12,6 +12,8 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final _passController = TextEditingController();
   final _emailController = TextEditingController();
+  bool _validateEmail = false;
+  bool _validatePass = false;
 
   @override
   void initState() {
@@ -79,7 +81,8 @@ class _LoginState extends State<Login> {
                           borderSide: BorderSide(
                               color: const Color(0xFFEBF0FF), width: 1.0),
                         ),
-                        hintText: 'Your Email'),
+                        hintText: 'Your Email',
+                      errorText: _validateEmail ? 'Value Can\'t Be Empty' : null,),
                   ),
                 ),
                 Container(
@@ -99,9 +102,9 @@ class _LoginState extends State<Login> {
                           borderSide: BorderSide(
                               color: const Color(0xFFEBF0FF), width: 1.0),
                         ),
-                        hintText: 'Password'),
+                        hintText: 'Password',
+                      errorText: _validatePass ? 'Value Can\'t Be Empty' : null,),),
                   ),
-                ),
                 Container(
                     width: double.infinity,
                     height: 57,
@@ -129,6 +132,10 @@ class _LoginState extends State<Login> {
                           shadowColor: const Color(0xFF40BFFF),
                         ),
                         onPressed: () {
+                          setState(() {
+                            _emailController.text.isEmpty ? _validateEmail = true : _validateEmail = false;
+                            _passController.text.isEmpty ? _validatePass = true : _validatePass = false;
+                          });
                           print(_emailController.text);
                           print(_passController.text);
                           context
@@ -143,6 +150,10 @@ class _LoginState extends State<Login> {
                             print(state.data!.message);
                             if (state.data!.message == "Success") {
                               Navigator.pushNamed(context, '/MainTabScreen');
+                            }else if(state.data!.message == "Not a valid email"){
+                              _validateEmail = true;
+                            }else{
+                              _validatePass = true;
                             }
                           }
                         },

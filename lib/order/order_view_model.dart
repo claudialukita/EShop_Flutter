@@ -22,7 +22,7 @@ class OrderViewModel extends StateNotifier<AsyncState<List<OrderList>>> {
       print(shoeList);
       state = new Success(shoeList);
     } catch (exception) {
-      state = Error('Something went wrong', state.data);
+      state = Error(exception.toString(), state.data);
     }
   }
 
