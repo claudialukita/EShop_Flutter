@@ -4,6 +4,7 @@ import 'package:eshop_flutter/login/login_screen.dart';
 import 'package:eshop_flutter/main_tab/main_tab_screen.dart';
 import 'package:eshop_flutter/order/detail/order_detail_screen.dart';
 import 'package:eshop_flutter/product_detail/product_detail_screen.dart';
+import 'package:eshop_flutter/product_detail/widgets/success_add_widget.dart';
 import 'package:eshop_flutter/product_search/product_search_screen.dart';
 import 'package:eshop_flutter/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -83,7 +84,7 @@ class MyApp extends StatelessWidget {
           '/DeliveryDetailScreen': (context) => DeliveryDetailScreen(),
           '/CardDetailScreen': (context) => CardDetailScreen(),
           '/CommitOrderScreen': (context) => CommitOrderScreen(),
-          '/OrderDetails': (context) => OrderDetail()
+          '/SuccessAddWidget': (context) => SuccessAddWidget(),
           // '/CounterScreen': (context) => FlutterExample(),
         });
   }

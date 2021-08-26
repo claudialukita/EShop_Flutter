@@ -9,7 +9,7 @@ class CarouselSliderHomeWidget extends StatefulWidget {
 }
 class CarouselSliderState extends State{
   int _currentIndex = 0;
-  List<int> cardList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  List<int> cardList = [1, 2, 3, 4, 5];
 
   List<T> map<T>(List list, Function handler) {
     List<T> result = [];

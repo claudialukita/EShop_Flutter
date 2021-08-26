@@ -37,34 +37,80 @@ class ShoeService {
     return shoes;
   }
 
-  Future<Shoe> getShoeDetail(String shoeId) async {
-    List<String> newImageUrls = [];
-    List<int> newSizes = [];
-    List<String> newColors = [];
-    //GET {{host}}/shoes/{{shoes_id}}
-    var response = await _dio.get('${API_URL}/shoes/${shoeId}');
+  Future<List<ShoeList>> getAllShoes() async {
+    List<ShoeList> shoes = [];
+    List<dynamic> newImageUrls = [];
+    var response = await _dio.get('${API_URL}/shoe');
+
     if (response.data.length > 0) {
-      for (var shoeImgRes in response.data['results']['imageUrls']) {
-        newImageUrls.add(shoeImgRes);
+      for (int i = 0; i < response.data['result']['result'].length; i++) {
+        ShoeList shoeList = new ShoeList(
+          response.data['result']['result'][i]['id'],
+          response.data['result']['result'][i]['name'],
+          response.data['result']['result'][i]['rating'],
+          response.data['result']['result'][i]['price'].toDouble(),
+          response.data['result']['result'][i]['imageUrls'],
+        );
+        shoes.add(shoeList);
       }
-      for (var shoeSizesRes in response.data['results']['sizes']) {
-        newSizes.add(shoeSizesRes);
-      }
-      for (var shoeColorsRes in response.data['results']['colors']) {
-        newColors.add(shoeColorsRes);
+    }
+    return shoes;
+  }
+
+  Future<ShoeDetail> getShoeDetail(String shoeId) async {
+    List<int> shoeSizes = [];
+    List<int> shoeColors = [];
+    List<String> shoeImageUrls = [];
+    List<Stock> listStock = [];
+    //GET {{host}}/shoes/{{shoes_id}}
+    var response = await _dio.get('${API_URL}/shoe/${shoeId}');
+    if (response.data.length > 0) {
+      // for (var shoeImgRes in response.data['results']['imageUrls']) {
+      //   newImageUrls.add(shoeImgRes);
+      // }
+      // for (var shoeSizesRes in response.data['results']['sizes']) {
+      //   newSizes.add(shoeSizesRes);
+      // }
+      // for (var shoeColorsRes in response.data['results']['colors']) {
+      //   newColors.add(shoeColorsRes);
+      // }
+
+      for (var shoeStock in response.data['result']['shoeItem']) {
+        Stock newStock = new Stock(
+          shoeStock['id'],
+          shoeStock['size'],
+          shoeStock['color'],
+          shoeStock['stock'],
+          shoeStock['imageUrl'],
+        );
+        listStock.add(newStock);
       }
 
-      Shoe newShoe = new Shoe(
-        response.data['id'],
-        response.data['name'],
-        response.data['rating'],
-        response.data['price'],
-        response.data['imageUrls'],
-        response.data['productCode'],
-        response.data['sizes'],
-        response.data['colors'],
-        response.data['stocks'],
-        response.data['description'],
+      for (var shoeSize in response.data['result']['shoeItem']) {
+        shoeSizes.add(shoeSize['size']);
+      }
+
+      for (var shoeColor in response.data['result']['shoeItem']) {
+        var resColor = shoeColor['color'];
+        var newColor = resColor.replaceAll('#', 'FF');
+        int hexColor = int.parse(newColor, radix: 16);
+        shoeColors.add(hexColor);
+      }
+
+      for (var shoeImageUrl in response.data['result']['shoeItem']) {
+        shoeImageUrls.add(shoeImageUrl['imageUrl']);
+      }
+
+      ShoeDetail newShoe = new ShoeDetail(
+        response.data['result']['id'],
+        response.data['result']['productCode'],
+        response.data['result']['name'],
+        response.data['result']['rating'],
+        response.data['result']['price'].toDouble(),
+        shoeImageUrls,
+        listStock,
+        shoeSizes,
+        shoeColors,
       );
       return newShoe;
     } else {
