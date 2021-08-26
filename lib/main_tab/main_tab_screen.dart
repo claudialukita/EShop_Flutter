@@ -1,6 +1,8 @@
 import 'package:eshop_flutter/cart/cart_screen.dart';
 import 'package:eshop_flutter/home/home_screen.dart';
 import 'package:eshop_flutter/main_tab/main_tab_view_model.dart';
+import 'package:eshop_flutter/order/order_screen.dart';
+import 'package:eshop_flutter/profile/profile_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,9 +16,9 @@ class MainTabScreen extends ConsumerWidget {
       case 1:
         return CartScreen();
       case 2:
-        return HomeScreen();
+        return OrderScreen();
       case 3:
-        return HomeScreen();
+        return Profile();
       default:
         return HomeScreen();
     }

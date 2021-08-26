@@ -1,5 +1,6 @@
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
+import 'package:eshop_flutter/core/providers/storage_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -24,8 +25,8 @@ class AppDio with DioMixin implements Dio {
 
     this.options = options;
     this.interceptors.add(InterceptorsWrapper(
-      onRequest: (requestOptions, handler){
-        var token = 'abcdefghijklmnopqrstuvwxyz';
+      onRequest: (requestOptions, handler) async{
+        var token = await ref.read(storageProvider).read(key: 'token');
         Map tokenHeader = new Map<String, String>();
         if (token != null){
           tokenHeader['Authorization'] = 'Bearer' + token.toString();
@@ -47,8 +48,8 @@ class AppDio with DioMixin implements Dio {
 
 
     this.interceptors.add(InterceptorsWrapper(
-      onRequest: (requestOptions, handler){
-        var token = 'adjhsakdjhaskdjhasjd';
+      onRequest: (requestOptions, handler) async{
+        var token = await ref.read(storageProvider).read(key: 'token');
         Map tokenHeader = new Map<String, String>();
         if (token != null) {
           tokenHeader['Authorization'] = 'Bearer ' + token.toString();

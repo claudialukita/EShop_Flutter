@@ -1,8 +1,11 @@
 import 'package:eshop_flutter/card_detail/card_detail_screen.dart';
 import 'package:eshop_flutter/commit_order/commit_order_screen.dart';
+import 'package:eshop_flutter/login/login_screen.dart';
 import 'package:eshop_flutter/main_tab/main_tab_screen.dart';
+import 'package:eshop_flutter/order/detail/order_detail_screen.dart';
 import 'package:eshop_flutter/product_detail/product_detail_screen.dart';
 import 'package:eshop_flutter/product_search/product_search_screen.dart';
+import 'package:eshop_flutter/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -72,12 +75,15 @@ class MyApp extends StatelessWidget {
         //   FirebaseAnalyticsObserver(analytics: context.read(analyticsProvider)),
         // ],
         routes: {
-          '/': (context) => MainTabScreen(),
+          '/': (context) => Splash(),
+          '/login': (context) => Login(),
+          '/MainTabScreen': (context) => MainTabScreen(),
           '/ProductSearchScreen': (context) => ProductSearchScreen(),
           '/ProductDetailScreen': (context) => ProductDetailScreen(),
           '/DeliveryDetailScreen': (context) => DeliveryDetailScreen(),
           '/CardDetailScreen': (context) => CardDetailScreen(),
           '/CommitOrderScreen': (context) => CommitOrderScreen(),
+          '/OrderDetails': (context) => OrderDetail()
           // '/CounterScreen': (context) => FlutterExample(),
         });
   }

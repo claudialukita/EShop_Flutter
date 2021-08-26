@@ -14,3 +14,9 @@ class LoginModel {
         'password': password
       };
 }
+
+class LoginResponse {
+  final String message;
+
+  LoginResponse(this.message);
+}
