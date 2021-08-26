@@ -27,7 +27,8 @@ class LoginService {
         _secureStorage.write(key: "token", value: response.data['result']['accessToken']);
         return logins;
       }else{
-        throw new Exception("Tidak dapat login");
+        LoginResponse logins = new LoginResponse(response.data['message']);
+        return logins;
       }
     }else{
       throw new Exception("Tidak dapat login");
