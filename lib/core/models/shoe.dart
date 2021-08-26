@@ -6,6 +6,59 @@ class ShoeList {
   List<dynamic> imageUrls;
 
   ShoeList(this.id, this.name, this.rating, this.price, this.imageUrls);
+
+  factory ShoeList.fromJson(dynamic json) {
+    var tagObjsJson = json['imageUrls'] as List;
+    List<dynamic> _imageUrls = tagObjsJson.map((tagJson) => tagJson).toList();
+
+    return ShoeList(
+        json['id'] as String,
+        json['name'] as String,
+        json['rating'] as int,
+        json['price'] as double,
+        _imageUrls
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+
+    List<dynamic> imageUrls =
+    this.imageUrls.map((i) => i.toJson()).toList();
+
+    return {
+      'id': id,
+      'name': name,
+      'rating': rating,
+      'price': price,
+      'imageUrls': imageUrls
+    };
+  }
+
+}
+
+class ShoeListResult{
+  List<ShoeList> result;
+
+  ShoeListResult(this.result);
+
+  factory ShoeListResult.fromJson(dynamic json) {
+    var tagObjsJson = json['shoeItemOrder'] as List;
+    List<ShoeList> _shoeItemOrder = tagObjsJson.map((tagJson) => ShoeList.fromJson(tagJson)).toList();
+
+    return ShoeListResult(
+        _shoeItemOrder,
+    );
+  }
+
+}
+
+class ShoeListResponse {
+  int statusCode;
+  String message;
+  ShoeListResult result;
+
+  ShoeListResponse(this.statusCode, this.message, this.result);
+
 }
 
 class Shoe extends ShoeList {

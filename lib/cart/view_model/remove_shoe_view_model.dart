@@ -7,8 +7,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 final removeShoeViewModelProvider =
-StateNotifierProvider<RemoveShoeViewModel, String>((ref) => RemoveShoeViewModel(
-    ref.read(cartServiceProvider), ref.read(storageProvider)));
+    StateNotifierProvider<RemoveShoeViewModel, String>((ref) =>
+        RemoveShoeViewModel(
+            ref.read(cartServiceProvider), ref.read(storageProvider)));
 
 class RemoveShoeViewModel extends StateNotifier<String> {
   final CartService _cartService;
@@ -19,28 +20,32 @@ class RemoveShoeViewModel extends StateNotifier<String> {
     int indexOfShoe;
 
     Map<String, dynamic> shoeInCartList = await _secureStorage.readAll();
-    // state = shoeId;
-    var tempListShoeInCart =
-    jsonDecode(shoeInCartList['shoeInCart']) as List; //as List;
 
-    List<ShoeInCart> listShoeInCart = tempListShoeInCart
-        .map((tagJson) => ShoeInCart.fromJson(tagJson))
-        .toList();
+    var isShoeInCartList = await _secureStorage.containsKey(
+        key:
+            'shoeInCart'); //containsKey(key: 'shoeInCart'); //.read(key: 'token');
 
-    indexOfShoe =
-        tempListShoeInCart.indexWhere((element) => element["shoeId"] == shoeId);
-    if(listShoeInCart.length > 1){
-    if (indexOfShoe >= 0) {
-      listShoeInCart.removeAt(indexOfShoe);
-      await _secureStorage.deleteAll();
-      await _cartService.setShoeInCart(jsonEncode(listShoeInCart));
-      state = shoeId;
+    if (isShoeInCartList) {
+
+      var tempListShoeInCart =
+          jsonDecode(shoeInCartList['shoeInCart']) as List; //as List;
+
+      List<ShoeInCart> listShoeInCart = tempListShoeInCart
+          .map((tagJson) => ShoeInCart.fromJson(tagJson))
+          .toList();
+
+      indexOfShoe = tempListShoeInCart
+          .indexWhere((element) => element["shoeId"] == shoeId);
+      if (listShoeInCart.length > 1) {
+        if (indexOfShoe >= 0) {
+          listShoeInCart.removeAt(indexOfShoe);
+          await _secureStorage.delete(key: 'shoeInCart');
+          await _cartService.setShoeInCart(jsonEncode(listShoeInCart));
+          state = shoeId;
+        }
+      } else {
+        await _secureStorage.delete(key: 'shoeInCart');
+      }
     }
-    } else {
-      await _secureStorage.deleteAll();
-    }
-    // else {
-    //   state = "true";
-    // }
   }
 }

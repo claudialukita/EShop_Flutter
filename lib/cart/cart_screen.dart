@@ -21,7 +21,6 @@ class CartScreen extends StatelessWidget {
       await context.read(shoeStateViewModelProvider.notifier).initialCartState();
     });
 
-
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 78,
@@ -41,7 +40,7 @@ class CartScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: CarListWidget(),
+      body: CartListWidget(),
 
     );
   }

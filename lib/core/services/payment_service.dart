@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:eshop_flutter/core/common/constrants.dart';
+import 'package:eshop_flutter/core/common/constant.dart';
 import 'package:eshop_flutter/core/models/shoe.dart';
 import 'package:eshop_flutter/core/providers/dio_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

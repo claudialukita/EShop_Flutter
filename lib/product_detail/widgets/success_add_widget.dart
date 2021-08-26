@@ -83,7 +83,7 @@ class SuccessAddWidget extends StatelessWidget{
               ),
               child: ElevatedButton(
                 onPressed: () => {
-                  Navigator.pushReplacementNamed(context, '/')
+                  Navigator.pushReplacementNamed(context, '/MainTabScreen')
                 },
                 style: Theme.of(context)
                     .elevatedButtonTheme
