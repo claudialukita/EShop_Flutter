@@ -2,6 +2,7 @@ import 'package:eshop_flutter/card_detail/card_detail_screen.dart';
 import 'package:eshop_flutter/commit_order/commit_order_screen.dart';
 import 'package:eshop_flutter/main_tab/main_tab_screen.dart';
 import 'package:eshop_flutter/product_detail/product_detail_screen.dart';
+import 'package:eshop_flutter/product_detail/widgets/success_add_widget.dart';
 import 'package:eshop_flutter/product_search/product_search_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -78,6 +79,7 @@ class MyApp extends StatelessWidget {
           '/DeliveryDetailScreen': (context) => DeliveryDetailScreen(),
           '/CardDetailScreen': (context) => CardDetailScreen(),
           '/CommitOrderScreen': (context) => CommitOrderScreen(),
+          '/SuccessAddWidget': (context) => SuccessAddWidget(),
           // '/CounterScreen': (context) => FlutterExample(),
         });
   }

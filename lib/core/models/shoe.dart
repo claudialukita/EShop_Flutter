@@ -3,21 +3,16 @@ class ShoeList {
   String name;
   int rating;
   double price;
-  List<String> imageUrls;
+  List<dynamic> imageUrls;
 
   ShoeList(this.id, this.name, this.rating, this.price, this.imageUrls);
 }
 
 class Shoe extends ShoeList {
-  // String id;
   String productCode;
-  // String name;
-  // int rating;
-  // double price;
   List<int> sizes;
   List<String> colors;
   Stock stocks;
-  // List<String> imageUrls;
   String description;
 
   Shoe(String id, String name, int rating, double price, List<String> imageUrls,
@@ -25,10 +20,41 @@ class Shoe extends ShoeList {
       : super(id, name, rating, price, imageUrls);
 }
 
+class ShoeDetail {
+  String id;
+  String productCode;
+  String name;
+  int rating;
+  double price;
+  List<String> imageUrls;
+  List<Stock> shoeItem;
+  List<int> shoeSizes;
+  List<int> shoeColors;
+
+  ShoeDetail(this.id, this.productCode, this.name, this.rating, this.price, this.imageUrls, this.shoeItem, this.shoeSizes, this.shoeColors);
+}
+
 class Stock {
+  String id;
   int size;
   String color;
   int stock;
+  String imageUrl;
 
-  Stock(this.size, this.color, this.stock);
+  Stock(this.id, this.size, this.color, this.stock, this.imageUrl);
+}
+
+class ShoeIdName {
+  String shoeId;
+  String shoeName;
+
+  ShoeIdName(this.shoeId, this.shoeName);
+}
+
+class ShoeColorSize {
+  int shoeColor;
+  int shoeSize;
+
+  ShoeColorSize(this.shoeColor, this.shoeSize);
+
 }

@@ -4,12 +4,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CarouselSliderDetailWidget extends StatefulWidget {
+  List<String> imgUrls;
+  CarouselSliderDetailWidget(this.imgUrls);
   @override
-  State<StatefulWidget> createState() => CarouselSliderState();
+  State<StatefulWidget> createState() => CarouselSliderState(imgUrls);
 }
 class CarouselSliderState extends State{
+  List<String> imgUrls;
+  CarouselSliderState(this.imgUrls);
+
   int _currentIndex = 0;
-  List<int> cardList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  // List<String> cardList = imgUrls;
 
   List<T> map<T>(List list, Function handler) {
     List<T> result = [];
@@ -40,13 +45,13 @@ class CarouselSliderState extends State{
                         _currentIndex = index;
                       });
                     }),
-                items: cardList.map((item) {
-                  return ItemCardDetailWidget(title: item.toString());
+                items: imgUrls.map((item) {
+                  return ItemCardDetailWidget(imgUrl: item);
                 }).toList(),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: map<Widget>(cardList, (index, url) {
+                children: map<Widget>(imgUrls, (index, url) {
                   return Container(
                     width: 8.0,
                     height: 8.0,

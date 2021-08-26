@@ -1,7 +1,9 @@
+import 'package:eshop_flutter/home/view_model/home_view_model.dart';
 import 'package:eshop_flutter/home/widgets/carousel_slider_widget.dart';
 import 'package:eshop_flutter/home/widgets/product_grid_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -11,6 +13,11 @@ class HomeScreen extends StatefulWidget {
 class HomeScreenState extends State {
   @override
   Widget build(BuildContext context) {
+
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
+      await context.read(shoeGridViewModelProvider.notifier).loadAllData();
+    });
+
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 78,

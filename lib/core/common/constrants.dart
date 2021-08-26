@@ -1,1 +1,1 @@
-const API_URL = '';
+const API_URL = 'http://20.197.112.95';
