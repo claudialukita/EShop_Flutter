@@ -1,8 +1,5 @@
-import 'package:eshop_flutter/cart/view_model/remove_idx_view_model.dart';
 import 'package:eshop_flutter/cart/view_model/remove_shoe_view_model.dart';
 import 'package:eshop_flutter/cart/view_model/shoe_list_view_model.dart';
-import 'package:eshop_flutter/cart/view_model/shoe_state_view_model.dart';
-import 'package:eshop_flutter/cart/view_model/summary_view_model.dart';
 import 'package:eshop_flutter/main_tab/main_tab_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -57,13 +54,11 @@ class _ListTileItemState extends State<ListTileItem> {
         required this.shoePrice,
         required this.shoeImageUrl,
         required this.subTotalItem});
-  int _itemCount = 1;
+  // int _itemCount = 1;
   @override
   Widget build(BuildContext context) {
-    print("open: shoeImage");
-    print(shoeImageUrl);
-    print("close: shoeImage");
-    return (_itemCount > 0)
+      // _itemCount = subTotalItem++;
+    return (subTotalItem > 0)
         ? Container(
       margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       width: MediaQuery.of(context).size.width *
@@ -120,20 +115,15 @@ class _ListTileItemState extends State<ListTileItem> {
                         icon: Icon(Icons.delete_outline,
                             size: 20, color: Color(0xFF9098B1)),
                         onPressed: () => {
-                          print("open: remove index"),
-                          print(idx),
-                          print("close: remove index"),
-
                           context
                               .read(removeShoeViewModelProvider
                               .notifier)
                               .removeShoeFromCart(shoeId),
-                          setState(() => _itemCount = 0),
+                          setState(() => subTotalItem = 0),
                           // context
                           //     .read(shoeStateViewModelProvider.notifier)
                           //     .updateCartState(),
                           context.read(mainTabViewModelProvider.notifier).setTab(1),
-
                         }),
                   ],
                 ),
@@ -165,14 +155,22 @@ class _ListTileItemState extends State<ListTileItem> {
                               bottomLeft: const Radius.circular(5.0),
                             ),
                           ),
-                          child: _itemCount != 1
+                          child: subTotalItem != 1
                               ? IconButton(
                             padding: EdgeInsets.zero,
                             constraints: BoxConstraints(),
                             icon: Icon(Icons.remove,
                                 size: 15, color: Color(0xFF9098B1)),
-                            onPressed: () =>
-                                setState(() => _itemCount--),
+                            onPressed: () => {
+                                setState(() => {subTotalItem--, print("coba: rmv count ${subTotalItem}")}),
+                              context
+                                  .read(shoeListViewModelProvider.notifier)
+                                  .updateShoeCartList(shoeId, subTotalItem),
+                              context.read(mainTabViewModelProvider.notifier).setTab(1),
+                              print("coba: remove"),
+
+                            }
+
                           )
                               : Icon(Icons.remove,
                               size: 15, color: Color(0xFF9098B1)),
@@ -187,9 +185,7 @@ class _ListTileItemState extends State<ListTileItem> {
                               Border.all(color: Color(0xFFEBF0FF)),
                               color: Color(0xFFEBF0FF)),
                           child: Text(
-                              subTotalItem > _itemCount
-                                  ? subTotalItem.toString()
-                                  : _itemCount.toString(),
+                              subTotalItem.toString(),
                               style:
                               Theme.of(context).textTheme.subtitle2),
                         ),
@@ -210,8 +206,16 @@ class _ListTileItemState extends State<ListTileItem> {
                               constraints: BoxConstraints(),
                               icon: Icon(Icons.add,
                                   size: 15, color: Color(0xFF9098B1)),
-                              onPressed: () =>
-                                  setState(() => _itemCount++)),
+                              onPressed: () => {
+                                  setState(() => {subTotalItem++, print("coba: add count ${subTotalItem}")}),
+                                context
+                                    .read(shoeListViewModelProvider.notifier)
+                                    .updateShoeCartList(shoeId, subTotalItem),
+                                context.read(mainTabViewModelProvider.notifier).setTab(1),
+                                print("coba: add"),
+
+                              }
+                          ),
                         ),
                       ],
                     ),

@@ -36,7 +36,7 @@ class ProductDetailScreen extends ConsumerWidget {
         elevation: 0.5,
         backgroundColor: Colors.white,
         leading: IconButton(
-          onPressed: () => Navigator.pushReplacementNamed(context, '/'),
+          onPressed: () => Navigator.pushReplacementNamed(context, '/MainTabScreen'),
           icon: Icon(
             Icons.arrow_back_ios,
             color: Color(0xFF9098B1),
@@ -67,8 +67,8 @@ class ProductDetailScreen extends ConsumerWidget {
           children: <Widget>[
             Consumer(builder: (context, watch, child) {
               final _shoeDetail = watch(productDetailViewModelProvider);
-              List<String> imgUrls = _shoeDetail.data!.imageUrls;
-              return (_shoeDetail is Success) ? CarouselSliderDetailWidget(imgUrls)
+              // List<String> imgUrls = _shoeDetail.data!.imageUrls;
+              return (_shoeDetail is Success) ? CarouselSliderDetailWidget(_shoeDetail.data!.imageUrls)
               : CircularProgressIndicator();
             }),
             ProductDetailWidget(/*shoeId: shoeId*/),

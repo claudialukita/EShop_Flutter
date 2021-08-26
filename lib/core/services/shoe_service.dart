@@ -17,7 +17,8 @@ class ShoeService {
     List<ShoeList> shoes = [];
     List<String> newImageUrls = [];
     //GET {{host}}/shoes?name={{name_keyword}}
-    var response = await _dio.get('${API_URL}/shoes?name=${keyword}');
+    var response =
+        await _dio.get('${API_URL_SHOE_SERVICE}/shoes?name=${keyword}');
     if (response.data.length > 0) {
       for (var shoeImgListRes in response.data['results']['imageUrls']) {
         newImageUrls.add(shoeImgListRes);
@@ -39,8 +40,7 @@ class ShoeService {
 
   Future<List<ShoeList>> getAllShoes() async {
     List<ShoeList> shoes = [];
-    List<dynamic> newImageUrls = [];
-    var response = await _dio.get('${API_URL}/shoe');
+    var response = await _dio.get('${API_URL_SHOE_SERVICE}/shoe');
 
     if (response.data.length > 0) {
       for (int i = 0; i < response.data['result']['result'].length; i++) {
@@ -63,18 +63,8 @@ class ShoeService {
     List<String> shoeImageUrls = [];
     List<Stock> listStock = [];
     //GET {{host}}/shoes/{{shoes_id}}
-    var response = await _dio.get('${API_URL}/shoe/${shoeId}');
+    var response = await _dio.get('${API_URL_SHOE_SERVICE}/shoe/${shoeId}');
     if (response.data.length > 0) {
-      // for (var shoeImgRes in response.data['results']['imageUrls']) {
-      //   newImageUrls.add(shoeImgRes);
-      // }
-      // for (var shoeSizesRes in response.data['results']['sizes']) {
-      //   newSizes.add(shoeSizesRes);
-      // }
-      // for (var shoeColorsRes in response.data['results']['colors']) {
-      //   newColors.add(shoeColorsRes);
-      // }
-
       for (var shoeStock in response.data['result']['shoeItem']) {
         Stock newStock = new Stock(
           shoeStock['id'],
@@ -87,7 +77,9 @@ class ShoeService {
       }
 
       for (var shoeSize in response.data['result']['shoeItem']) {
-        shoeSizes.add(shoeSize['size']);
+        if (!shoeSizes.contains(shoeSize['size'])) {
+          shoeSizes.add(shoeSize['size']);
+        }
       }
 
       for (var shoeColor in response.data['result']['shoeItem']) {

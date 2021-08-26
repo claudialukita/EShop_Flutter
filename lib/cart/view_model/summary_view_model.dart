@@ -8,15 +8,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 final summaryModelProvider =
-    StateNotifierProvider<SummaryViewModel, AsyncState<Summary>>((ref) =>
-        SummaryViewModel(
-            ref.read(cartServiceProvider), ref.read(storageProvider)));
+    StateNotifierProvider<SummaryViewModel, AsyncState<Summary>>(
+        (ref) => SummaryViewModel(ref.read(storageProvider)));
 
 class SummaryViewModel extends StateNotifier<AsyncState<Summary>> {
-  final CartService _cartService;
   final FlutterSecureStorage _secureStorage;
-  SummaryViewModel(this._cartService, this._secureStorage)
-      : super(Initial<Summary>(null));
+  SummaryViewModel(this._secureStorage) : super(Initial<Summary>(null));
 
   getSummary() async {
     state = Loading(state.data);
@@ -28,9 +25,14 @@ class SummaryViewModel extends StateNotifier<AsyncState<Summary>> {
       double totalPrice = 0;
 
       Map<String, dynamic> shoeInCartList = await _secureStorage.readAll();
-      if(shoeInCartList.isNotEmpty) {
+
+      var isShoeInCartList = await _secureStorage.containsKey(
+          key:
+              'shoeInCart'); //containsKey(key: 'shoeInCart'); //.read(key: 'token');
+
+      if (isShoeInCartList) {
         var tempListShoeInCart =
-        jsonDecode(shoeInCartList['shoeInCart']) as List; //as List;
+            jsonDecode(shoeInCartList['shoeInCart']) as List; //as List;
 
         List<ShoeInCart> listShoeInCart = tempListShoeInCart
             .map((tagJson) => ShoeInCart.fromJson(tagJson))
