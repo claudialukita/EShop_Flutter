@@ -46,6 +46,7 @@ class HomeScreenState extends State {
               onSubmitted: (String searchStr) async {
                 Navigator.pushNamed(
                     context, '/ProductSearchScreen', arguments: searchStr);
+                context.read(shoeGridViewModelProvider.notifier).loadDataByKeyword(searchStr);
               },
             )),
         actions: [

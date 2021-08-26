@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:eshop_flutter/core/common/constrants.dart';
+import 'package:eshop_flutter/core/models/checkout.dart';
 import 'package:eshop_flutter/core/models/shoe.dart';
 import 'package:eshop_flutter/core/providers/dio_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 final shoeServiceProvider =
     Provider((ref) => ShoeService(ref.read(dioProvider)));
@@ -41,6 +41,25 @@ class ShoeService {
   Future<List<ShoeList>> getAllShoes() async {
     List<ShoeList> shoes = [];
     var response = await _dio.get('${API_URL_SHOE_SERVICE}/shoe');
+
+    if (response.data.length > 0) {
+      for (int i = 0; i < response.data['result']['result'].length; i++) {
+        ShoeList shoeList = new ShoeList(
+          response.data['result']['result'][i]['id'],
+          response.data['result']['result'][i]['name'],
+          response.data['result']['result'][i]['rating'],
+          response.data['result']['result'][i]['price'].toDouble(),
+          response.data['result']['result'][i]['imageUrls'],
+        );
+        shoes.add(shoeList);
+      }
+    }
+    return shoes;
+  }
+
+  Future<List<ShoeList>> getAllShoesByKeyword(String keyword) async {
+    List<ShoeList> shoes = [];
+    var response = await _dio.get('${API_URL_SHOE_SERVICE}/shoe/${keyword}');
 
     if (response.data.length > 0) {
       for (int i = 0; i < response.data['result']['result'].length; i++) {
@@ -105,6 +124,23 @@ class ShoeService {
         shoeColors,
       );
       return newShoe;
+    } else {
+      throw Exception('Shoe not found.');
+    }
+  }
+
+  Future<CheckoutResponse> postCheckout(Checkout commCheckout) async {
+    var response = await _dio.post('${API_URL_CHECKOUT_SERVICE}/checkout',
+        data: commCheckout.toJson());
+    if (response.data.length > 0) {
+      var shoeItemOrder = response.data['result']['shoeItemOrder']
+          .map((tagJson) => ShoeItems.fromJson(tagJson))
+          .toList();
+
+      CheckoutResponse checkoutResponse = new CheckoutResponse(
+          response.data['statusCode'], response.data['message'], shoeItemOrder);
+
+      return checkoutResponse;
     } else {
       throw Exception('Shoe not found.');
     }

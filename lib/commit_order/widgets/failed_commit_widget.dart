@@ -60,8 +60,8 @@ class FailedCommitWidget extends ConsumerWidget {
             ),
             child: ElevatedButton(
               onPressed: () => {
-                // Navigator.pushReplacementNamed(context, '/MainTabDumDumScreen', arguments: 1)
-                Navigator.pushReplacementNamed(context, '/')
+                // Navigator.pushReplacementNamed(context, '/MainTabScreen')
+              Navigator.popUntil(context, ModalRoute.withName('/MainTabScreen'))
               },
               style: Theme.of(context)
                   .elevatedButtonTheme

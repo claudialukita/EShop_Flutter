@@ -1,4 +1,5 @@
 import 'package:dotted_line/dotted_line.dart';
+import 'package:eshop_flutter/cart/view_model/checkout_view_model.dart';
 import 'package:eshop_flutter/cart/view_model/shoe_list_view_model.dart';
 import 'package:eshop_flutter/cart/view_model/shoe_state_view_model.dart';
 import 'package:eshop_flutter/cart/view_model/summary_view_model.dart';
@@ -184,17 +185,28 @@ class CartListWidget extends ConsumerWidget {
                               ),
                             ],
                           ),
-                          child: ElevatedButton(
-                            onPressed: () => {
-                              // Navigator.pushNamed(context, '/DeliveryDetailScreen')
-                              // context
-                              //     .read(shoeListViewModelProvider.notifier)
-                              //     .updateShoeCartList(shoeId, _itemCount)
-                            },
-                            style: Theme.of(context).elevatedButtonTheme.style,
-                            child: Text('Check Out',
-                                style: Theme.of(context).textTheme.button),
-                          ),
+                          child: Consumer(builder: (context, watch, child) {
+                            var shoePriceWtch = watch(summaryModelProvider);
+                            return (shoePriceWtch is Success)
+                                ? ElevatedButton(
+                                    onPressed: () => {
+                                      context
+                                          .read(checkoutViewModelProvider
+                                              .notifier)
+                                          .initialCheckout(
+                                              shoeListWtch.data!, shoePriceWtch.data!),
+                                      Navigator.pushNamed(
+                                          context, '/DeliveryDetailScreen')
+                                    },
+                                    style: Theme.of(context)
+                                        .elevatedButtonTheme
+                                        .style,
+                                    child: Text('Check Out',
+                                        style:
+                                            Theme.of(context).textTheme.button),
+                                  )
+                                : CircularProgressIndicator();
+                          }),
                         ),
                       ],
                     ),

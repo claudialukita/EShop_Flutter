@@ -60,7 +60,7 @@ class SuccessCommitWidget extends ConsumerWidget {
             ),
             child: ElevatedButton(
               onPressed: () => {
-                Navigator.pushReplacementNamed(context, '/')
+                Navigator.pushReplacementNamed(context, '/MainTabScreen')
               },
               style: Theme.of(context)
                   .elevatedButtonTheme

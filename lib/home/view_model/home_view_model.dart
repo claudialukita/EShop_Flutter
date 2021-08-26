@@ -14,8 +14,13 @@ class ShoeGridViewModel extends StateNotifier<AsyncState<List<ShoeList>>> {
   loadDataByKeyword(String keyword) async {
     state = Loading(state.data);
     try {
-      var shoeList = await _shoeService.getShoesByKeyword(keyword);
-      state = new Success(shoeList);
+      var shoeList = await _shoeService.getAllShoesByKeyword(keyword);
+      if(shoeList.isNotEmpty){
+        state = new Success(shoeList);
+      } else {
+        state = new DataIsEmpty(null);
+
+      }
     } catch (exception) {
       state = Error('Something went wrong', state.data);
     }
