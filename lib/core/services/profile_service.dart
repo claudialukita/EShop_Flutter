@@ -1,7 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:eshop_flutter/core/common/constant.dart';
-// import 'package:eshop_flutter/core/common/constrants.dart';
-import 'package:eshop_flutter/core/models/order_model.dart';
 import 'package:eshop_flutter/core/models/profile_model.dart';
 import 'package:eshop_flutter/core/providers/dio_provider.dart';
 import 'package:eshop_flutter/core/providers/storage_provider.dart';
@@ -61,6 +59,7 @@ class ProfileService {
   Future<ProfileModel> logOut() async {
     _secureStorage.delete(key: "token");
 
+    print(_secureStorage.read(key: "token").toString());
     ProfileModel profile = new ProfileModel(
         _secureStorage.read(key: "token").toString(),
         "rex4dom@gmail.com",

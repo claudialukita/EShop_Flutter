@@ -631,7 +631,9 @@ class OrderDetail extends StatelessWidget {
                       onPressed: () {
                       context
                           .read(orderDetailViewModelProvider.notifier).finishOrder(state.data!.id);
-                      final finish = watch(orderDetailViewModelProvider);
+                      // final finish = watch(orderDetailViewModelProvider);
+                      context
+                          .read(orderDetailViewModelProvider.notifier).loadData(orderList.id);
                       },
                       child: Text(
                         "Finish Order",

@@ -17,18 +17,16 @@ class OrderService {
   Future<List<OrderList>> getOrders() async {
     List<OrderList> orders = [];
     DateFormat formatter = DateFormat.yMMMMd('en_US');
-    int totalItem = 0;
+
     // GET {{host}}/orders
     var response = await _dio.get('${API_URL_ORDER}orders');
     if (response.data.length > 0) {
       if (response.data['result'].length > 0) {
-        for (var a in response.data['result']) {
-          for (var b in a['shoeItems']) {
+        for (var orderListTemp in response.data['result']) {
+          int totalItem = 0;
+          for (var b in orderListTemp['shoeItems']) {
             totalItem += 1;
           }
-        }
-
-        for (var orderListTemp in response.data['result']) {
           var stringList = orderListTemp['orderDate'].toString().split('T');
           var tanggal = DateTime.parse(stringList[0] + " " + stringList[1]);
           String orderdate = formatter.format(tanggal);
@@ -91,7 +89,7 @@ class OrderService {
           product.add(newProduct);
         }
 
-        if(response.data['result']['shipping'] != null){
+        if (response.data['result']['shipping'] != null) {
           stringList = response.data['result']['shipping']['shippingDate']
               .toString()
               .split('T');
@@ -108,15 +106,25 @@ class OrderService {
             response.data['result']['orderDate'].toString(),
             product,
             response.data['result']['address']['street'],
-            (double.parse(response.data['result']['totalItemPrice'].toString())).floorToDouble(),
-            double.parse(response.data['result']['shippingPrice'].toString()).floorToDouble(),
-            double.parse(response.data['result']['tax'].toString()).floorToDouble(),
+            (double.parse(response.data['result']['totalItemPrice'].toString()))
+                .floorToDouble(),
+            double.parse(response.data['result']['shippingPrice'].toString())
+                .floorToDouble(),
+            double.parse(response.data['result']['tax'].toString())
+                .floorToDouble(),
             double.parse(response.data['result']['totalPrice'].toString()),
             tanggal == null ? "" : formatter.format(tanggal),
-            response.data['result']['shipping'] == null ? "" : response.data['result']['shipping']['nomorResi'] == null ? "" : response.data['result']['shipping']['nomorResi'],
-            response.data['result']['shipping'] == null ? "" : response.data['result']['shipping']['providerName'] == null ? "" : response.data['result']['shipping']['providerName'],
-          total.floor()
-        );
+            response.data['result']['shipping'] == null
+                ? ""
+                : response.data['result']['shipping']['nomorResi'] == null
+                    ? ""
+                    : response.data['result']['shipping']['nomorResi'],
+            response.data['result']['shipping'] == null
+                ? ""
+                : response.data['result']['shipping']['providerName'] == null
+                    ? ""
+                    : response.data['result']['shipping']['providerName'],
+            total.floor());
         return newOrder;
       } else {
         throw Exception('Order Detail not found.');
@@ -129,17 +137,17 @@ class OrderService {
   Future<Order> finishOrder(String orderId) async {
     FinishOrder order = new FinishOrder(orderId);
 
-    var response = await _dio.post(
-        '${API_URL_ORDER}complete-order',data: order.toJson());
+    var response =
+        await _dio.post('${API_URL_ORDER}complete-order', data: order.toJson());
 
-    if(response.data.length > 0){
-      if(response.data['message'] == "Success"){
+    if (response.data.length > 0) {
+      if (response.data['message'] == "Success") {
         Future<Order> orders = getDetailOrder(orderId);
         return orders;
-      }else{
+      } else {
         throw new Exception("Finish Order gagal");
       }
-    }else{
+    } else {
       throw new Exception("Finish Order gagal");
     }
   }

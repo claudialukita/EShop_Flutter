@@ -16,7 +16,7 @@ class LoginViewModel extends StateNotifier<AsyncState<LoginResponse>> {
   }
 
   loadData(String email, String pass) async {
-    // state = Loading(state.data);
+    state = Loading(state.data);
     try {
       if(email != "" && pass != ""){
         var shoeList = await _orderService.getLogin(email, pass);
