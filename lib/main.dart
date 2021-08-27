@@ -85,6 +85,7 @@ class MyApp extends StatelessWidget {
           '/CardDetailScreen': (context) => CardDetailScreen(),
           '/CommitOrderScreen': (context) => CommitOrderScreen(),
           '/SuccessAddWidget': (context) => SuccessAddWidget(),
+          '/OrderDetails': (context) => OrderDetail()
           // '/CounterScreen': (context) => FlutterExample(),
         });
   }
