@@ -185,13 +185,13 @@ class OrderScreen extends StatelessWidget {
                                         ),
                                       ),
                                       Container(
-                                        width: _widthScreen * (300/_widthScreen),
+                                        width: _widthScreen * (305/_widthScreen),
                                         alignment: Alignment.centerRight,
                                         margin: EdgeInsets.only(
                                             top: _heightScreen * (12 / _heightScreen),
                                             right: _widthScreen * (16.5 / _widthScreen)),
                                         child: Text(
-                                          r"$" + state.data![index].totalPrice.toString(),
+                                          r"$" + state.data![index].totalPrice.toStringAsFixed(2),
                                           style: TextStyle(
                                             fontFamily: 'Poppins',
                                             fontWeight: FontWeight.w400,
