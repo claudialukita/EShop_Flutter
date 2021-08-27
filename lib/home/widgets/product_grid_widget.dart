@@ -1,4 +1,6 @@
-import 'package:eshop_flutter/home/home_view_model.dart';
+import 'package:eshop_flutter/core/models/async_state.dart';
+import 'package:eshop_flutter/core/models/shoe.dart';
+import 'package:eshop_flutter/home/view_model/home_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -8,9 +10,8 @@ class ProductGridWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final _state = watch(shoeGridViewModelProvider);
-    return
-      // (_state is Success) ?
-        Container(
+    return (_state is Success)
+        ? Container(
             margin: EdgeInsets.symmetric(horizontal: 5),
             height: MediaQuery.of(context).size.height * 0.4,
             child: GridView.count(
@@ -20,13 +21,13 @@ class ProductGridWidget extends ConsumerWidget {
                   (MediaQuery.of(context).size.height *
                       (263 / MediaQuery.of(context).size.height)),
               children: List.generate(
-                1,
-                // _state.data!.length,
+                _state.data!.length,
                 (index) {
                   return GestureDetector(
                     onTap: () => {
-                      Navigator.pushNamed(context,
-                          '/ProductDetailScreen', arguments: "shoeId123" /*_state.data![index].id*/)
+                      Navigator.pushNamed(context, '/ProductDetailScreen',
+                          arguments: ShoeIdName(
+                              _state.data![index].id, _state.data![index].name))
                     },
                     child: Container(
                       margin: EdgeInsets.all(5),
@@ -43,13 +44,20 @@ class ProductGridWidget extends ConsumerWidget {
                             decoration: BoxDecoration(
                               color: Color(0xFFEBF0FF),
                               borderRadius: BorderRadius.circular(5),
+                              image: DecorationImage(
+                                  image: NetworkImage(
+                                      _state.data![index].imageUrls[0]),
+                                  fit: BoxFit.cover),
                             ),
+                            // child: Image.network(
+                            //     _state.data![index].imageUrls[0],
+                            //     fit: BoxFit.cover),
                           ),
                           Container(
                             width: 155,
                             child: Text(
-                                "Nike Air Max 270 React ENG",
-                                // _state.data![index].name,
+                                // "Nike Air Max 270 React ENG",
+                                _state.data![index].name,
                                 style: Theme.of(context)
                                     .textTheme
                                     .headline3!
@@ -63,17 +71,18 @@ class ProductGridWidget extends ConsumerWidget {
                               shrinkWrap: true,
                               scrollDirection: Axis.horizontal,
                               itemCount: 5,
-                              itemBuilder: (context, index) {
+                              itemBuilder: (context, indexStar) {
                                 return Row(
                                   children: [
                                     Icon(
                                       Icons.star,
                                       size: 20,
                                       color:
-                                      index == 4
-                                      // index == _state.data![index].rating
-                                          ? Color(0xFFEBF0FF)
-                                          : Color(0xFFFFC833),
+                                          // index == 4
+                                          indexStar ==
+                                                  _state.data![index].rating
+                                              ? Color(0xFFEBF0FF)
+                                              : Color(0xFFFFC833),
                                     ),
                                   ],
                                 );
@@ -83,7 +92,7 @@ class ProductGridWidget extends ConsumerWidget {
                           Container(
                             padding: EdgeInsets.symmetric(vertical: 15),
                             width: 155,
-                            child: Text("\$299,43",
+                            child: Text("\$${_state.data![index].price}",
                                 style: Theme.of(context)
                                     .textTheme
                                     .headline3!
@@ -98,7 +107,6 @@ class ProductGridWidget extends ConsumerWidget {
               ),
             ),
           )
-        // : CircularProgressIndicator()
-    ;
+        : CircularProgressIndicator();
   }
 }

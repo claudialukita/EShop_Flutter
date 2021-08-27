@@ -1,10 +1,26 @@
+import 'package:eshop_flutter/cart/view_model/shoe_list_view_model.dart';
+import 'package:eshop_flutter/cart/view_model/shoe_state_view_model.dart';
+import 'package:eshop_flutter/cart/view_model/summary_view_model.dart';
 import 'package:eshop_flutter/cart/widgets/cart_list_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 
 class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
+      await context.read(shoeListViewModelProvider.notifier).getShoeCartList();
+    });
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
+      await context.read(summaryModelProvider.notifier).getSummary();
+    });
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
+      await context.read(shoeStateViewModelProvider.notifier).initialCartState();
+    });
+
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 78,
@@ -24,17 +40,8 @@ class CartScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: CarListWidget(),
+      body: CartListWidget(),
 
-
-      // SingleChildScrollView(
-      //   child: Column(
-      //     children: <Widget>[
-      //       CarListWidget(),
-      //       // SummaryWidget(title: "coba title", name: "coba name"),
-      //     ],
-      //   ),
-      // ),
     );
   }
 }

@@ -27,7 +27,6 @@ class MainTabScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final _index = watch(mainTabViewModelProvider);
-
     return Scaffold(
       body: getScreen(_index),
       bottomNavigationBar: BottomNavigationBar(

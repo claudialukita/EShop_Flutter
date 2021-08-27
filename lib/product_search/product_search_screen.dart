@@ -1,3 +1,5 @@
+import 'package:eshop_flutter/core/models/async_state.dart';
+import 'package:eshop_flutter/home/view_model/home_view_model.dart';
 import 'package:eshop_flutter/product_search/widgets/product_lists_widget.dart';
 import 'package:eshop_flutter/product_search/widgets/product_not_found_widget.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +9,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class ProductSearchScreen extends ConsumerWidget{
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    var searchStr = ModalRoute.of(context)!.settings.arguments as String;
+    var stateSearch = watch(shoeGridViewModelProvider);
+    var searchStrObj = ModalRoute.of(context)!.settings.arguments;
+    var searchStr = searchStrObj.toString();
     var txt = TextEditingController();
     txt.text = searchStr;
     return Scaffold(
@@ -27,7 +31,7 @@ class ProductSearchScreen extends ConsumerWidget{
             margin: EdgeInsets.only(top: 5, right: 10),
             height: 45,
             child: TextField(
-              controller: searchStr == "ada" ? txt : null,
+              controller: searchStr.isNotEmpty ? txt : null,
               autofocus: false,
               style: Theme.of(context).textTheme.subtitle2,
               decoration:InputDecoration(
@@ -49,9 +53,9 @@ class ProductSearchScreen extends ConsumerWidget{
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            searchStr == 'ada' ?
-            ProductListWidget() :
-            ProductNotFoundWidget(),
+            (stateSearch is Success) ?
+            ProductListWidget() : (stateSearch is DataIsEmpty) ?
+            ProductNotFoundWidget() : CircularProgressIndicator(),
           ],
         ),
       ),

@@ -1,9 +1,10 @@
+import 'package:eshop_flutter/main_tab/main_tab_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class FailedCommitWidget extends ConsumerWidget {
+class CartIsEmptyWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     return Container(
@@ -31,19 +32,11 @@ class FailedCommitWidget extends ConsumerWidget {
           SizedBox(height: 16),
           Container(
             alignment: Alignment.center,
-            child: Text("Failed",
+            child: Text("Your Cart Is Empty",
                 style: Theme.of(context)
                     .textTheme
                     .headline1!
                     .apply(color: Color(0xFF223263))),
-          ),
-          SizedBox(height: 8),
-          Container(
-            alignment: Alignment.center,
-            child: Text("Something went wrong",
-                style: Theme.of(context)
-                    .textTheme
-                    .caption),
           ),
           SizedBox(height: 8),
           Container(
@@ -60,13 +53,13 @@ class FailedCommitWidget extends ConsumerWidget {
             ),
             child: ElevatedButton(
               onPressed: () => {
-                // Navigator.pushReplacementNamed(context, '/MainTabScreen')
-              Navigator.popUntil(context, ModalRoute.withName('/MainTabScreen'))
+                // Navigator.pushReplacementNamed(context, '/')
+              context.read(mainTabViewModelProvider.notifier).setTab(0),
               },
               style: Theme.of(context)
                   .elevatedButtonTheme
                   .style,
-              child: Text('Back To Cart',
+              child: Text('Back To Home',
                   style:
                   Theme.of(context).textTheme.button),
             ),

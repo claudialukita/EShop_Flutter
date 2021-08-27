@@ -25,49 +25,49 @@ class AppDio with DioMixin implements Dio {
 
     this.options = options;
     this.interceptors.add(InterceptorsWrapper(
-      onRequest: (requestOptions, handler) async{
-        var token = await ref.read(storageProvider).read(key: 'token');
-        Map tokenHeader = new Map<String, String>();
-        if (token != null){
-          tokenHeader['Authorization'] = 'Bearer' + token.toString();
-          requestOptions.headers.addAll(tokenHeader as Map<String, dynamic>);
-        }
+        onRequest: (requestOptions, handler) async{
+          var token = await ref.read(storageProvider).read(key: 'token');
+          Map tokenHeader = new Map<String, String>();
+          if (token != null){
+            tokenHeader['Authorization'] = 'Bearer' + token.toString();
+            requestOptions.headers.addAll(tokenHeader as Map<String, dynamic>);
+          }
 
-        return handler.next(requestOptions);
-      },
-      onError: (requestOptions, handler){
-        print('Error...');
-        return handler.next(requestOptions);
-      },
-      onResponse: (requestOptions, handler){
-        var temp = requestOptions.data;
-        requestOptions.data = temp;
-        return handler.next(requestOptions);
-      }
+          return handler.next(requestOptions);
+        },
+        onError: (requestOptions, handler){
+          print('Error...');
+          return handler.next(requestOptions);
+        },
+        onResponse: (requestOptions, handler){
+          var temp = requestOptions.data;
+          requestOptions.data = temp;
+          return handler.next(requestOptions);
+        }
     ));
 
 
     this.interceptors.add(InterceptorsWrapper(
-      onRequest: (requestOptions, handler) async{
-        var token = await ref.read(storageProvider).read(key: 'token');
-        Map tokenHeader = new Map<String, String>();
-        if (token != null) {
-          tokenHeader['Authorization'] = 'Bearer ' + token.toString();
-          requestOptions.headers.addAll(tokenHeader as Map<String, dynamic>);
+        onRequest: (requestOptions, handler) async{
+          var token = await ref.read(storageProvider).read(key: 'token');
+          Map tokenHeader = new Map<String, String>();
+          if (token != null) {
+            tokenHeader['Authorization'] = 'Bearer ' + token.toString();
+            requestOptions.headers.addAll(tokenHeader as Map<String, dynamic>);
+          }
+
+          return handler.next(requestOptions);
+        },
+        onError: (requestOptions, handler){
+          print('error woy');
+          return handler.next(requestOptions);
+        },
+        onResponse: (requestOptions, handler){
+          var temp = requestOptions.data;
+          requestOptions.data = temp;
+
+          return handler.next(requestOptions);
         }
-
-        return handler.next(requestOptions);
-      },
-      onError: (requestOptions, handler){
-        print('error woy');
-        return handler.next(requestOptions);
-      },
-      onResponse: (requestOptions, handler){
-        var temp = requestOptions.data;
-        requestOptions.data = temp;
-
-        return handler.next(requestOptions);
-      }
     ));
 
 
