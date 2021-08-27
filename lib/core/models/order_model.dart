@@ -22,6 +22,7 @@ class Order {
   final String shipping;
   final String nomorResi;
   final String ekspedisi;
+  final int totalItem;
 
   Order(
       this.id,
@@ -35,13 +36,28 @@ class Order {
       this.totalPrice,
       this.shipping,
       this.nomorResi,
-      this.ekspedisi);
+      this.ekspedisi, this.totalItem);
+
 }
 
 class Product {
   final String nama;
   final double price;
-  final List<String> imageUrls;
+  final String imageUrls;
 
   Product(this.nama, this.price, this.imageUrls);
+}
+
+class FinishOrder {
+  final String orderId;
+
+  FinishOrder(this.orderId);
+
+  FinishOrder.fromJson(Map<String, dynamic> json) :
+        orderId = json['orderId'];
+
+  Map<String, dynamic> toJson() =>
+      {
+        'orderId': orderId,
+      };
 }

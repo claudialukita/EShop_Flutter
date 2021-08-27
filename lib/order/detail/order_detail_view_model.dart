@@ -26,4 +26,15 @@ class OrderDetailViewModel extends StateNotifier<AsyncState<Order>> {
     }
   }
 
+  finishOrder(String id) async {
+    state = Loading(state.data);
+    try {
+      var order = await _orderService.finishOrder(id);
+      print(order);
+      state = new Success(order);
+    } catch (exception) {
+      state = Error('Something went wrong', state.data);
+    }
+  }
+
 }

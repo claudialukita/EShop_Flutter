@@ -115,10 +115,11 @@ class OrderScreen extends StatelessWidget {
                                         ),
                                       ),
                                       Container(
-                                        alignment: Alignment.topRight,
+                                        width: _widthScreen * (260/_widthScreen),
+                                        alignment: Alignment.centerRight,
                                         margin: EdgeInsets.only(
                                             top: _heightScreen * (24 / _heightScreen),
-                                            left: _widthScreen * (180 / _widthScreen)),
+                                            right: _widthScreen * (16.5 / _widthScreen)),
                                         child: Text(
                                           state.data![index].status,
                                           style: TextStyle(
@@ -149,10 +150,11 @@ class OrderScreen extends StatelessWidget {
                                         ),
                                       ),
                                       Container(
-                                        alignment: Alignment.topRight,
+                                        width: _widthScreen * (300/_widthScreen),
+                                        alignment: Alignment.centerRight,
                                         margin: EdgeInsets.only(
                                             top: _heightScreen * (12 / _heightScreen),
-                                            left: _widthScreen * (162 / _widthScreen)),
+                                            right: _widthScreen * (16.5 / _widthScreen)),
                                         child: Text(
                                           state.data![index].numberOfItems +" Items purchased",
                                           style: TextStyle(
@@ -183,12 +185,13 @@ class OrderScreen extends StatelessWidget {
                                         ),
                                       ),
                                       Container(
-                                        alignment: Alignment.topRight,
+                                        width: _widthScreen * (305/_widthScreen),
+                                        alignment: Alignment.centerRight,
                                         margin: EdgeInsets.only(
                                             top: _heightScreen * (12 / _heightScreen),
-                                            left: _widthScreen * (230 / _widthScreen)),
+                                            right: _widthScreen * (16.5 / _widthScreen)),
                                         child: Text(
-                                          r"$" + state.data![index].totalPrice.toString(),
+                                          r"$" + state.data![index].totalPrice.toStringAsFixed(2),
                                           style: TextStyle(
                                             fontFamily: 'Poppins',
                                             fontWeight: FontWeight.w400,
