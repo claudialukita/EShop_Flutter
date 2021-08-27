@@ -21,7 +21,7 @@ class ProductSearchScreen extends ConsumerWidget{
         backgroundColor: Colors.white,
         titleSpacing: 0,
         leading: IconButton(
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => Navigator.of(context).pushReplacementNamed('/MainTabScreen'),
           icon: Icon(
             Icons.arrow_back_ios,
             color: Color(0xFF9098B1),
@@ -54,7 +54,7 @@ class ProductSearchScreen extends ConsumerWidget{
         child: Column(
           children: <Widget>[
             (stateSearch is Success) ?
-            ProductListWidget() : (stateSearch is DataIsEmpty) ?
+            ProductListWidget() : (stateSearch is Error) ?
             ProductNotFoundWidget() : CircularProgressIndicator(),
           ],
         ),
