@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:eshop_flutter/core/common/constrants.dart';
+import 'package:eshop_flutter/core/models/checkout.dart';
 import 'package:eshop_flutter/core/models/shoe.dart';
 import 'package:eshop_flutter/core/providers/dio_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 final shoeServiceProvider =
     Provider((ref) => ShoeService(ref.read(dioProvider)));
@@ -17,7 +17,8 @@ class ShoeService {
     List<ShoeList> shoes = [];
     List<String> newImageUrls = [];
     //GET {{host}}/shoes?name={{name_keyword}}
-    var response = await _dio.get('${API_URL}/shoes?name=${keyword}');
+    var response =
+        await _dio.get('${API_URL_SHOE_SERVICE}/shoes?name=${keyword}');
     if (response.data.length > 0) {
       for (var shoeImgListRes in response.data['results']['imageUrls']) {
         newImageUrls.add(shoeImgListRes);
@@ -37,36 +38,109 @@ class ShoeService {
     return shoes;
   }
 
-  Future<Shoe> getShoeDetail(String shoeId) async {
-    List<String> newImageUrls = [];
-    List<int> newSizes = [];
-    List<String> newColors = [];
-    //GET {{host}}/shoes/{{shoes_id}}
-    var response = await _dio.get('${API_URL}/shoes/${shoeId}');
+  Future<List<ShoeList>> getAllShoes() async {
+    List<ShoeList> shoes = [];
+    var response = await _dio.get('${API_URL_SHOE_SERVICE}/shoe');
+
     if (response.data.length > 0) {
-      for (var shoeImgRes in response.data['results']['imageUrls']) {
-        newImageUrls.add(shoeImgRes);
+      for (int i = 0; i < response.data['result']['result'].length; i++) {
+        ShoeList shoeList = new ShoeList(
+          response.data['result']['result'][i]['id'],
+          response.data['result']['result'][i]['name'],
+          response.data['result']['result'][i]['rating'],
+          response.data['result']['result'][i]['price'].toDouble(),
+          response.data['result']['result'][i]['imageUrls'],
+        );
+        shoes.add(shoeList);
       }
-      for (var shoeSizesRes in response.data['results']['sizes']) {
-        newSizes.add(shoeSizesRes);
+    }
+    return shoes;
+  }
+
+  Future<List<ShoeList>> getAllShoesByKeyword(String keyword) async {
+    List<ShoeList> shoes = [];
+    var response = await _dio.get('${API_URL_SHOE_SERVICE}/shoe/${keyword}');
+
+    if (response.data.length > 0) {
+      for (int i = 0; i < response.data['result']['result'].length; i++) {
+        ShoeList shoeList = new ShoeList(
+          response.data['result']['result'][i]['id'],
+          response.data['result']['result'][i]['name'],
+          response.data['result']['result'][i]['rating'],
+          response.data['result']['result'][i]['price'].toDouble(),
+          response.data['result']['result'][i]['imageUrls'],
+        );
+        shoes.add(shoeList);
       }
-      for (var shoeColorsRes in response.data['results']['colors']) {
-        newColors.add(shoeColorsRes);
+    }
+    return shoes;
+  }
+
+  Future<ShoeDetail> getShoeDetail(String shoeId) async {
+    List<int> shoeSizes = [];
+    List<int> shoeColors = [];
+    List<String> shoeImageUrls = [];
+    List<Stock> listStock = [];
+    //GET {{host}}/shoes/{{shoes_id}}
+    var response = await _dio.get('${API_URL_SHOE_SERVICE}/shoe/${shoeId}');
+    if (response.data.length > 0) {
+      for (var shoeStock in response.data['result']['shoeItem']) {
+        Stock newStock = new Stock(
+          shoeStock['id'],
+          shoeStock['size'],
+          shoeStock['color'],
+          shoeStock['stock'],
+          shoeStock['imageUrl'],
+        );
+        listStock.add(newStock);
       }
 
-      Shoe newShoe = new Shoe(
-        response.data['id'],
-        response.data['name'],
-        response.data['rating'],
-        response.data['price'],
-        response.data['imageUrls'],
-        response.data['productCode'],
-        response.data['sizes'],
-        response.data['colors'],
-        response.data['stocks'],
-        response.data['description'],
+      for (var shoeSize in response.data['result']['shoeItem']) {
+        if (!shoeSizes.contains(shoeSize['size'])) {
+          shoeSizes.add(shoeSize['size']);
+        }
+      }
+
+      for (var shoeColor in response.data['result']['shoeItem']) {
+        var resColor = shoeColor['color'];
+        var newColor = resColor.replaceAll('#', 'FF');
+        int hexColor = int.parse(newColor, radix: 16);
+        shoeColors.add(hexColor);
+      }
+
+      for (var shoeImageUrl in response.data['result']['shoeItem']) {
+        shoeImageUrls.add(shoeImageUrl['imageUrl']);
+      }
+
+      ShoeDetail newShoe = new ShoeDetail(
+        response.data['result']['id'],
+        response.data['result']['productCode'],
+        response.data['result']['name'],
+        response.data['result']['rating'],
+        response.data['result']['price'].toDouble(),
+        shoeImageUrls,
+        listStock,
+        shoeSizes,
+        shoeColors,
       );
       return newShoe;
+    } else {
+      throw Exception('Shoe not found.');
+    }
+  }
+
+  Future<CheckoutResponse> postCheckout(Checkout commCheckout) async {
+    var response = await _dio.post('${API_URL_CHECKOUT_SERVICE}/checkout',
+        data: commCheckout.toJson());
+    if (response.data.length > 0) {
+      var shoeItemOrder = response.data['result']['shoeItemOrder']
+          .map((tagJson) => ShoeItems.fromJson(tagJson))
+          .toList();
+
+      CheckoutResponse checkoutResponse = new CheckoutResponse(
+          response.data['statusCode'], response.data['message'], shoeItemOrder);
+
+      return checkoutResponse;
     } else {
       throw Exception('Shoe not found.');
     }

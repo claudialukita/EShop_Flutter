@@ -15,6 +15,10 @@ class Success<T> extends AsyncState<T>{
   const Success(T? data) : super(data);
 }
 
+class DataIsEmpty<T> extends AsyncState<T>{
+  const DataIsEmpty(T? data) : super(data);
+}
+
 class Error<T> extends AsyncState<T>{
   final String error;
   const Error(this.error, T? data) : super(data);
