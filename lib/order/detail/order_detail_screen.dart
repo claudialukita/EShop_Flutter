@@ -6,13 +6,14 @@ import 'package:eshop_flutter/order/detail/order_detail_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 
 class OrderDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double _heightScreen = MediaQuery.of(context).size.height;
     final double _widthScreen = MediaQuery.of(context).size.width;
-
+    final numberFormat = NumberFormat.decimalPattern();
     OrderList orderList =
         ModalRoute.of(context)!.settings.arguments as OrderList;
 
@@ -28,19 +29,22 @@ class OrderDetail extends StatelessWidget {
         backgroundColor: Colors.white,
         toolbarHeight: _heightScreen * (78 / _heightScreen),
         title: Container(
+          width: _widthScreen * (114/_widthScreen),
+          alignment: Alignment.centerLeft,
           margin: EdgeInsets.only(
               top: _heightScreen * (26 / _heightScreen),
               bottom: _heightScreen * (28 / _heightScreen)),
           child: Text(
-            "Orders Details",
+            "Order Details",
             style: TextStyle(
                 fontFamily: 'Poppins',
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
-                color: Colors.black),
+                color: const Color(0xFF223263)),
           ),
         ),
         shadowColor: Colors.transparent,
+        automaticallyImplyLeading: false,
         leading: InkWell(
           child: Container(
             margin: EdgeInsets.only(left: 10),
@@ -71,7 +75,7 @@ class OrderDetail extends StatelessWidget {
           //   Container(
           //   child: Text(
           //     "Something went wrong!",
-          //     style: TextStyle(fontSize: 24, color: Colors.black),
+          //     style: TextStyle(fontSize: 24, color: const Color(0xFF223263)),
           //   ),
           // );
         } else {
@@ -196,7 +200,7 @@ class OrderDetail extends StatelessWidget {
                       fontFamily: 'Poppins',
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
-                      color: Colors.black),
+                      color: const Color(0xFF223263)),
                 ),
               ),
               Container(
@@ -213,7 +217,7 @@ class OrderDetail extends StatelessWidget {
                             right: _widthScreen * (16 / _widthScreen)),
                         decoration: BoxDecoration(
                             border: Border.all(
-                                color: const Color(0xFFEBF0FF), width: 1),
+                                color: const Color(0xFFEBF0FF), width: 2),
                             borderRadius: BorderRadius.circular(10)),
                         child: Row(
                           children: [
@@ -246,7 +250,7 @@ class OrderDetail extends StatelessWidget {
                                         fontFamily: 'Poppins',
                                         fontWeight: FontWeight.w700,
                                         fontSize: 12,
-                                        color: Colors.black),
+                                        color: const Color(0xFF223263)),
                                   ),
                                 ),
                                 SizedBox(height: 5,),
@@ -257,8 +261,7 @@ class OrderDetail extends StatelessWidget {
                                       top: _heightScreen * (12 / _heightScreen),),
                                   child: Text(
                                     r"$" +
-                                        state.data!.shoes[index].price
-                                            .toStringAsFixed(2),
+                                        numberFormat.format(state.data!.shoes[index].price),
                                     style: TextStyle(
                                       fontFamily: 'Poppins',
                                       fontSize: 12,
@@ -283,20 +286,21 @@ class OrderDetail extends StatelessWidget {
                     top: _heightScreen * (24 / _heightScreen),
                     bottom: _heightScreen * (12 / _heightScreen)),
                 child: Text(
-                  "Shipping Detail",
+                  "Shipping Details",
                   style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
                       fontFamily: 'Poppins',
-                      color: Colors.black),
+                      color: const Color(0xFF223263)),
                 ),
               ),
               Container(
-                width: _widthScreen * (343 / _widthScreen),
+                width: _widthScreen,
                 height: _heightScreen * (179 / _heightScreen),
+                margin: EdgeInsets.symmetric(horizontal: _widthScreen * (16/_widthScreen)),
                 decoration: BoxDecoration(
                     border:
-                        Border.all(color: const Color(0xFFEBF0FF), width: 1),
+                        Border.all(color: const Color(0xFFEBF0FF), width: 2),
                     borderRadius: BorderRadius.circular(10)),
                 child: Column(
                   children: [
@@ -316,7 +320,7 @@ class OrderDetail extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          width: _widthScreen * (220/_widthScreen),
+                          width: _widthScreen * (250/_widthScreen),
                           alignment: Alignment.centerRight,
                           margin: EdgeInsets.only(
                             top: _heightScreen * (16 / _heightScreen),
@@ -327,7 +331,7 @@ class OrderDetail extends StatelessWidget {
                                 fontWeight: FontWeight.w400,
                                 fontSize: 12,
                                 fontFamily: 'Poppins',
-                                color: Colors.black),
+                                color: const Color(0xFF223263)),
                           ),
                         )
                       ],
@@ -348,7 +352,7 @@ class OrderDetail extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          width: _widthScreen * (250/_widthScreen),
+                          width: _widthScreen * (280/_widthScreen),
                           alignment: Alignment.centerRight,
                           margin: EdgeInsets.only(
                             top: _heightScreen * (16 / _heightScreen),
@@ -359,7 +363,7 @@ class OrderDetail extends StatelessWidget {
                                 fontWeight: FontWeight.w400,
                                 fontSize: 12,
                                 fontFamily: 'Poppins',
-                                color: Colors.black),
+                                color: const Color(0xFF223263)),
                           ),
                         )
                       ],
@@ -380,7 +384,7 @@ class OrderDetail extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          width: _widthScreen * (260/_widthScreen),
+                          width: _widthScreen * (286/_widthScreen),
                           alignment: Alignment.centerRight,
                           margin: EdgeInsets.only(
                             top: _heightScreen * (16 / _heightScreen),
@@ -391,7 +395,7 @@ class OrderDetail extends StatelessWidget {
                                 fontWeight: FontWeight.w400,
                                 fontSize: 12,
                                 fontFamily: 'Poppins',
-                                color: Colors.black),
+                                color: const Color(0xFF223263)),
                           ),
                         )
                       ],
@@ -414,7 +418,7 @@ class OrderDetail extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          width: _widthScreen * (255 / _widthScreen),
+                          width: _widthScreen * (280 / _widthScreen),
                           height: _heightScreen * (44 / _heightScreen),
                           alignment: Alignment.topRight,
                           margin: EdgeInsets.only(
@@ -427,7 +431,7 @@ class OrderDetail extends StatelessWidget {
                                 fontWeight: FontWeight.w400,
                                 fontSize: 12,
                                 fontFamily: 'Poppins',
-                                color: Colors.black),
+                                color: const Color(0xFF223263)),
                             textAlign: TextAlign.right,
                           ),
                         )
@@ -449,17 +453,17 @@ class OrderDetail extends StatelessWidget {
                       fontWeight: FontWeight.w700,
                       fontFamily: 'Poppins',
                       fontSize: 14,
-                      color: Colors.black),
+                      color: const Color(0xFF223263)),
                 ),
               ),
               Container(
-                width: _widthScreen * (343 / _widthScreen),
+                width: _widthScreen,
                 height: _heightScreen * (164 / _heightScreen),
-                margin: EdgeInsets.only(bottom: _heightScreen * (21/_heightScreen)),
+                margin: EdgeInsets.only(bottom: _heightScreen * (21/_heightScreen), left: _widthScreen * (16/_widthScreen), right: _widthScreen * (16/_widthScreen)),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     border:
-                        Border.all(color: const Color(0xFFEBF0FF), width: 1)),
+                        Border.all(color: const Color(0xFFEBF0FF), width: 2)),
                 child: Column(
                   children: [
                     Row(
@@ -479,18 +483,18 @@ class OrderDetail extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          width: _widthScreen *(250/_widthScreen),
+                          width: _widthScreen *(280/_widthScreen),
                           alignment: Alignment.centerRight,
                           margin: EdgeInsets.only(
                             top: _heightScreen * (16 / _heightScreen),
                           ),
                           child: Text(
-                            r"$" + state.data!.totalItemPrices.toStringAsFixed(2),
+                            r"$" + numberFormat.format(state.data!.totalItemPrices),
                             style: TextStyle(
                                 fontWeight: FontWeight.w400,
                                 fontSize: 12,
                                 fontFamily: 'Poppins',
-                                color: Colors.black),
+                                color: const Color(0xFF223263)),
                           ),
                         )
                       ],
@@ -511,18 +515,18 @@ class OrderDetail extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          width: _widthScreen *(251/_widthScreen),
+                          width: _widthScreen *(281/_widthScreen),
                           alignment: Alignment.centerRight,
                           margin: EdgeInsets.only(
                             top: _heightScreen * (16 / _heightScreen),
                           ),
                           child: Text(
-                            r"$" + state.data!.shippingPrice.toStringAsFixed(2),
+                            r"$" + numberFormat.format(state.data!.shippingPrice),
                             style: TextStyle(
                                 fontWeight: FontWeight.w400,
                                 fontSize: 12,
                                 fontFamily: 'Poppins',
-                                color: Colors.black),
+                                color: const Color(0xFF223263)),
                           ),
                         )
                       ],
@@ -543,18 +547,18 @@ class OrderDetail extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          width: _widthScreen *(283/_widthScreen),
+                          width: _widthScreen *(313/_widthScreen),
                           alignment: Alignment.centerRight,
                           margin: EdgeInsets.only(
                             top: _heightScreen * (16 / _heightScreen),
                           ),
                           child: Text(
-                            r"$" + state.data!.tax.toStringAsFixed(2),
+                            r"$" + numberFormat.format(state.data!.tax),
                             style: TextStyle(
                                 fontWeight: FontWeight.w400,
                                 fontSize: 12,
                                 fontFamily: 'Poppins',
-                                color: Colors.black),
+                                color: const Color(0xFF223263)),
                           ),
                         )
                       ],
@@ -565,7 +569,7 @@ class OrderDetail extends StatelessWidget {
                     DottedLine(
                       direction: Axis.horizontal,
                       lineLength: _widthScreen * (311 / _widthScreen),
-                      lineThickness: 1.0,
+                      lineThickness: 2.0,
                       dashLength: 4.0,
                       dashColor: const Color(0xFFEBF0FF),
                       dashRadius: 0.0,
@@ -585,17 +589,17 @@ class OrderDetail extends StatelessWidget {
                                 fontWeight: FontWeight.w700,
                                 fontSize: 12,
                                 fontFamily: 'Poppins',
-                                color: Colors.black),
+                                color: const Color(0xFF223263)),
                           ),
                         ),
                         Container(
-                          width: _widthScreen *(240/_widthScreen),
+                          width: _widthScreen *(270/_widthScreen),
                           alignment: Alignment.centerRight,
                           margin: EdgeInsets.only(
                             top: _heightScreen * (16 / _heightScreen),
                           ),
                           child: Text(
-                            r"$" + state.data!.totalPrice.toStringAsFixed(2),
+                            r"$" + numberFormat.format(state.data!.totalPrice),
                             style: TextStyle(
                                 fontWeight: FontWeight.w700,
                                 fontSize: 12,

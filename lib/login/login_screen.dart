@@ -48,7 +48,8 @@ class _LoginState extends State<Login> {
                     style: TextStyle(
                         fontFamily: "Poppins",
                         fontWeight: FontWeight.w700,
-                        fontSize: 16),
+                        fontSize: 16,
+                    color: const Color(0xFF223263)),
                   ),
                 ),
                 SizedBox(
@@ -82,6 +83,7 @@ class _LoginState extends State<Login> {
                               color: const Color(0xFFEBF0FF), width: 1.0),
                         ),
                         hintText: 'Your Email',
+                      hintStyle: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w400, fontSize: 12, color: const Color(0xFF9098B1)),
                       errorText: _validateEmail ? 'Value Can\'t Be Empty' : null,),
                   ),
                 ),
@@ -103,6 +105,7 @@ class _LoginState extends State<Login> {
                               color: const Color(0xFFEBF0FF), width: 1.0),
                         ),
                         hintText: 'Password',
+                      hintStyle: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w400, fontSize: 12, color: const Color(0xFF9098B1)),
                       errorText: _validatePass ? 'Value Can\'t Be Empty' : null,),),
                   ),
                 Container(
@@ -295,7 +298,7 @@ class _LoginState extends State<Login> {
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 80,
                 )
               ],
             ),
