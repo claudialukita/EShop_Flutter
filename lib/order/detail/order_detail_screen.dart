@@ -254,7 +254,7 @@ class OrderDetail extends StatelessWidget {
                                   child: Text(
                                     r"$" +
                                         state.data!.shoes[index].price
-                                            .toString(),
+                                            .toStringAsFixed(2),
                                     style: TextStyle(
                                       fontFamily: 'Poppins',
                                       fontSize: 12,
@@ -481,7 +481,7 @@ class OrderDetail extends StatelessWidget {
                             top: _heightScreen * (16 / _heightScreen),
                           ),
                           child: Text(
-                            r"$" + state.data!.totalItemPrices.toString(),
+                            r"$" + state.data!.totalItemPrices.toStringAsFixed(2),
                             style: TextStyle(
                                 fontWeight: FontWeight.w400,
                                 fontSize: 12,
@@ -513,7 +513,7 @@ class OrderDetail extends StatelessWidget {
                             top: _heightScreen * (16 / _heightScreen),
                           ),
                           child: Text(
-                            r"$" + state.data!.shippingPrice.toString(),
+                            r"$" + state.data!.shippingPrice.toStringAsFixed(2),
                             style: TextStyle(
                                 fontWeight: FontWeight.w400,
                                 fontSize: 12,
@@ -545,7 +545,7 @@ class OrderDetail extends StatelessWidget {
                             top: _heightScreen * (16 / _heightScreen),
                           ),
                           child: Text(
-                            r"$" + state.data!.tax.toString(),
+                            r"$" + state.data!.tax.toStringAsFixed(2),
                             style: TextStyle(
                                 fontWeight: FontWeight.w400,
                                 fontSize: 12,
@@ -591,7 +591,7 @@ class OrderDetail extends StatelessWidget {
                             top: _heightScreen * (16 / _heightScreen),
                           ),
                           child: Text(
-                            r"$" + state.data!.totalPrice.toString(),
+                            r"$" + state.data!.totalPrice.toStringAsFixed(2),
                             style: TextStyle(
                                 fontWeight: FontWeight.w700,
                                 fontSize: 12,

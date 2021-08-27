@@ -83,8 +83,9 @@ class Profile extends StatelessWidget {
                       Column(
                         children: [
                           Container(
+                            width: _width * (97/_width),
                             alignment: Alignment.topLeft,
-                            margin: EdgeInsets.only(left: 16, top: 20),
+                            margin: EdgeInsets.only(top: 20),
                             child: Text(
                               state.data!.name,
                               style: TextStyle(
@@ -95,6 +96,8 @@ class Profile extends StatelessWidget {
                             ),
                           ),
                           Container(
+                            width: _width * (120/_width),
+                            alignment: Alignment.topLeft,
                             margin: EdgeInsets.only(top: 5, left: 16),
                             child: Text(
                               state.data!.instagramUrl,
@@ -375,7 +378,10 @@ class Profile extends StatelessWidget {
                         primary: const Color(0xFF40BFFF),
                         shadowColor: const Color(0xFF40BFFF),
                       ),
-                      onPressed: () => {},
+                      onPressed: () {
+                        context.read(profileViewModelProvider.notifier).logOut();
+                        Navigator.pushNamed(context, "/login");
+                      },
                       child: Text(
                         "Logout",
                         style: TextStyle(

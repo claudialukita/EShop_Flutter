@@ -62,6 +62,8 @@ class OrderService {
 
   Future<Order> getDetailOrder(String orderId) async {
     List<Product> product = [];
+    var stringList = [];
+    var tanggal = null;
     DateFormat formatter = DateFormat.yMMMMd('en_US');
     double total = 0;
     // image.add("https://cdn.runrepeat.com/i/nike/36676/nike-air-zoom-pegasus-37-shield-black-pink-blast-iron-grey-obsidian-mist-men-s-running-shoes-black-pink-blast-iron-grey-obsidian-mist-adult-black-pink-blast-iron-grey-obsidian-mist-7022-600.jpg");
@@ -85,15 +87,16 @@ class OrderService {
           Product newProduct = Product(
               shoe['name'],
               double.parse(shoe['price'].toString()),
-              'https://' + shoe['imageUrl'].toString());
+              shoe['imageUrl'].toString());
           product.add(newProduct);
         }
-        print(response.data['result']['shipping']);
 
-        var stringList = response.data['result']['shipping']['shippingDate']
-            .toString()
-            .split('T');
-        var tanggal = DateTime.parse(stringList[0] + " " + stringList[1]);
+        if(response.data['result']['shipping'] != null){
+          stringList = response.data['result']['shipping']['shippingDate']
+              .toString()
+              .split('T');
+          tanggal = DateTime.parse(stringList[0] + " " + stringList[1]);
+        }
 
         Order newOrder = new Order(
             response.data['result']['id'],
@@ -109,9 +112,9 @@ class OrderService {
             double.parse(response.data['result']['shippingPrice'].toString()).floorToDouble(),
             double.parse(response.data['result']['tax'].toString()).floorToDouble(),
             double.parse(response.data['result']['totalPrice'].toString()),
-            formatter.format(tanggal),
-            response.data['result']['shipping']['nomorResi'],
-            response.data['result']['shipping']['providerName'],
+            tanggal == null ? "" : formatter.format(tanggal),
+            response.data['result']['shipping'] == null ? "" : response.data['result']['shipping']['nomorResi'] == null ? "" : response.data['result']['shipping']['nomorResi'],
+            response.data['result']['shipping'] == null ? "" : response.data['result']['shipping']['providerName'] == null ? "" : response.data['result']['shipping']['providerName'],
           total.floor()
         );
         return newOrder;

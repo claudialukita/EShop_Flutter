@@ -27,4 +27,15 @@ class ProfileDetailViewModel extends StateNotifier<AsyncState<ProfileModel>> {
     }
   }
 
+  logOut() async {
+    state = Loading(state.data);
+    try {
+      var profile = await _profileService.logOut();
+      // print(profile);
+      state = new Success(profile);
+    } catch (exception) {
+      state = Error('Something went wrong', state.data);
+    }
+  }
+
 }
