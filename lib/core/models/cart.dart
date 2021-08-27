@@ -1,5 +1,5 @@
 class Cart{
-  String shoeColor;
+  int shoeColor;
   int shoeSize;
   String shoeName;
   double shoePrice;
@@ -64,4 +64,11 @@ class Summary{
   double totalPrice;
 
   Summary(this.subTotal, this.shippingCost, this.tax, this.totalPrice);
+}
+
+class SummaryCart {
+  List<ShoeInCart> listCart;
+  Summary summary;
+
+  SummaryCart(this.listCart, this.summary);
 }

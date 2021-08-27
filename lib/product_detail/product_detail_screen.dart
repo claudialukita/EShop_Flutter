@@ -67,11 +67,10 @@ class ProductDetailScreen extends ConsumerWidget {
           children: <Widget>[
             Consumer(builder: (context, watch, child) {
               final _shoeDetail = watch(productDetailViewModelProvider);
-              // List<String> imgUrls = _shoeDetail.data!.imageUrls;
               return (_shoeDetail is Success) ? CarouselSliderDetailWidget(_shoeDetail.data!.imageUrls)
               : CircularProgressIndicator();
             }),
-            ProductDetailWidget(/*shoeId: shoeId*/),
+            ProductDetailWidget(),
           ],
         ),
       ),
