@@ -1,5 +1,5 @@
 import 'package:eshop_flutter/core/models/checkout.dart';
-import 'package:eshop_flutter/delivery_detail/view_model/commit_addres_view_model.dart';
+import 'package:eshop_flutter/core/providers/cart_address_provider.dart';
 import 'package:eshop_flutter/delivery_detail/view_model/select_address_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -58,7 +58,7 @@ class AddressListWidget extends StatelessWidget {
                 onPressed: () => {
                   Navigator.pushNamed(context, '/CardDetailScreen'),
                   context
-                      .read(commitAddressViewModelProvider.notifier)
+                      .read(commitAddressProvider.notifier)
                       .commitAddress(
                           initAddressDetail[idxCommitAddress].street,
                           initAddressDetail[idxCommitAddress].phoneNumber,

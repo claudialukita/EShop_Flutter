@@ -1,11 +1,9 @@
 import 'package:dotted_line/dotted_line.dart';
-import 'package:eshop_flutter/cart/view_model/checkout_view_model.dart';
-import 'package:eshop_flutter/cart/view_model/shoe_list_view_model.dart';
-import 'package:eshop_flutter/cart/view_model/shoe_state_view_model.dart';
-import 'package:eshop_flutter/cart/view_model/summary_view_model.dart';
 import 'package:eshop_flutter/cart/widgets/cart_is_empty_widget.dart';
 import 'package:eshop_flutter/cart/widgets/shoe_list_widget.dart';
 import 'package:eshop_flutter/core/models/async_state.dart';
+import 'package:eshop_flutter/core/providers/cart_init_checkout_provider.dart';
+import 'package:eshop_flutter/core/providers/cart_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,12 +11,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class CartListWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, watch) {
-    var shoeListWtch = watch(shoeListViewModelProvider);
-    var shoeStateWtch = watch(shoeStateViewModelProvider);
-    return shoeStateWtch
-        ? (shoeListWtch is DataIsEmpty)
+    // var shoeListWtch = watch(shoeListViewModelProvider);
+    // var shoeStateWtch = watch(shoeStateViewModelProvider);
+    var cartState = watch(cartProvider);
+    var cartList = watch(cartProvider);
+    return (cartState is Initial)
             ? CartIsEmptyWidget()
-            : (shoeListWtch is Success)
+            : (cartState is Success)
                 ? ListView(children: <Widget>[
                     Column(
                       children: [
@@ -28,29 +27,33 @@ class CartListWidget extends ConsumerWidget {
                           height: MediaQuery.of(context).size.height * 0.403,
                           child: ListView(
                             children: new List.generate(
-                              shoeListWtch.data!.length,
+                              cartState.data!.listCart.length,
                               (i) => new ListTileItem(
+                                summaryCart: cartList.data!,
                                 idx: i,
-                                shoeId: shoeListWtch.data![i].shoeId,
+                                shoeId: cartState.data!.listCart[i].shoeId,
                                 subTotalItem:
-                                    shoeListWtch.data![i].result.totalShoe,
+                                cartState.data!.listCart[i].result.totalShoe,
                                 shoeColor:
-                                    shoeListWtch.data![i].result.shoeColor,
-                                shoeSize: shoeListWtch.data![i].result.shoeSize,
-                                shoeName: shoeListWtch.data![i].result.shoeName,
+                                cartState.data!.listCart[i].result.shoeColor,
+                                shoeSize:
+                                cartState.data!.listCart[i].result.shoeSize,
+                                shoeName:
+                                cartState.data!.listCart[i].result.shoeName,
                                 shoePrice:
-                                    shoeListWtch.data![i].result.shoePrice,
+                                cartState.data!.listCart[i].result.shoePrice,
                                 shoeImageUrl:
-                                    shoeListWtch.data![i].result.shoeImageUrl,
+                                cartState.data!.listCart[i].result.shoeImageUrl,
                               ),
                             ),
                           ),
                         ),
-                        Consumer(
-                          builder: (context, watch, child) {
-                            var shoePriceWtch = watch(summaryModelProvider);
-                            return (shoePriceWtch is Success)
-                                ? Container(
+                        // Consumer(
+                        //   builder: (context, watch, child) {
+                        //     var shoePriceWtch = watch(summaryModelProvider);
+                        //     return (shoePriceWtch is Success)
+                        //         ?
+                            Container(
                                     margin: EdgeInsets.symmetric(
                                         horizontal: 16, vertical: 8),
                                     padding: EdgeInsets.all(16),
@@ -72,14 +75,16 @@ class CartListWidget extends ConsumerWidget {
                                               MainAxisAlignment.spaceBetween,
                                           children: [
                                             Text(
-                                                "Items(${shoeListWtch.data!.length})",
+                                                "Items(${cartState.data!.listCart.length})",
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .caption),
                                             Text(
-                                                shoeStateWtch
-                                                    ? "\$${shoePriceWtch.data!.subTotal}"
-                                                    : "\$0",
+                                                // addToCartState
+                                                //     ?
+                                                "\$${cartState.data!.summary.subTotal}"
+                                                    // : "\$0"
+                                                ,
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .caption!
@@ -98,9 +103,10 @@ class CartListWidget extends ConsumerWidget {
                                                     .textTheme
                                                     .caption),
                                             Text(
-                                                shoeStateWtch
-                                                    ? "\$${shoePriceWtch.data!.shippingCost}"
-                                                    : "\$0",
+                                                // shoeStateWtch ?
+                                                "\$${cartState.data!.summary.shippingCost}"
+                                                    // : "\$0"
+                                                ,
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .caption!
@@ -119,9 +125,9 @@ class CartListWidget extends ConsumerWidget {
                                                     .textTheme
                                                     .caption),
                                             Text(
-                                                shoeStateWtch
-                                                    ? "\$${shoePriceWtch.data!.tax}"
-                                                    : "\$0",
+                                                // shoeStateWtch ?
+                                                "\$${cartState.data!.summary.tax}",
+                                                    // : "\$0",
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .caption!
@@ -157,7 +163,7 @@ class CartListWidget extends ConsumerWidget {
                                             Text(
                                                 // shoeState
                                                 //     ?
-                                                "\$${shoePriceWtch.data!.totalPrice}",
+                                                "\$${cartState.data!.summary.totalPrice}",
                                                 // : "\$0",
                                                 style: Theme.of(context)
                                                     .textTheme
@@ -169,10 +175,10 @@ class CartListWidget extends ConsumerWidget {
                                         ),
                                       ],
                                     ),
-                                  )
-                                : CircularProgressIndicator();
-                          },
-                        ),
+                                  ),
+                        //         : CircularProgressIndicator();
+                        //   },
+                        // ),
                         Container(
                           decoration: BoxDecoration(
                             boxShadow: [
@@ -185,16 +191,12 @@ class CartListWidget extends ConsumerWidget {
                               ),
                             ],
                           ),
-                          child: Consumer(builder: (context, watch, child) {
-                            var shoePriceWtch = watch(summaryModelProvider);
-                            return (shoePriceWtch is Success)
-                                ? ElevatedButton(
+                          child: ElevatedButton(
                                     onPressed: () => {
                                       context
-                                          .read(checkoutViewModelProvider
+                                          .read(cartInitCheckoutProvider
                                               .notifier)
-                                          .initialCheckout(
-                                              shoeListWtch.data!, shoePriceWtch.data!),
+                                          .initialCheckout(cartState.data!),
                                       Navigator.pushNamed(
                                           context, '/DeliveryDetailScreen')
                                     },
@@ -204,14 +206,12 @@ class CartListWidget extends ConsumerWidget {
                                     child: Text('Check Out',
                                         style:
                                             Theme.of(context).textTheme.button),
-                                  )
-                                : CircularProgressIndicator();
-                          }),
+                                  ),
                         ),
                       ],
                     ),
                   ])
-                : CircularProgressIndicator()
-        : CartIsEmptyWidget();
+                : CircularProgressIndicator();
+        // : CartIsEmptyWidget();
   }
 }

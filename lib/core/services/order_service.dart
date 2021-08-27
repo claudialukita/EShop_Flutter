@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:eshop_flutter/core/common/constrants.dart';
 import 'package:eshop_flutter/core/models/order_model.dart';
 import 'package:eshop_flutter/core/providers/dio_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

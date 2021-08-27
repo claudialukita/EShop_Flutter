@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:eshop_flutter/core/common/constrants.dart';
+import 'package:eshop_flutter/core/common/constant.dart';
 import 'package:eshop_flutter/core/models/checkout.dart';
 import 'package:eshop_flutter/core/models/shoe.dart';
 import 'package:eshop_flutter/core/providers/dio_provider.dart';
@@ -18,18 +18,22 @@ class ShoeService {
     List<String> newImageUrls = [];
     //GET {{host}}/shoes?name={{name_keyword}}
     var response =
-        await _dio.get('${API_URL_SHOE_SERVICE}/shoes?name=${keyword}');
-    if (response.data.length > 0) {
-      for (var shoeImgListRes in response.data['results']['imageUrls']) {
-        newImageUrls.add(shoeImgListRes);
+        await _dio.get('${API_URL_SHOE_SERVICE}/shoe?name=${keyword}');
+    if (response.data['statusCode'] == 200) {
+
+
+      for (var shoeListRes in response.data['result']['result']) {
+        for (var shoeImgListRes in shoeListRes['imageUrls']) {
+          newImageUrls.add(shoeImgListRes);
+        }
       }
 
-      for (var shoeListRes in response.data['results']) {
+      for (var shoeListRes in response.data['result']['result']) {
         ShoeList shoeList = new ShoeList(
           shoeListRes['id'],
           shoeListRes['name'],
           shoeListRes['rating'],
-          shoeListRes['price'],
+          shoeListRes['price'].toDouble(),
           newImageUrls,
         );
         shoes.add(shoeList);
@@ -41,25 +45,6 @@ class ShoeService {
   Future<List<ShoeList>> getAllShoes() async {
     List<ShoeList> shoes = [];
     var response = await _dio.get('${API_URL_SHOE_SERVICE}/shoe');
-
-    if (response.data.length > 0) {
-      for (int i = 0; i < response.data['result']['result'].length; i++) {
-        ShoeList shoeList = new ShoeList(
-          response.data['result']['result'][i]['id'],
-          response.data['result']['result'][i]['name'],
-          response.data['result']['result'][i]['rating'],
-          response.data['result']['result'][i]['price'].toDouble(),
-          response.data['result']['result'][i]['imageUrls'],
-        );
-        shoes.add(shoeList);
-      }
-    }
-    return shoes;
-  }
-
-  Future<List<ShoeList>> getAllShoesByKeyword(String keyword) async {
-    List<ShoeList> shoes = [];
-    var response = await _dio.get('${API_URL_SHOE_SERVICE}/shoe/${keyword}');
 
     if (response.data.length > 0) {
       for (int i = 0; i < response.data['result']['result'].length; i++) {

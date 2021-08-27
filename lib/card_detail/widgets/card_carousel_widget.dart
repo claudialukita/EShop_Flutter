@@ -1,9 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:eshop_flutter/card_detail/view_model/cart_view_model.dart';
 import 'package:eshop_flutter/card_detail/widgets/card_list_item_widget.dart';
-import 'package:eshop_flutter/cart/view_model/checkout_view_model.dart';
-import 'package:eshop_flutter/cart/view_model/summary_view_model.dart';
-import 'package:eshop_flutter/delivery_detail/view_model/commit_addres_view_model.dart';
+import 'package:eshop_flutter/core/providers/cart_address_provider.dart';
+import 'package:eshop_flutter/core/providers/cart_init_checkout_provider.dart';
+import 'package:eshop_flutter/core/providers/cart_provider.dart';
+import 'package:eshop_flutter/core/providers/checkout_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -37,12 +37,6 @@ class CarouselSliderState extends State {
             children: [
               CarouselSlider(
                 options: CarouselOptions(
-                    // autoPlay: true,
-                    // autoPlayInterval: Duration(seconds: 3),
-                    // autoPlayAnimationDuration: Duration(milliseconds: 800),
-                    // autoPlayCurve: Curves.fastOutSlowIn,
-                    // pauseAutoPlayOnTouch: true,
-                    // enlargeCenterPage: true,
                     viewportFraction: 1,
                     onPageChanged: (index, reason) {
                       setState(() {
@@ -86,20 +80,21 @@ class CarouselSliderState extends State {
             ),
             child: Consumer(
               builder: (context, watch, child) {
-                var shoeSummary = watch(summaryModelProvider);
-                var initCheckout = watch(checkoutViewModelProvider);
-                var addressDetail = watch(commitAddressViewModelProvider);
+                // var shoeSummary = watch(summaryModelProvider);
+                var cartState = watch(cartProvider);
+                var initCheckout = watch(cartInitCheckoutProvider);
+                var addressDetail = watch(commitAddressProvider);
                 return ElevatedButton(
                   onPressed: () => {
                     context
-                        .read(commitCheckoutViewModelProvider
+                        .read(commitCheckoutProvider
                         .notifier)
-                        .commitCheckout(initCheckout.data!, addressDetail.data!, shoeSummary.data!.totalPrice),
+                        .commitCheckout(initCheckout.data!, addressDetail.data!, cartState.data!.summary.totalPrice),
                     Navigator.pushNamed(context, '/CommitOrderScreen',
-                        arguments: shoeSummary.data!.totalPrice > 1000000 ? "Failed" : "Success")
+                        arguments: cartState.data!.summary.totalPrice > 1000000 ? "Failed" : "Success")
                   },
                   style: Theme.of(context).elevatedButtonTheme.style,
-                  child: Text('Pay \$${shoeSummary.data!.totalPrice}',
+                  child: Text('Pay \$${cartState.data!.summary.totalPrice}',
                       style: Theme.of(context).textTheme.button),
                 );
               },

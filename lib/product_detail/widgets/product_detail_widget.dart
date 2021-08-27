@@ -1,5 +1,5 @@
 import 'package:eshop_flutter/core/models/async_state.dart';
-import 'package:eshop_flutter/product_detail/view_model/add_to_cart_view_model.dart';
+import 'package:eshop_flutter/core/providers/cart_provider.dart';
 import 'package:eshop_flutter/product_detail/view_model/color_state_view_model.dart';
 import 'package:eshop_flutter/product_detail/view_model/product_detail_view_model.dart';
 import 'package:eshop_flutter/product_detail/view_model/size_state_view_model.dart';
@@ -15,6 +15,7 @@ class ProductDetailWidget extends ConsumerWidget {
   Widget build(BuildContext context, ScopedReader watch) {
     // String shoeColor = "", shoeSize = "";
     var shoeDetail = watch(productDetailViewModelProvider);
+    var cartList = watch(cartProvider);
     return (shoeDetail is Success)
         ? Container(
             padding: EdgeInsets.all(16),
@@ -315,15 +316,23 @@ class ProductDetailWidget extends ConsumerWidget {
                       ),
                       child: ElevatedButton(
                         onPressed: () => {
-                          context
-                              .read(addToCartViewModelProvider.notifier)
-                              .addToCart(
-                                  shoeDetail.data!.shoeColors[stateColor],
-                                  shoeDetail.data!.shoeSizes[stateSize],
-                                  shoeDetail.data!.id,
-                                  shoeDetail.data!.name,
-                                  shoeDetail.data!.price,
-                                  shoeDetail.data!.imageUrls[0]),
+                          // context
+                          //     .read(addToCartProvider.notifier)
+                          //     .addToCart(
+                          //         shoeDetail.data!.shoeColors[stateColor],
+                          //         shoeDetail.data!.shoeSizes[stateSize],
+                          //         shoeDetail.data!.id,
+                          //         shoeDetail.data!.name,
+                          //         shoeDetail.data!.price,
+                          //         shoeDetail.data!.imageUrls[0]),
+                          context.read(cartProvider.notifier).addToCartList(
+                              (cartList is Initial) ? null : cartList.data!,
+                              shoeDetail.data!.shoeColors[stateColor],
+                              shoeDetail.data!.shoeSizes[stateSize],
+                              shoeDetail.data!.id,
+                              shoeDetail.data!.name,
+                              shoeDetail.data!.price,
+                              shoeDetail.data!.imageUrls[0]),
                           Navigator.pushReplacementNamed(
                               context, '/SuccessAddWidget'),
                         },

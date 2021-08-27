@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:eshop_flutter/core/models/async_state.dart';
 import 'package:eshop_flutter/core/models/cart.dart';
 import 'package:eshop_flutter/core/providers/storage_provider.dart';
-import 'package:eshop_flutter/core/services/cart_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -14,6 +13,28 @@ final summaryModelProvider =
 class SummaryViewModel extends StateNotifier<AsyncState<Summary>> {
   final FlutterSecureStorage _secureStorage;
   SummaryViewModel(this._secureStorage) : super(Initial<Summary>(null));
+
+  setSummary(String addOrRemove, String shoeId, double initShoePrice,
+      int initTotalShoe) async {
+    state = Loading(state.data);
+    try {
+      double sumShoePrice = 0;
+      int sumTotalShoe = 0;
+      double shippingCost = 40;
+      double tax = 0;
+      double totalPrice = 0;
+
+      tax = initShoePrice * 0.1;
+      totalPrice = sumShoePrice - tax;
+
+      if (addOrRemove == "add") {
+        Summary newSummary =
+            new Summary(initShoePrice, shippingCost, tax, totalPrice);
+      }
+    } catch (Exception) {
+      state = Error('Something went wrong', state.data);
+    }
+  }
 
   getSummary() async {
     state = Loading(state.data);

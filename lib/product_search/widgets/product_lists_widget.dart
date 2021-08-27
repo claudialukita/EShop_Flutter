@@ -33,6 +33,7 @@ class ProductListWidget extends ConsumerWidget {
                     children: List.generate(
                       stateSearch.data!.length,
                       (index) {
+                        int rate = stateSearch.data![index].rating;
                         return GestureDetector(
                           onTap: () => {
                             Navigator.pushNamed(context, '/ProductDetailScreen',
@@ -82,9 +83,8 @@ class ProductListWidget extends ConsumerWidget {
                                           Icon(
                                             Icons.star,
                                             size: 20,
-                                            color: index ==
-                                                    stateSearch
-                                                        .data![index].rating
+                                            color: index >= rate
+                                                    // stateSearch.data![index].rating
                                                 ? Color(0xFFEBF0FF)
                                                 : Color(0xFFFFC833),
                                           ),
