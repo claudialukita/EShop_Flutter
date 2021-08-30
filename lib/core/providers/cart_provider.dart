@@ -1,13 +1,19 @@
+import 'dart:convert';
+
 import 'package:eshop_flutter/core/models/async_state.dart';
 import 'package:eshop_flutter/core/models/cart.dart';
+import 'package:eshop_flutter/core/providers/storage_provider.dart';
+import 'package:eshop_flutter/core/services/cart_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 final cartProvider =
     StateNotifierProvider<CartProvider, AsyncState<SummaryCart>>(
-        (ref) => CartProvider());
+        (ref) => CartProvider(ref.read(cartServiceProvider)));
 
 class CartProvider extends StateNotifier<AsyncState<SummaryCart>> {
-  CartProvider() : super(Initial(null));
+  final CartService _cartService;
+  CartProvider(this._cartService) : super(Initial(null));
 
   addToCartList(
       SummaryCart? listCart,
@@ -47,7 +53,7 @@ class CartProvider extends StateNotifier<AsyncState<SummaryCart>> {
         summary = new Summary(subTotal, shippingCost, tax, totalPrice);
 
         summaryCart = new SummaryCart(listShoeInCart, summary);
-
+        await _cartService.setShoeInCart(jsonEncode(summaryCart));
         state = Success(summaryCart);
       } else {
         listShoeInCart = listCart.listCart;
@@ -103,13 +109,6 @@ class CartProvider extends StateNotifier<AsyncState<SummaryCart>> {
           state = Success(summaryCart);
         }
       }
-
-      // double shippingCost = 40;
-      // double subTotal = shoePrice * totalShoe;
-      // double tax = subTotal * 0.1;
-      // double totalPrice = subTotal + shippingCost - tax;
-      // Summary summary = new Summary(subTotal, shippingCost, tax, totalPrice);
-      //
 
     } catch (exception) {
       state = Error('Something went wrong', state.data);
@@ -242,7 +241,7 @@ class CartProvider extends StateNotifier<AsyncState<SummaryCart>> {
         tax = subTotal * 0.1;
         totalPrice = subTotal + shippingCost - tax;
         summary = new Summary(subTotal, shippingCost, tax, totalPrice);
-        summaryCart = new SummaryCart(listShoeInCart, listCart.summary);
+        summaryCart = new SummaryCart(listShoeInCart, summary);
 
         state = Success(summaryCart);
       } else {

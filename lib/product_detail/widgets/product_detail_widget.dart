@@ -1,5 +1,6 @@
 import 'package:eshop_flutter/core/models/async_state.dart';
 import 'package:eshop_flutter/core/providers/cart_provider.dart';
+import 'package:eshop_flutter/core/providers/currency_number_provider.dart';
 import 'package:eshop_flutter/product_detail/view_model/color_state_view_model.dart';
 import 'package:eshop_flutter/product_detail/view_model/product_detail_view_model.dart';
 import 'package:eshop_flutter/product_detail/view_model/size_state_view_model.dart';
@@ -9,11 +10,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ProductDetailWidget extends ConsumerWidget {
-  // String shoeId;
-  // ProductDetailWidget({required this.shoeId});
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    // String shoeColor = "", shoeSize = "";
     var shoeDetail = watch(productDetailViewModelProvider);
     var cartList = watch(cartProvider);
     return (shoeDetail is Success)
@@ -59,7 +57,7 @@ class ProductDetailWidget extends ConsumerWidget {
                 SizedBox(height: 16),
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: Text("\$${shoeDetail.data!.price}",
+                  child: Text("\$${currencyNumber.format(shoeDetail.data!.price)}",
                       style: Theme.of(context).textTheme.headline6,
                       textAlign: TextAlign.start),
                 ),
@@ -141,7 +139,6 @@ class ProductDetailWidget extends ConsumerWidget {
                 Consumer(
                   builder: (context, watch, widget) {
                     var stateColor = watch(colorViewModelProvider);
-                    print(stateColor);
                     return Column(
                       children: [
                         Container(
@@ -193,19 +190,11 @@ class ProductDetailWidget extends ConsumerWidget {
                                                     ),
                                                   )
                                                 : Container(),
-                                            // Text(
-                                            //   indexColor.toString(),
-                                            //   style: Theme.of(context)
-                                            //       .textTheme
-                                            //       .subtitle2,
-                                            // ),
                                             onPressed: () => {
                                               context
                                                   .read(colorViewModelProvider
                                                       .notifier)
                                                   .selectColor(indexColor),
-                                              // print("Cliked size ${index}");
-                                              // shoeSize = "Cliked size ${index}";
                                             },
                                           ),
                                         ),
@@ -233,7 +222,7 @@ class ProductDetailWidget extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      height: 80,
+                      height: 40,
                       alignment: Alignment.topLeft,
                       child: Text(
                         "Shown:",
@@ -242,7 +231,7 @@ class ProductDetailWidget extends ConsumerWidget {
                     ),
                     Container(
                       width: (MediaQuery.of(context).size.width * 0.3),
-                      height: 80,
+                      height: 40,
                       child: RichText(
                         textAlign: TextAlign.end,
                         maxLines: 3,
@@ -253,7 +242,7 @@ class ProductDetailWidget extends ConsumerWidget {
                                 .bodyText1!
                                 .apply(color: Color(0xFF9098B1)),
                             text:
-                                "Nike Air Max 270 React ENG Nike Air Max 270 React ENG"),
+                                shoeDetail.data!.name),
                       ),
                     ),
                   ],
@@ -272,7 +261,7 @@ class ProductDetailWidget extends ConsumerWidget {
                       width: (MediaQuery.of(context).size.width * 0.3),
                       alignment: Alignment.centerRight,
                       child: Text(
-                        "CD0113-400",
+                        shoeDetail.data!.productCode,
                         style: Theme.of(context)
                             .textTheme
                             .bodyText1!
@@ -295,14 +284,13 @@ class ProductDetailWidget extends ConsumerWidget {
                             .bodyText1!
                             .apply(color: Color(0xFF9098B1)),
                         text:
-                            "The Nike Air Max 270 React ENG combines a full-length React foam midsole with a 270 Max Air unit for unrivaled comfort and a striking visual experience."),
+                            shoeDetail.data!.description),
                   ),
                 ),
                 Consumer(
                   builder: (context, watch, widget) {
                     var stateSize = watch(sizeViewModelProvider);
                     var stateColor = watch(colorViewModelProvider);
-                    // print(stateSize < 0 && stateColor < 0);
                     return Container(
                       decoration: BoxDecoration(
                         boxShadow: [
@@ -310,21 +298,12 @@ class ProductDetailWidget extends ConsumerWidget {
                             color: Color(0xFF40BFFF).withOpacity(0.5),
                             spreadRadius: 3,
                             blurRadius: 7,
-                            offset: Offset(1, 3), // changes position of shadow
+                            offset: Offset(1, 3),
                           ),
                         ],
                       ),
                       child: ElevatedButton(
                         onPressed: () => {
-                          // context
-                          //     .read(addToCartProvider.notifier)
-                          //     .addToCart(
-                          //         shoeDetail.data!.shoeColors[stateColor],
-                          //         shoeDetail.data!.shoeSizes[stateSize],
-                          //         shoeDetail.data!.id,
-                          //         shoeDetail.data!.name,
-                          //         shoeDetail.data!.price,
-                          //         shoeDetail.data!.imageUrls[0]),
                           context.read(cartProvider.notifier).addToCartList(
                               (cartList is Initial) ? null : cartList.data!,
                               shoeDetail.data!.shoeColors[stateColor],
@@ -358,6 +337,6 @@ class ProductDetailWidget extends ConsumerWidget {
               ],
             ),
           )
-        : CircularProgressIndicator();
+        : Container();
   }
 }

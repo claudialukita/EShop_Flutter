@@ -28,8 +28,8 @@ class ProductSearchScreen extends ConsumerWidget{
           ),
         ),
         title: Container(
-            margin: EdgeInsets.only(top: 5, right: 10),
-            height: 45,
+            margin: EdgeInsets.only(top: 5, right: 16),
+            height: 54,
             child: TextField(
               controller: searchStr.isNotEmpty ? txt : null,
               autofocus: false,
@@ -46,6 +46,9 @@ class ProductSearchScreen extends ConsumerWidget{
               onSubmitted: (String searchStr) async {
                 Navigator.pushReplacementNamed(
                     context, '/ProductSearchScreen', arguments: searchStr);
+                context
+                    .read(shoeGridViewModelProvider.notifier)
+                    .loadDataByKeyword(searchStr);
               },
             )
         ),

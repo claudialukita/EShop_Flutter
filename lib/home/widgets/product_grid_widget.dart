@@ -1,10 +1,14 @@
 import 'package:eshop_flutter/core/models/async_state.dart';
 import 'package:eshop_flutter/core/models/shoe.dart';
+import 'package:eshop_flutter/core/providers/currency_number_provider.dart';
 import 'package:eshop_flutter/home/view_model/home_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
+
+
 
 class ProductGridWidget extends ConsumerWidget {
   @override
@@ -12,8 +16,8 @@ class ProductGridWidget extends ConsumerWidget {
     final _state = watch(shoeGridViewModelProvider);
     return (_state is Success)
         ? Container(
-            margin: EdgeInsets.symmetric(horizontal: 5),
-            height: MediaQuery.of(context).size.height * 0.4,
+            margin: EdgeInsets.symmetric(horizontal: 12),
+            height: MediaQuery.of(context).size.height * 0.33,
             child: GridView.count(
               crossAxisCount: 2,
               childAspectRatio: (MediaQuery.of(context).size.width *
@@ -30,7 +34,7 @@ class ProductGridWidget extends ConsumerWidget {
                               _state.data![index].id, _state.data![index].name))
                     },
                     child: Container(
-                      margin: EdgeInsets.all(5),
+                      margin: EdgeInsets.all(8),
                       decoration: BoxDecoration(
                         border: Border.all(color: Color(0xFFEBF0FF)),
                         borderRadius: BorderRadius.circular(5),
@@ -92,7 +96,7 @@ class ProductGridWidget extends ConsumerWidget {
                           Container(
                             padding: EdgeInsets.symmetric(vertical: 15),
                             width: 155,
-                            child: Text("\$${_state.data![index].price}",
+                            child: Text("\$${currencyNumber.format(_state.data![index].price)}",
                                 style: Theme.of(context)
                                     .textTheme
                                     .headline3!

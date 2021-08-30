@@ -4,6 +4,7 @@ import 'package:eshop_flutter/core/providers/cart_address_provider.dart';
 import 'package:eshop_flutter/core/providers/cart_init_checkout_provider.dart';
 import 'package:eshop_flutter/core/providers/cart_provider.dart';
 import 'package:eshop_flutter/core/providers/checkout_provider.dart';
+import 'package:eshop_flutter/core/providers/currency_number_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -94,7 +95,7 @@ class CarouselSliderState extends State {
                         arguments: cartState.data!.summary.totalPrice > 1000000 ? "Failed" : "Success")
                   },
                   style: Theme.of(context).elevatedButtonTheme.style,
-                  child: Text('Pay \$${cartState.data!.summary.totalPrice}',
+                  child: Text('Pay \$${currencyNumber.format(cartState.data!.summary.totalPrice)}',
                       style: Theme.of(context).textTheme.button),
                 );
               },

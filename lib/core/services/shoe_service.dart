@@ -20,24 +20,32 @@ class ShoeService {
     var response =
         await _dio.get('${API_URL_SHOE_SERVICE}/shoe?name=${keyword}');
     if (response.data['statusCode'] == 200) {
-
-
       for (var shoeListRes in response.data['result']['result']) {
-        for (var shoeImgListRes in shoeListRes['imageUrls']) {
-          newImageUrls.add(shoeImgListRes);
-        }
-      }
-
-      for (var shoeListRes in response.data['result']['result']) {
+        // for (var shoeImgListRes in shoeListRes['imageUrls']) {
+        //   newImageUrls.add(shoeImgListRes);
+        // }
+        // print(newImageUrls);
         ShoeList shoeList = new ShoeList(
           shoeListRes['id'],
           shoeListRes['name'],
           shoeListRes['rating'],
           shoeListRes['price'].toDouble(),
-          newImageUrls,
+          shoeListRes['imageUrls'],
         );
         shoes.add(shoeList);
+        newImageUrls.clear();
       }
+      print(shoes);
+      // for (var shoeListRes in response.data['result']['result']) {
+      //   ShoeList shoeList = new ShoeList(
+      //     shoeListRes['id'],
+      //     shoeListRes['name'],
+      //     shoeListRes['rating'],
+      //     shoeListRes['price'].toDouble(),
+      //     newImageUrls,
+      //   );
+      //   shoes.add(shoeList);
+      // }
     }
     return shoes;
   }
@@ -107,6 +115,7 @@ class ShoeService {
         listStock,
         shoeSizes,
         shoeColors,
+        response.data['result']['description'],
       );
       return newShoe;
     } else {
