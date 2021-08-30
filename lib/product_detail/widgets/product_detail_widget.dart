@@ -303,7 +303,8 @@ class ProductDetailWidget extends ConsumerWidget {
                         ],
                       ),
                       child: ElevatedButton(
-                        onPressed: () => {
+                        onPressed: stateSize >= 0 && stateColor >= 0
+                            ? () => {
                           context.read(cartProvider.notifier).addToCartList(
                               (cartList is Initial) ? null : cartList.data!,
                               shoeDetail.data!.shoeColors[stateColor],
@@ -314,7 +315,7 @@ class ProductDetailWidget extends ConsumerWidget {
                               shoeDetail.data!.imageUrls[0]),
                           Navigator.pushReplacementNamed(
                               context, '/SuccessAddWidget'),
-                        },
+                        } : () => {},
                         style: stateSize >= 0 && stateColor >= 0
                             ? Theme.of(context).elevatedButtonTheme.style
                             : ElevatedButton.styleFrom(

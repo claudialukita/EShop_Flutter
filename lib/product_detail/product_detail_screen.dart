@@ -1,5 +1,6 @@
 import 'package:eshop_flutter/core/models/async_state.dart';
 import 'package:eshop_flutter/core/models/shoe.dart';
+import 'package:eshop_flutter/core/providers/cart_provider.dart';
 import 'package:eshop_flutter/product_detail/view_model/color_state_view_model.dart';
 import 'package:eshop_flutter/product_detail/view_model/product_detail_view_model.dart';
 import 'package:eshop_flutter/product_detail/view_model/size_state_view_model.dart';
@@ -28,6 +29,10 @@ class ProductDetailScreen extends ConsumerWidget {
 
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
       await context.read(sizeViewModelProvider.notifier).selectSize(-1);
+    });
+
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
+      await context.read(cartProvider.notifier).getCartList();
     });
 
     return Scaffold(

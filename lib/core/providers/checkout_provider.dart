@@ -17,11 +17,11 @@ class CommitCheckout extends StateNotifier<AsyncState<CheckoutResponse>> {
   CommitCheckout(this._shoeService, this._secureStorage)
       : super(Initial<CheckoutResponse>(null));
 
-  commitCheckout(List<ShoeItems> initCheckout, AddressDetail addressDetail, double totalPrice) async {
+  commitCheckout(List<ShoeItems> initCheckout, AddressDetail addressDetail, double totalPrice, double limit) async {
 
     state = Loading(state.data);
     try {
-      if(totalPrice <= 1000000){
+      if(totalPrice <= limit){
         Checkout commCheckout = new Checkout(initCheckout, addressDetail);
 
         var resCommCheckout = await _shoeService.postCheckout(commCheckout);
@@ -31,13 +31,9 @@ class CommitCheckout extends StateNotifier<AsyncState<CheckoutResponse>> {
         } else {
           state = ResponseError(resCommCheckout);
         }
-
-
       } else {
         throw new Exception('Limit');
       }
-
-
     } catch (exception) {
       state = Error('Something went wrong', state.data);
     }

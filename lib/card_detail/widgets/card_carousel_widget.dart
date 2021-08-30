@@ -5,6 +5,7 @@ import 'package:eshop_flutter/core/providers/cart_init_checkout_provider.dart';
 import 'package:eshop_flutter/core/providers/cart_provider.dart';
 import 'package:eshop_flutter/core/providers/checkout_provider.dart';
 import 'package:eshop_flutter/core/providers/currency_number_provider.dart';
+import 'package:eshop_flutter/profile/profile_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -85,17 +86,25 @@ class CarouselSliderState extends State {
                 var cartState = watch(cartProvider);
                 var initCheckout = watch(cartInitCheckoutProvider);
                 var addressDetail = watch(commitAddressProvider);
+                final stateProfile = watch(profileViewModelProvider);
+
                 return ElevatedButton(
                   onPressed: () => {
                     context
-                        .read(commitCheckoutProvider
-                        .notifier)
-                        .commitCheckout(initCheckout.data!, addressDetail.data!, cartState.data!.summary.totalPrice),
+                        .read(commitCheckoutProvider.notifier)
+                        .commitCheckout(
+                            initCheckout.data!,
+                            addressDetail.data!,
+                            cartState.data!.summary.totalPrice,
+                            stateProfile.data!.limit),
                     Navigator.pushNamed(context, '/CommitOrderScreen',
-                        arguments: cartState.data!.summary.totalPrice > 1000000 ? "Failed" : "Success")
+                        arguments: cartState.data!.summary.totalPrice > 1000000
+                            ? "Failed"
+                            : "Success")
                   },
                   style: Theme.of(context).elevatedButtonTheme.style,
-                  child: Text('Pay \$${currencyNumber.format(cartState.data!.summary.totalPrice)}',
+                  child: Text(
+                      'Pay \$${currencyNumber.format(cartState.data!.summary.totalPrice)}',
                       style: Theme.of(context).textTheme.button),
                 );
               },

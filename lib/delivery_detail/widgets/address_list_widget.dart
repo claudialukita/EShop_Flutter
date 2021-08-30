@@ -55,7 +55,8 @@ class AddressListWidget extends StatelessWidget {
             child: Consumer(builder: (context, watch, widget) {
               int idxCommitAddress = watch(selectAddressViewModelProvider);
               return ElevatedButton(
-                onPressed: () => {
+                onPressed: idxCommitAddress >= 0
+                    ? () => {
                   Navigator.pushNamed(context, '/CardDetailScreen'),
                   context
                       .read(commitAddressProvider.notifier)
@@ -63,7 +64,7 @@ class AddressListWidget extends StatelessWidget {
                           initAddressDetail[idxCommitAddress].street,
                           initAddressDetail[idxCommitAddress].phoneNumber,
                           initAddressDetail[idxCommitAddress].receiptName)
-                },
+                } : () => {},
                 style: idxCommitAddress >= 0
                     ? Theme.of(context).elevatedButtonTheme.style
                     : ElevatedButton.styleFrom(

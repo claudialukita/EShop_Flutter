@@ -15,6 +15,11 @@ class CartProvider extends StateNotifier<AsyncState<SummaryCart>> {
   final CartService _cartService;
   CartProvider(this._cartService) : super(Initial(null));
 
+  getCartList() async {
+    SummaryCart summaryCartInStorage = await _cartService.getShoeInCart();
+    state = Success(summaryCartInStorage);
+  }
+
   addToCartList(
       SummaryCart? listCart,
       int shoeColor,
@@ -53,7 +58,8 @@ class CartProvider extends StateNotifier<AsyncState<SummaryCart>> {
         summary = new Summary(subTotal, shippingCost, tax, totalPrice);
 
         summaryCart = new SummaryCart(listShoeInCart, summary);
-        await _cartService.setShoeInCart(jsonEncode(summaryCart));
+        String encodeSummaryCard = json.encode(summaryCart.toJson());
+        await _cartService.setShoeInCart(encodeSummaryCard);
         state = Success(summaryCart);
       } else {
         listShoeInCart = listCart.listCart;
@@ -65,14 +71,15 @@ class CartProvider extends StateNotifier<AsyncState<SummaryCart>> {
               (listShoeInCart[indexOfShoe].result.shoePrice /
                       listShoeInCart[indexOfShoe].result.totalShoe) *
                   updateQty;
-          listShoeInCart.removeAt(indexOfShoe);
+          // listShoeInCart.removeAt(indexOfShoe);
 
           Cart inCart = new Cart(shoeColor, shoeSize, shoeName, updateShoePrice,
               shoeImageUrl, updateQty);
 
           shoeInCart = new ShoeInCart(shoeId, inCart);
 
-          listShoeInCart.add(shoeInCart);
+          // listShoeInCart.add(shoeInCart);
+          listShoeInCart[indexOfShoe] = shoeInCart;
 
           for (var itemShoePrice in listShoeInCart) {
             allShoePrice += itemShoePrice.result.shoePrice;
@@ -85,7 +92,7 @@ class CartProvider extends StateNotifier<AsyncState<SummaryCart>> {
           summary = new Summary(subTotal, shippingCost, tax, totalPrice);
 
           summaryCart = new SummaryCart(listShoeInCart, summary);
-
+          await _cartService.setShoeInCart(jsonEncode(summaryCart));
           state = Success(summaryCart);
         } else {
           Cart inCart = new Cart(shoeColor, shoeSize, shoeName, shoePrice,
@@ -105,11 +112,10 @@ class CartProvider extends StateNotifier<AsyncState<SummaryCart>> {
           summary = new Summary(subTotal, shippingCost, tax, totalPrice);
 
           summaryCart = new SummaryCart(listShoeInCart, summary);
-
+          await _cartService.setShoeInCart(jsonEncode(summaryCart));
           state = Success(summaryCart);
         }
       }
-
     } catch (exception) {
       state = Error('Something went wrong', state.data);
     }
@@ -153,7 +159,7 @@ class CartProvider extends StateNotifier<AsyncState<SummaryCart>> {
         summary = new Summary(subTotal, shippingCost, tax, totalPrice);
 
         summaryCart = new SummaryCart(listShoeInCart, summary);
-
+        await _cartService.setShoeInCart(jsonEncode(summaryCart));
         state = Success(summaryCart);
       } else {
         listShoeInCart = listCart.listCart;
@@ -164,14 +170,15 @@ class CartProvider extends StateNotifier<AsyncState<SummaryCart>> {
               (listShoeInCart[indexOfShoe].result.shoePrice /
                       listShoeInCart[indexOfShoe].result.totalShoe) *
                   qty;
-          listShoeInCart.removeAt(indexOfShoe);
+          // listShoeInCart.removeAt(indexOfShoe);
 
           Cart inCart = new Cart(shoeColor, shoeSize, shoeName, updateShoePrice,
               shoeImageUrl, qty);
 
           shoeInCart = new ShoeInCart(shoeId, inCart);
 
-          listShoeInCart.add(shoeInCart);
+          // listShoeInCart.add(shoeInCart);
+          listShoeInCart[indexOfShoe] = shoeInCart;
 
           for (var itemShoePrice in listShoeInCart) {
             allShoePrice += itemShoePrice.result.shoePrice;
@@ -184,7 +191,7 @@ class CartProvider extends StateNotifier<AsyncState<SummaryCart>> {
           summary = new Summary(subTotal, shippingCost, tax, totalPrice);
 
           summaryCart = new SummaryCart(listShoeInCart, summary);
-
+          await _cartService.setShoeInCart(jsonEncode(summaryCart));
           state = Success(summaryCart);
         } else {
           Cart inCart = new Cart(
@@ -204,6 +211,7 @@ class CartProvider extends StateNotifier<AsyncState<SummaryCart>> {
           summary = new Summary(subTotal, shippingCost, tax, totalPrice);
 
           summaryCart = new SummaryCart(listShoeInCart, summary);
+          await _cartService.setShoeInCart(jsonEncode(summaryCart));
 
           state = Success(summaryCart);
         }
@@ -242,7 +250,7 @@ class CartProvider extends StateNotifier<AsyncState<SummaryCart>> {
         totalPrice = subTotal + shippingCost - tax;
         summary = new Summary(subTotal, shippingCost, tax, totalPrice);
         summaryCart = new SummaryCart(listShoeInCart, summary);
-
+        await _cartService.setShoeInCart(jsonEncode(summaryCart));
         state = Success(summaryCart);
       } else {
         state = Initial(null);
