@@ -13,7 +13,6 @@ class CartInitCheckoutProvider extends StateNotifier<AsyncState<List<ShoeItems>>
       : super(Initial<List<ShoeItems>>([]));
 
   initialCheckout(SummaryCart summaryCart) async {
-  // initialCheckout(List<ShoeInCart> shoeListWtch, Summary shoePriceWtch) async {
     state = Loading(state.data);
     try {
       List<ShoeItems> newListShoeItems = [];
