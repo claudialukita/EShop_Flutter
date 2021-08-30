@@ -253,6 +253,7 @@ class CartProvider extends StateNotifier<AsyncState<SummaryCart>> {
         await _cartService.setShoeInCart(jsonEncode(summaryCart));
         state = Success(summaryCart);
       } else {
+        await _cartService.resetShoeInCart();
         state = Initial(null);
       }
     } catch (exception) {

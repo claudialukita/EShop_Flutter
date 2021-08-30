@@ -17,6 +17,10 @@ class CartService {
     await _storageProvider.write(key: 'shoeInCart', value: listShoeInCart);
   }
 
+  Future resetShoeInCart() async {
+    await _storageProvider.delete(key: 'shoeInCart');
+  }
+
   Future<SummaryCart> getShoeInCart() async {
       Map<String, String> allDataInStorage = await _storageProvider.readAll();
       String? allShoeInCartStr = allDataInStorage['shoeInCart'];
