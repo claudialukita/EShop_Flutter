@@ -65,11 +65,15 @@ class OrderDetail extends StatelessWidget {
               child: CircularProgressIndicator());
         } else if (state is Error) {
           return Container(
-            child: Text(
-              "Something went wrong!",
-              style: TextStyle(fontSize: 24, color: Colors.black),
-            ),
-          );
+              height: 350,
+              alignment: Alignment.center,
+              child: CircularProgressIndicator());
+          //   Container(
+          //   child: Text(
+          //     "Something went wrong!",
+          //     style: TextStyle(fontSize: 24, color: Colors.black),
+          //   ),
+          // );
         } else {
           return Column(
             children: [
@@ -475,7 +479,7 @@ class OrderDetail extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          width: _widthScreen *(251/_widthScreen),
+                          width: _widthScreen *(250/_widthScreen),
                           alignment: Alignment.centerRight,
                           margin: EdgeInsets.only(
                             top: _heightScreen * (16 / _heightScreen),
@@ -631,7 +635,9 @@ class OrderDetail extends StatelessWidget {
                       onPressed: () {
                       context
                           .read(orderDetailViewModelProvider.notifier).finishOrder(state.data!.id);
-                      final finish = watch(orderDetailViewModelProvider);
+                      // final finish = watch(orderDetailViewModelProvider);
+                      context
+                          .read(orderDetailViewModelProvider.notifier).loadData(orderList.id);
                       },
                       child: Text(
                         "Finish Order",
