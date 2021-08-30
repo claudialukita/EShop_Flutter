@@ -1,5 +1,7 @@
 import 'package:eshop_flutter/core/models/cart.dart';
 import 'package:eshop_flutter/core/providers/cart_provider.dart';
+import 'package:eshop_flutter/core/providers/currency_number_provider.dart';
+import 'package:eshop_flutter/main_tab/main_tab_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -75,177 +77,187 @@ class _ListTileItemState extends State<ListTileItem> {
               border: Border.all(color: Color(0xFFEBF0FF)),
               borderRadius: BorderRadius.circular(5),
             ),
-            child: Row(
-              children: [
-                Container(
-                  child: Container(
-                    margin: EdgeInsets.all(16),
-                    height: 83,
-                    width: 83,
-                    // margin: EdgeInsets.symmetric(vertical: 20),
-                    decoration: BoxDecoration(
-                      color: Color(0xFFEBF0FF),
-                      borderRadius: BorderRadius.circular(5),
-                      image: DecorationImage(
-                          image: NetworkImage(shoeImageUrl), fit: BoxFit.cover),
-                    ),
-                  ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.58,
-                  margin: EdgeInsets.symmetric(vertical: 16),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.3,
-                            child: RichText(
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              text: TextSpan(
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline3!
-                                      .apply(color: Color(0xFF223263)),
-                                  text: shoeName),
-                            ),
-                          ),
-                          IconButton(
-                              padding: EdgeInsets.zero,
-                              constraints: BoxConstraints(),
-                              icon: Icon(Icons.delete_outline,
-                                  size: 20, color: Color(0xFF9098B1)),
-                              onPressed: () => {
-                                context
-                                    .read(cartProvider.notifier)
-                                    .removeShoe(summaryCart, idx),
+            child: Consumer(
+              builder: (context, watch, widget) {
+                var cartStateUpdate = watch(cartProvider);
 
-                                    setState(() => subTotalItem = 0),
-                                    // // context
-                                    // //     .read(shoeStateViewModelProvider.notifier)
-                                    // //     .updateCartState(),
-                                    // context
-                                    //     .read(mainTabViewModelProvider.notifier)
-                                    //     .setTab(1),
-                                  }),
-                        ],
-                      ),
-                      // SizedBox(height: 12),
-                      ListTile(
-                        contentPadding: EdgeInsets.all(0),
-                        title: Container(
-                            child: Consumer(builder: (context, watch, widget) {
-                              var cartStateUpdate = watch(cartProvider);
-
-                              return Text("\$${cartStateUpdate.data!.listCart[idx].result.shoePrice}",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline3!
-                                  .apply(color: Color(0xFF40BFFF)),
-                              textAlign: TextAlign.start);
-                        })),
-                        trailing: FittedBox(
-                          fit: BoxFit.cover,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: <Widget>[
-                              Container(
-                                height: 25,
-                                width: 30,
-                                padding: EdgeInsets.all(0),
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Color(0xFFEBF0FF)),
-                                  borderRadius: new BorderRadius.only(
-                                    topLeft: const Radius.circular(5.0),
-                                    bottomLeft: const Radius.circular(5.0),
-                                  ),
-                                ),
-                                child: subTotalItem != 1
-                                    ? IconButton(
-                                        padding: EdgeInsets.zero,
-                                        constraints: BoxConstraints(),
-                                        icon: Icon(Icons.remove,
-                                            size: 15, color: Color(0xFF9098B1)),
-                                        onPressed: () => {
-                                              setState(() => {
-                                                    subTotalItem--,
-                                                  }),
-                                              context
-                                                  .read(cartProvider.notifier)
-                                                  .updateCartList(
-                                                      summaryCart,
-                                                      subTotalItem,
-                                                      shoeColor,
-                                                      shoeSize,
-                                                      shoeId,
-                                                      shoeName,
-                                                      shoePrice,
-                                                      shoeImageUrl),
-                                              print("coba: remove"),
-                                            })
-                                    : Icon(Icons.remove,
-                                        size: 15, color: Color(0xFF9098B1)),
-                              ),
-                              Container(
-                                padding: EdgeInsets.all(0),
-                                alignment: Alignment.center,
-                                height: 25,
-                                width: 30,
-                                decoration: BoxDecoration(
-                                    border:
-                                        Border.all(color: Color(0xFFEBF0FF)),
-                                    color: Color(0xFFEBF0FF)),
-                                child: Text(subTotalItem.toString(),
-                                    style:
-                                        Theme.of(context).textTheme.subtitle2),
-                              ),
-                              Container(
-                                height: 25,
-                                width: 30,
-                                padding: EdgeInsets.all(0),
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Color(0xFFEBF0FF)),
-                                  borderRadius: new BorderRadius.only(
-                                    topRight: const Radius.circular(5.0),
-                                    bottomRight: const Radius.circular(5.0),
-                                  ),
-                                ),
-                                child: IconButton(
-                                    padding: EdgeInsets.zero,
-                                    constraints: BoxConstraints(),
-                                    icon: Icon(Icons.add,
-                                        size: 15, color: Color(0xFF9098B1)),
-                                    onPressed: () => {
-                                          setState(() => {
-                                                subTotalItem++,
-                                              }),
-                                          context
-                                              .read(cartProvider.notifier)
-                                              .updateCartList(
-                                                  summaryCart,
-                                                  subTotalItem,
-                                                  shoeColor,
-                                                  shoeSize,
-                                                  shoeId,
-                                                  shoeName,
-                                                  shoePrice,
-                                                  shoeImageUrl),
-                                        }),
-                              ),
-                            ],
-                          ),
+                return Row(
+                  children: [
+                    Container(
+                      child: Container(
+                        margin: EdgeInsets.all(16),
+                        height: 83,
+                        width: 83,
+                        // margin: EdgeInsets.symmetric(vertical: 20),
+                        decoration: BoxDecoration(
+                          color: Color(0xFFEBF0FF),
+                          borderRadius: BorderRadius.circular(5),
+                          image: DecorationImage(
+                              image: NetworkImage(cartStateUpdate.data!.listCart[idx].result.shoeImageUrl),
+                              fit: BoxFit.cover),
                         ),
                       ),
-                    ],
-                  ),
-                ),
-              ],
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.58,
+                      margin: EdgeInsets.symmetric(vertical: 16),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.3,
+                                child: RichText(
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  text: TextSpan(
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline3!
+                                          .apply(color: Color(0xFF223263)),
+                                      text: cartStateUpdate.data!.listCart[idx].result.shoeName),
+                                ),
+                              ),
+                              IconButton(
+                                  padding: EdgeInsets.zero,
+                                  constraints: BoxConstraints(),
+                                  icon: Icon(Icons.delete_outline,
+                                      size: 20, color: Color(0xFF9098B1)),
+                                  onPressed: () => {
+                                        context
+                                            .read(cartProvider.notifier)
+                                            .removeShoe(summaryCart, idx),
+                                        setState(() => {}),
+                                      }),
+                            ],
+                          ),
+                          // SizedBox(height: 12),
+                          ListTile(
+                            contentPadding: EdgeInsets.all(0),
+                            title: Container(
+                              child:
+                                  //   Consumer(builder: (context, watch, widget) {
+                                  // var cartStateUpdate = watch(cartProvider);
+                                  //
+                                  // return
+                                  Text(
+                                      "\$${currencyNumber.format(cartStateUpdate.data!.listCart[idx].result.shoePrice)}",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline3!
+                                          .apply(color: Color(0xFF40BFFF)),
+                                      textAlign: TextAlign.start),
+                              // })
+                            ),
+                            trailing: FittedBox(
+                              fit: BoxFit.cover,
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: <Widget>[
+                                  Container(
+                                    height: 25,
+                                    width: 30,
+                                    padding: EdgeInsets.all(0),
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      border:
+                                          Border.all(color: Color(0xFFEBF0FF)),
+                                      borderRadius: new BorderRadius.only(
+                                        topLeft: const Radius.circular(5.0),
+                                        bottomLeft: const Radius.circular(5.0),
+                                      ),
+                                    ),
+                                    child: subTotalItem != 1
+                                        ? IconButton(
+                                            padding: EdgeInsets.zero,
+                                            constraints: BoxConstraints(),
+                                            icon: Icon(Icons.remove,
+                                                size: 15,
+                                                color: Color(0xFF9098B1)),
+                                            onPressed: () => {
+                                                  setState(() => {
+                                                        subTotalItem--,
+                                                      }),
+                                                  context
+                                                      .read(
+                                                          cartProvider.notifier)
+                                                      .updateCartList(
+                                                          summaryCart,
+                                                          subTotalItem,
+                                                          shoeColor,
+                                                          shoeSize,
+                                                          shoeId,
+                                                          shoeName,
+                                                          shoePrice,
+                                                          shoeImageUrl),
+                                                  print("coba: remove"),
+                                                })
+                                        : Icon(Icons.remove,
+                                            size: 15, color: Color(0xFF9098B1)),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.all(0),
+                                    alignment: Alignment.center,
+                                    height: 25,
+                                    width: 30,
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: Color(0xFFEBF0FF)),
+                                        color: Color(0xFFEBF0FF)),
+                                    child: Text(subTotalItem.toString(),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .subtitle2),
+                                  ),
+                                  Container(
+                                    height: 25,
+                                    width: 30,
+                                    padding: EdgeInsets.all(0),
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      border:
+                                          Border.all(color: Color(0xFFEBF0FF)),
+                                      borderRadius: new BorderRadius.only(
+                                        topRight: const Radius.circular(5.0),
+                                        bottomRight: const Radius.circular(5.0),
+                                      ),
+                                    ),
+                                    child: IconButton(
+                                      padding: EdgeInsets.zero,
+                                      constraints: BoxConstraints(),
+                                      icon: Icon(Icons.add,
+                                          size: 15, color: Color(0xFF9098B1)),
+                                      onPressed: () => {
+                                        setState(() => {
+                                              subTotalItem++,
+                                            }),
+                                        context
+                                            .read(cartProvider.notifier)
+                                            .updateCartList(
+                                                summaryCart,
+                                                subTotalItem,
+                                                shoeColor,
+                                                shoeSize,
+                                                shoeId,
+                                                shoeName,
+                                                shoePrice,
+                                                shoeImageUrl),
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                );
+              },
             ),
           )
         : Container();

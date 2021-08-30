@@ -1,5 +1,6 @@
 import 'package:eshop_flutter/core/models/async_state.dart';
 import 'package:eshop_flutter/core/models/shoe.dart';
+import 'package:eshop_flutter/core/providers/currency_number_provider.dart';
 import 'package:eshop_flutter/home/view_model/home_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -97,7 +98,7 @@ class ProductListWidget extends ConsumerWidget {
                                   padding: EdgeInsets.symmetric(vertical: 15),
                                   width: 155,
                                   child: Text(
-                                      "\$${stateSearch.data![index].price}",
+                                      "\$${currencyNumber.format(stateSearch.data![index].price)}",
                                       style: Theme.of(context)
                                           .textTheme
                                           .headline3!

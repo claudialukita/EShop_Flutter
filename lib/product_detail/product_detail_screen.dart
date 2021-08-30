@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ProductDetailScreen extends ConsumerWidget {
-
   @override
   Widget build(BuildContext context, watch) {
     ShoeIdName arg = ModalRoute.of(context)!.settings.arguments as ShoeIdName;
@@ -18,7 +17,9 @@ class ProductDetailScreen extends ConsumerWidget {
     var shoeName = arg.shoeName;
 
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
-      await context.read(productDetailViewModelProvider.notifier).loadData(shoeId);
+      await context
+          .read(productDetailViewModelProvider.notifier)
+          .loadData(shoeId);
     });
 
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
@@ -29,14 +30,14 @@ class ProductDetailScreen extends ConsumerWidget {
       await context.read(sizeViewModelProvider.notifier).selectSize(-1);
     });
 
-
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 78,
         elevation: 0.5,
         backgroundColor: Colors.white,
         leading: IconButton(
-          onPressed: () => Navigator.pushReplacementNamed(context, '/MainTabScreen'),
+          onPressed: () =>
+              Navigator.pushReplacementNamed(context, '/MainTabScreen'),
           icon: Icon(
             Icons.arrow_back_ios,
             color: Color(0xFF9098B1),
@@ -46,15 +47,12 @@ class ProductDetailScreen extends ConsumerWidget {
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           text: TextSpan(
-              style: Theme.of(context)
-                  .textTheme
-                  .headline5,
-              text: shoeName),
+              style: Theme.of(context).textTheme.headline5, text: shoeName),
         ),
         actions: [
           Container(
             padding: EdgeInsets.symmetric(horizontal: 5),
-            child:Icon(Icons.search, color: Color(0xFF9098B1)),
+            child: Icon(Icons.search, color: Color(0xFF9098B1)),
           ),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 5),
@@ -67,8 +65,13 @@ class ProductDetailScreen extends ConsumerWidget {
           children: <Widget>[
             Consumer(builder: (context, watch, child) {
               final _shoeDetail = watch(productDetailViewModelProvider);
-              return (_shoeDetail is Success) ? CarouselSliderDetailWidget(_shoeDetail.data!.imageUrls)
-              : CircularProgressIndicator();
+              return (_shoeDetail is Success)
+                  ? CarouselSliderDetailWidget(_shoeDetail.data!.imageUrls)
+                  : Container(
+                      height: MediaQuery.of(context).size.height * 0.8,
+                      alignment: Alignment.center,
+                      child: CircularProgressIndicator(),
+                    );
             }),
             ProductDetailWidget(),
           ],
