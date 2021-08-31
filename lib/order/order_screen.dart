@@ -3,6 +3,7 @@ import 'package:eshop_flutter/order/order_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 
 class OrderScreen extends StatelessWidget {
   @override
@@ -12,26 +13,31 @@ class OrderScreen extends StatelessWidget {
     });
     final double _heightScreen = MediaQuery.of(context).size.height;
     final double _widthScreen = MediaQuery.of(context).size.width;
+    final numberFormat = NumberFormat.decimalPattern();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        toolbarHeight: _heightScreen * (78 / _heightScreen),
+        // toolbarHeight: _heightScreen * (78 / _heightScreen),
         title: Container(
+          width: _widthScreen * (59/_widthScreen),
+          alignment: Alignment.centerLeft,
           margin: EdgeInsets.only(
-              left: _widthScreen * (52 / _widthScreen),
+              left: _widthScreen * (30 / _widthScreen),
               top: _heightScreen * (26 / _heightScreen),
-              bottom: _heightScreen * (28 / _heightScreen)),
+              bottom: _heightScreen * (20 / _heightScreen)),
           child: Text(
             "Orders",
             style: TextStyle(
                 fontFamily: 'Poppins',
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
-                color: Colors.black),
+                color: const Color(0xFF223263),
+            ),textAlign: TextAlign.left,
           ),
         ),
         shadowColor: Colors.transparent,
+        automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -67,7 +73,7 @@ class OrderScreen extends StatelessWidget {
                             margin:
                             EdgeInsets.only(top: _heightScreen * (16 / _heightScreen)),
                             decoration: BoxDecoration(
-                                border: Border.all(color: const Color(0xFFEBF0FF), width: 1),
+                                border: Border.all(color: const Color(0xFFEBF0FF), width: 2),
                                 borderRadius: BorderRadius.circular(10)),
                             child: Column(
                               children: [
@@ -81,7 +87,7 @@ class OrderScreen extends StatelessWidget {
                                     style: TextStyle(
                                         fontWeight: FontWeight.w700,
                                         fontFamily: 'Poppins',
-                                        fontSize: 14, color: Colors.black),
+                                        fontSize: 14, color: const Color(0xFF223263)),
                                   ),
                                 ),
                                 Container(
@@ -126,7 +132,7 @@ class OrderScreen extends StatelessWidget {
                                             fontFamily: 'Poppins',
                                             fontWeight: FontWeight.w400,
                                             fontSize: 12,
-                                            color: Colors.black
+                                            color: const Color(0xFF223263)
                                           ),
                                         ),
                                       )
@@ -161,7 +167,7 @@ class OrderScreen extends StatelessWidget {
                                             fontFamily: 'Poppins',
                                             fontWeight: FontWeight.w400,
                                             fontSize: 12,
-                                            color: Colors.black
+                                            color: const Color(0xFF223263)
                                           ),
                                         ),
                                       )
@@ -191,10 +197,10 @@ class OrderScreen extends StatelessWidget {
                                             top: _heightScreen * (12 / _heightScreen),
                                             right: _widthScreen * (16.5 / _widthScreen)),
                                         child: Text(
-                                          r"$" + state.data![index].totalPrice.toStringAsFixed(2),
+                                          r"$" + numberFormat.format(state.data![index].totalPrice),
                                           style: TextStyle(
                                             fontFamily: 'Poppins',
-                                            fontWeight: FontWeight.w400,
+                                            fontWeight: FontWeight.w700,
                                             fontSize: 12,
                                             color: const Color(0xFF40BFFF)
                                           ),
