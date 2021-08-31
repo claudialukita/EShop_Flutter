@@ -36,12 +36,7 @@ class CardDetailScreen extends StatelessWidget{
           ),
         ],
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          CardCarouselWidget(),
-        ],
-      ),
+      body: CardCarouselWidget(),
     );
   }
 

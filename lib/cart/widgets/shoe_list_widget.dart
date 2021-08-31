@@ -151,10 +151,6 @@ class _ListTileItemState extends State<ListTileItem> {
                             contentPadding: EdgeInsets.zero,
                             title: Container(
                               child:
-                                  //   Consumer(builder: (context, watch, widget) {
-                                  // var cartStateUpdate = watch(cartProvider);
-                                  //
-                                  // return
                                   Text(
                                       "\$${currencyNumber.format(cartStateUpdate.data!.listCart[idx].result.shoePrice)}",
                                       style: Theme.of(context)
@@ -205,7 +201,6 @@ class _ListTileItemState extends State<ListTileItem> {
                                                           shoeName,
                                                           shoePrice,
                                                           shoeImageUrl),
-                                                  print("coba: remove"),
                                                 })
                                         : Icon(Icons.remove,
                                             size: 15, color: Color(0xFF9098B1)),

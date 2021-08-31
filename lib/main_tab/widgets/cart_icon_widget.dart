@@ -22,16 +22,19 @@ class CartIconWidget extends ConsumerWidget {
             ),
           ),
         ),
-        (cartList is Success) ? Container(
-          margin:
-              EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.13),
-          width: 20,
-          child: Positioned(
+        (cartList is Success) ?
+        // Container(
+        //   margin:
+        //       EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.13),
+        //   width: 20,
+        //   child:
+          Positioned(
             // left: 11,
             // bottom: 11,
-            right: 20,
-            top: 0,
+            right: 30,
+            top: 5,
             child: new Container(
+              width: 20,
               padding: EdgeInsets.all(2),
               // alignment: Alignment.topCenter,
               decoration: new BoxDecoration(
@@ -51,8 +54,9 @@ class CartIconWidget extends ConsumerWidget {
                 textAlign: TextAlign.center,
               ),
             ),
-          ),
-        ) : Container(),
+          )
+        // )
+            : Container(),
       ],
     );
   }

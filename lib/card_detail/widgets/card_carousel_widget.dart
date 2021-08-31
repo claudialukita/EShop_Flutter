@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:eshop_flutter/card_detail/widgets/card_list_item_widget.dart';
+import 'package:eshop_flutter/core/models/async_state.dart';
 import 'package:eshop_flutter/core/providers/cart_address_provider.dart';
 import 'package:eshop_flutter/core/providers/cart_init_checkout_provider.dart';
 import 'package:eshop_flutter/core/providers/cart_provider.dart';
@@ -30,7 +31,7 @@ class CarouselSliderState extends State {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.85,
+      height: MediaQuery.of(context).size.height * 1,
       padding: EdgeInsets.all(16),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -46,7 +47,7 @@ class CarouselSliderState extends State {
                       });
                     }),
                 items: cardList.map((item) {
-                  return CardListItemWidget(title: item.toString());
+                  return CardListItemWidget();
                 }).toList(),
               ),
               Row(
@@ -89,7 +90,7 @@ class CarouselSliderState extends State {
                 var addressDetail = watch(commitAddressProvider);
                 final stateProfile = watch(profileViewModelProvider);
 
-                return ElevatedButton(
+                return (cartState is Success) ? ElevatedButton(
                   onPressed: () => {
                     context
                         .read(commitCheckoutProvider.notifier)
@@ -111,7 +112,7 @@ class CarouselSliderState extends State {
                   child: Text(
                       'Pay \$${currencyNumber.format(cartState.data!.summary.totalPrice)}',
                       style: Theme.of(context).textTheme.button),
-                );
+                ) : CircularProgressIndicator();
               },
             ),
           ),

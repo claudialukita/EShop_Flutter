@@ -16,23 +16,42 @@ class Profile extends StatelessWidget {
 
     return Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          toolbarHeight: _height * (78 / _height),
-          title: Container(
-              margin: EdgeInsets.only(
-                  top: _height * (26 / _height),
-                  bottom: _height * (28 / _height)),
-              child: Text(
-                "Profile",
-                style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black),
-              )),
+        appBar:
+        AppBar(
+          toolbarHeight: 78,
+          elevation: 0.5,
           backgroundColor: Colors.white,
-          shadowColor: Colors.transparent,
+          titleSpacing: 0,
+          automaticallyImplyLeading: false,
+          title: Container(
+            margin: EdgeInsets.all(20),
+            // height: 45,
+            child: Text(
+              "Profile",
+              style: Theme.of(context)
+                  .textTheme
+                  .headline4!
+                  .apply(color: Color(0xFF223263)),
+            ),
+          ),
         ),
+        // AppBar(
+        //   toolbarHeight: _height * (78 / _height),
+        //   title: Container(
+        //       margin: EdgeInsets.only(
+        //           top: _height * (26 / _height),
+        //           bottom: _height * (28 / _height)),
+        //       child: Text(
+        //         "Profile",
+        //         style: TextStyle(
+        //             fontFamily: 'Poppins',
+        //             fontSize: 16,
+        //             fontWeight: FontWeight.w700,
+        //             color: Colors.black),
+        //       )),
+        //   backgroundColor: Colors.white,
+        //   shadowColor: Colors.transparent,
+        // ),
         body: SingleChildScrollView(
           child: Consumer(builder: (context, watch, child) {
             final state = watch(profileViewModelProvider);

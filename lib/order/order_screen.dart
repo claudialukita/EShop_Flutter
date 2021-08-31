@@ -17,28 +17,46 @@ class OrderScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        toolbarHeight: 78,
+        elevation: 0.5,
         backgroundColor: Colors.white,
-        // toolbarHeight: _heightScreen * (78 / _heightScreen),
+        titleSpacing: 0,
+        automaticallyImplyLeading: false,
         title: Container(
-          width: _widthScreen * (59/_widthScreen),
-          alignment: Alignment.centerLeft,
-          margin: EdgeInsets.only(
-              left: _widthScreen * (30 / _widthScreen),
-              top: _heightScreen * (26 / _heightScreen),
-              bottom: _heightScreen * (20 / _heightScreen)),
+          margin: EdgeInsets.all(20),
+          // height: 45,
           child: Text(
             "Orders",
-            style: TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
-                color: const Color(0xFF223263),
-            ),textAlign: TextAlign.left,
+            style: Theme.of(context)
+                .textTheme
+                .headline4!
+                .apply(color: Color(0xFF223263)),
           ),
         ),
-        shadowColor: Colors.transparent,
-        automaticallyImplyLeading: false,
       ),
+      // AppBar(
+      //   backgroundColor: Colors.white,
+      //   // toolbarHeight: _heightScreen * (78 / _heightScreen),
+      //   title: Container(
+      //     width: _widthScreen * (59/_widthScreen),
+      //     alignment: Alignment.centerLeft,
+      //     margin: EdgeInsets.only(
+      //         left: _widthScreen * (30 / _widthScreen),
+      //         top: _heightScreen * (26 / _heightScreen),
+      //         bottom: _heightScreen * (20 / _heightScreen)),
+      //     child: Text(
+      //       "Orders",
+      //       style: TextStyle(
+      //           fontFamily: 'Poppins',
+      //           fontSize: 16,
+      //           fontWeight: FontWeight.w700,
+      //           color: const Color(0xFF223263),
+      //       ),textAlign: TextAlign.left,
+      //     ),
+      //   ),
+      //   shadowColor: Colors.transparent,
+      //   automaticallyImplyLeading: false,
+      // ),
       body: SingleChildScrollView(
         child: Column(
           children: [

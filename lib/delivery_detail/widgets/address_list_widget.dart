@@ -25,7 +25,9 @@ class AddressListWidget extends StatelessWidget {
 
     initAddressDetail.add(addressDetail);
 
-    return ListView(children: <Widget>[
+    return ListView(
+        shrinkWrap: true,
+        children: <Widget>[
       Column(
         children: [
           Container(
@@ -106,7 +108,7 @@ class _ListTileItemState extends State<ListTileItem> {
 
     return GestureDetector(
       onTap: () => {
-        context.read(selectAddressViewModelProvider.notifier).selectSize(idx),
+        context.read(selectAddressViewModelProvider.notifier).selectAddress(idx),
         // Navigator.pushNamed(context, '/ProductDetailScreen',
         //     arguments:
         //         ShoeIdName(_state.data![index].id, _state.data![index].name))
@@ -181,25 +183,26 @@ class _ListTileItemState extends State<ListTileItem> {
                             style: Theme.of(context).textTheme.button),
                       ),
                     ),
-                    IconButton(
-                      padding: EdgeInsets.symmetric(horizontal: 30),
-                      constraints: BoxConstraints(),
-                      icon: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 5),
-                        width: 17.75,
-                        height: 20,
-                        child: FittedBox(
-                          fit: BoxFit.cover,
-                          child: ImageIcon(
-                            AssetImage("assets/images/trash_icon.png"),
-                            color: Color(0xFF9098B1),
+                    Material (
+                      child: IconButton(
+                        padding: EdgeInsets.symmetric(horizontal: 30),
+                        constraints: BoxConstraints(),
+                        icon: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 5),
+                          width: 17.75,
+                          height: 20,
+                          child: FittedBox(
+                            fit: BoxFit.cover,
+                            child: ImageIcon(
+                              AssetImage("assets/images/trash_icon.png"),
+                              color: Color(0xFF9098B1),
+                            ),
                           ),
                         ),
+                        onPressed: () => {},
                       ),
-                      // Icon(Icons.delete_outline,
-                      //     size: 30, color: Color(0xFF9098B1)),
-                      onPressed: () => {},
                     ),
+
                   ],
                 ),
               ],

@@ -42,7 +42,7 @@ class CarouselSliderState extends State{
                       });
                     }),
                 items: cardList.map((item) {
-                  return ItemCardWidget(title: item.toString());
+                  return ItemCardWidget();
                 }).toList(),
               ),
               Row(
