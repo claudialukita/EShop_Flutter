@@ -1,17 +1,15 @@
+import 'package:eshop_flutter/core/models/async_state.dart';
 import 'package:eshop_flutter/profile/profile_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CardListItemWidget extends ConsumerWidget {
-  final String title;
-
-  const CardListItemWidget({Key? key, required this.title}) : super(key: key);
 
   @override
   Widget build(BuildContext context, watch) {
     var profileDetail = watch(profileViewModelProvider);
-    return Container(
+    return (profileDetail is Success) ? Container(
       width: MediaQuery.of(context).size.width * 0.9,
       height: MediaQuery.of(context).size.height * 0.6,
       padding: EdgeInsets.all(24),
@@ -95,6 +93,6 @@ class CardListItemWidget extends ConsumerWidget {
           ),
         ],
       ),
-    );
+    ) : CircularProgressIndicator();
   }
 }

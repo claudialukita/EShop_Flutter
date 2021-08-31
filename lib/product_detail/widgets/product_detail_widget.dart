@@ -88,6 +88,7 @@ class ProductDetailWidget extends ConsumerWidget {
                                 scrollDirection: Axis.horizontal,
                                 itemCount: shoeDetail.data!.shoeSizes.length,
                                 itemBuilder: (context, indexSize) {
+                                  shoeDetail.data!.shoeSizes.sort();
                                   return Row(
                                     children: [
                                       Container(
@@ -126,7 +127,9 @@ class ProductDetailWidget extends ConsumerWidget {
                                                       colorAvailableViewModelProvider
                                                           .notifier)
                                                   .loadColorAvailable(
-                                                      shoeDetail.data, shoeDetail.data!.shoeSizes[indexSize])
+                                                      shoeDetail.data,
+                                                      shoeDetail.data!
+                                                          .shoeSizes[indexSize])
                                               // print("Cliked size ${i    .data!.shoeSizes[indexSize]ndex}");
                                               // shoeSize = "Cliked size ${index}";
                                             },
@@ -326,14 +329,14 @@ class ProductDetailWidget extends ConsumerWidget {
                                               ? null
                                               : cartList.data!,
                                           shoeDetail.data!,
-                                          colorAvailable
-                                              .data![stateColor],
+                                          colorAvailable.data![stateColor],
                                           shoeDetail.data!.shoeSizes[stateSize],
                                           shoeDetail.data!.name,
                                           shoeDetail.data!.price,
                                           shoeDetail.data!.imageUrls[0]),
                                   Navigator.pushReplacementNamed(
-                                      context, '/SuccessAddWidget', arguments: shoeDetail.data!.name),
+                                      context, '/SuccessAddWidget',
+                                      arguments: shoeDetail.data!.name),
                                 }
                             : () => {},
                         style: stateSize >= 0 && stateColor >= 0

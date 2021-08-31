@@ -1,10 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final colorViewModelProvider = StateNotifierProvider<ColorMovieViewModel, int>(
-        (ref) => ColorMovieViewModel());
+final colorViewModelProvider = StateNotifierProvider<ColorViewModel, int>(
+        (ref) => ColorViewModel());
 
-class ColorMovieViewModel extends StateNotifier<int> {
-  ColorMovieViewModel() : super(-1);
+class ColorViewModel extends StateNotifier<int> {
+  ColorViewModel() : super(-1);
 
   selectColor(int indexColor) async {
     state = indexColor;

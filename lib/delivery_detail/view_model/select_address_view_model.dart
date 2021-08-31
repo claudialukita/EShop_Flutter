@@ -6,7 +6,7 @@ final selectAddressViewModelProvider = StateNotifierProvider<SelectAddressViewMo
 class SelectAddressViewModel extends StateNotifier<int> {
   SelectAddressViewModel() : super(-1);
 
-  selectSize(int indexSize) async {
-    state = indexSize;
+  selectAddress(int indexAddress) async {
+    state = indexAddress;
   }
 }
