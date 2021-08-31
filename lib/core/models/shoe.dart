@@ -83,7 +83,7 @@ class ShoeDetail {
 class Stock {
   String id;
   int size;
-  String color;
+  int color;
   int stock;
   String imageUrl;
 

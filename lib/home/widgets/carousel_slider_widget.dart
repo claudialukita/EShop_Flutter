@@ -52,7 +52,8 @@ class CarouselSliderState extends State{
                     width: 8.0,
                     height: 8.0,
                     margin:
-                    EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                    // EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                    EdgeInsets.only(top: 25, left: 4, right: 4),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
                       color: _currentIndex == index

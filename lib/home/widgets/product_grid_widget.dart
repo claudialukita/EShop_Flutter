@@ -6,9 +6,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
-
-
 
 class ProductGridWidget extends ConsumerWidget {
   @override
@@ -44,7 +41,7 @@ class ProductGridWidget extends ConsumerWidget {
                           Container(
                             height: 155,
                             width: 155,
-                            margin: EdgeInsets.symmetric(vertical: 20),
+                            margin: EdgeInsets.all(16),
                             decoration: BoxDecoration(
                               color: Color(0xFFEBF0FF),
                               borderRadius: BorderRadius.circular(5),
@@ -60,7 +57,6 @@ class ProductGridWidget extends ConsumerWidget {
                           Container(
                             width: 155,
                             child: Text(
-                                // "Nike Air Max 270 React ENG",
                                 _state.data![index].name,
                                 style: Theme.of(context)
                                     .textTheme

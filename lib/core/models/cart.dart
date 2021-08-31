@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class Cart{
   int shoeColor;
   int shoeSize;
@@ -64,6 +66,19 @@ class Summary{
   double totalPrice;
 
   Summary(this.subTotal, this.shippingCost, this.tax, this.totalPrice);
+
+  Summary.fromJson(Map<String, dynamic> json)
+      : subTotal = json['subTotal'],
+        shippingCost = json['shippingCost'],
+        tax = json['tax'],
+        totalPrice = json['totalPrice'];
+
+  Map<String, dynamic> toJson() => {
+    'subTotal': subTotal,
+    'shippingCost': shippingCost,
+    'tax': tax,
+    'totalPrice': totalPrice,
+  };
 }
 
 class SummaryCart {
@@ -71,4 +86,27 @@ class SummaryCart {
   Summary summary;
 
   SummaryCart(this.listCart, this.summary);
+
+  factory SummaryCart.fromJson(dynamic json) {
+    var tagObjsJson = json['listCart'] as List;
+    List<ShoeInCart> _shoeItemOrder = tagObjsJson.map((tagJson) => ShoeInCart.fromJson(tagJson)).toList();
+
+    return SummaryCart(
+        _shoeItemOrder,
+        Summary.fromJson(json['summary'])
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> summary = this.summary.toJson();
+
+    List<Map> listCart =
+    this.listCart.map((i) => i.toJson()).toList();
+
+    return {
+      'listCart': listCart,
+      'summary': summary
+    };
+  }
+
 }

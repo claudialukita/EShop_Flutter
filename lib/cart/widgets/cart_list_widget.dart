@@ -21,7 +21,8 @@ class CartListWidget extends ConsumerWidget {
                   Column(
                     children: [
                       Container(
-                        height: MediaQuery.of(context).size.height * 0.403,
+                        margin: EdgeInsets.symmetric(vertical: 10),
+                        height: MediaQuery.of(context).size.height * 0.32,
                         child: ListView(
                           children: new List.generate(
                             cartState.data!.listCart.length,
@@ -136,14 +137,15 @@ class CartListWidget extends ConsumerWidget {
                         ),
                       ),
                       Container(
+                        width: MediaQuery.of(context).size.width,
+                        margin: EdgeInsets.symmetric(horizontal: 16),
                         decoration: BoxDecoration(
                           boxShadow: [
                             BoxShadow(
                               color: Color(0xFF40BFFF).withOpacity(0.5),
-                              spreadRadius: 3,
+                              spreadRadius: 5,
                               blurRadius: 7,
-                              offset:
-                                  Offset(1, 3), // changes position of shadow
+                              offset: Offset(0, 7), // changes position of shadow
                             ),
                           ],
                         ),

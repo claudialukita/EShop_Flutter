@@ -1,13 +1,16 @@
+import 'package:eshop_flutter/profile/profile_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CardListItemWidget extends StatelessWidget {
+class CardListItemWidget extends ConsumerWidget {
   final String title;
 
   const CardListItemWidget({Key? key, required this.title}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, watch) {
+    var profileDetail = watch(profileViewModelProvider);
     return Container(
       width: MediaQuery.of(context).size.width * 0.9,
       height: MediaQuery.of(context).size.height * 0.6,
@@ -58,11 +61,11 @@ class CardListItemWidget extends StatelessWidget {
                   Column(
                     children: [
                       Container(
-                        child: Text("CAR HOLDER",
+                        child: Text("CARD HOLDER",
                             style: Theme.of(context).textTheme.bodyText2),
                       ),
                       Container(
-                        child: Text("Dominic Ovo",
+                        child: Text(profileDetail.data!.name,
                             style: Theme.of(context)
                                 .textTheme
                                 .headline3!
@@ -74,7 +77,7 @@ class CardListItemWidget extends StatelessWidget {
                   Column(
                     children: [
                       Container(
-                        child: Text("CAR SAVE",
+                        child: Text("CARD SAVE",
                             style: Theme.of(context).textTheme.bodyText2),
                       ),
                       Container(

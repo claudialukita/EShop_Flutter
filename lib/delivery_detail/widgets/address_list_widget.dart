@@ -29,7 +29,8 @@ class AddressListWidget extends StatelessWidget {
       Column(
         children: [
           Container(
-            height: MediaQuery.of(context).size.height * 0.71,
+            margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            height: MediaQuery.of(context).size.height * 0.65,
             child: ListView(
               children: new List.generate(
                 2,
@@ -41,21 +42,24 @@ class AddressListWidget extends StatelessWidget {
             ),
           ),
           Container(
-            margin: EdgeInsets.all(16),
+            width: MediaQuery.of(context).size.width,
+            // margin: EdgeInsets.symmetric(horizontal: 16),
+            margin: EdgeInsets.symmetric(vertical: 20,horizontal: 16),
             decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
-                  color: Color(0xFF40BFFF).withOpacity(0.5),
-                  spreadRadius: 3,
-                  blurRadius: 7,
-                  offset: Offset(1, 3), // changes position of shadow
+                  color: Color(0xFF40BFFF).withOpacity(0.3),
+                  spreadRadius: 7,
+                  blurRadius: 10,
+                  offset: Offset(0, 7),// changes position of shadow
                 ),
               ],
             ),
             child: Consumer(builder: (context, watch, widget) {
               int idxCommitAddress = watch(selectAddressViewModelProvider);
               return ElevatedButton(
-                onPressed: () => {
+                onPressed: idxCommitAddress >= 0
+                    ? () => {
                   Navigator.pushNamed(context, '/CardDetailScreen'),
                   context
                       .read(commitAddressProvider.notifier)
@@ -63,7 +67,7 @@ class AddressListWidget extends StatelessWidget {
                           initAddressDetail[idxCommitAddress].street,
                           initAddressDetail[idxCommitAddress].phoneNumber,
                           initAddressDetail[idxCommitAddress].receiptName)
-                },
+                } : () => {},
                 style: idxCommitAddress >= 0
                     ? Theme.of(context).elevatedButtonTheme.style
                     : ElevatedButton.styleFrom(
@@ -113,7 +117,7 @@ class _ListTileItemState extends State<ListTileItem> {
           var stateAddress = watch(selectAddressViewModelProvider);
           return Container(
             padding: EdgeInsets.all(24),
-            margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            margin: EdgeInsets.symmetric(vertical: 8),
             width: MediaQuery.of(context).size.width *
                 343 /
                 MediaQuery.of(context).size.width,
@@ -163,8 +167,8 @@ class _ListTileItemState extends State<ListTileItem> {
                           BoxShadow(
                             color: Color(0xFF40BFFF).withOpacity(0.5),
                             spreadRadius: 3,
-                            blurRadius: 7,
-                            offset: Offset(1, 3), // changes position of shadow
+                            blurRadius: 10,
+                            offset: Offset(0, 7), // changes position of shadow
                           ),
                         ],
                       ),
@@ -178,10 +182,22 @@ class _ListTileItemState extends State<ListTileItem> {
                       ),
                     ),
                     IconButton(
-                      padding: EdgeInsets.symmetric(horizontal: 25),
+                      padding: EdgeInsets.symmetric(horizontal: 30),
                       constraints: BoxConstraints(),
-                      icon: Icon(Icons.delete_outline,
-                          size: 30, color: Color(0xFF9098B1)),
+                      icon: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 5),
+                        width: 17.75,
+                        height: 20,
+                        child: FittedBox(
+                          fit: BoxFit.cover,
+                          child: ImageIcon(
+                            AssetImage("assets/images/trash_icon.png"),
+                            color: Color(0xFF9098B1),
+                          ),
+                        ),
+                      ),
+                      // Icon(Icons.delete_outline,
+                      //     size: 30, color: Color(0xFF9098B1)),
                       onPressed: () => {},
                     ),
                   ],

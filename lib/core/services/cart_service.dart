@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:eshop_flutter/core/models/cart.dart';
 import 'package:eshop_flutter/core/providers/storage_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -12,6 +15,18 @@ class CartService {
 
   Future setShoeInCart(String listShoeInCart) async {
     await _storageProvider.write(key: 'shoeInCart', value: listShoeInCart);
+  }
+
+  Future resetShoeInCart() async {
+    await _storageProvider.delete(key: 'shoeInCart');
+  }
+
+  Future<SummaryCart> getShoeInCart() async {
+      Map<String, String> allDataInStorage = await _storageProvider.readAll();
+      String? allShoeInCartStr = allDataInStorage['shoeInCart'];
+      SummaryCart allShoeInCart = SummaryCart.fromJson(jsonDecode(allShoeInCartStr!));
+      return allShoeInCart;
+    // await _storageProvider.write(key: 'shoeInCart', value: listShoeInCart);
   }
 
 

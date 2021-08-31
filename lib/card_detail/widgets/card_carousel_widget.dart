@@ -5,6 +5,7 @@ import 'package:eshop_flutter/core/providers/cart_init_checkout_provider.dart';
 import 'package:eshop_flutter/core/providers/cart_provider.dart';
 import 'package:eshop_flutter/core/providers/checkout_provider.dart';
 import 'package:eshop_flutter/core/providers/currency_number_provider.dart';
+import 'package:eshop_flutter/profile/profile_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -68,14 +69,15 @@ class CarouselSliderState extends State {
             ],
           ),
           Container(
-            margin: EdgeInsets.all(16),
+            width: MediaQuery.of(context).size.width,
+            margin: EdgeInsets.symmetric(vertical: 16),
             decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
                   color: Color(0xFF40BFFF).withOpacity(0.5),
-                  spreadRadius: 3,
-                  blurRadius: 7,
-                  offset: Offset(1, 3), // changes position of shadow
+                  spreadRadius: 7,
+                  blurRadius: 10,
+                  offset: Offset(0, 7), // changes position of shadow
                 ),
               ],
             ),
@@ -85,17 +87,29 @@ class CarouselSliderState extends State {
                 var cartState = watch(cartProvider);
                 var initCheckout = watch(cartInitCheckoutProvider);
                 var addressDetail = watch(commitAddressProvider);
+                final stateProfile = watch(profileViewModelProvider);
+
                 return ElevatedButton(
                   onPressed: () => {
                     context
-                        .read(commitCheckoutProvider
-                        .notifier)
-                        .commitCheckout(initCheckout.data!, addressDetail.data!, cartState.data!.summary.totalPrice),
+                        .read(commitCheckoutProvider.notifier)
+                        .commitCheckout(
+                            initCheckout.data!,
+                            addressDetail.data!,
+                            cartState.data!.summary.totalPrice,
+                            stateProfile.data!.limit),
+                    cartState.data!.summary.totalPrice <=
+                        stateProfile.data!.limit
+                        ? context.read(cartProvider.notifier).resetShoeCart() : {},
                     Navigator.pushNamed(context, '/CommitOrderScreen',
-                        arguments: cartState.data!.summary.totalPrice > 1000000 ? "Failed" : "Success")
+                        arguments: cartState.data!.summary.totalPrice <=
+                                stateProfile.data!.limit
+                            ? "Success"
+                            : "Failed")
                   },
                   style: Theme.of(context).elevatedButtonTheme.style,
-                  child: Text('Pay \$${currencyNumber.format(cartState.data!.summary.totalPrice)}',
+                  child: Text(
+                      'Pay \$${currencyNumber.format(cartState.data!.summary.totalPrice)}',
                       style: Theme.of(context).textTheme.button),
                 );
               },

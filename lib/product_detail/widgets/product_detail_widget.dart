@@ -1,6 +1,7 @@
 import 'package:eshop_flutter/core/models/async_state.dart';
 import 'package:eshop_flutter/core/providers/cart_provider.dart';
 import 'package:eshop_flutter/core/providers/currency_number_provider.dart';
+import 'package:eshop_flutter/product_detail/view_model/color_available_view_model.dart';
 import 'package:eshop_flutter/product_detail/view_model/color_state_view_model.dart';
 import 'package:eshop_flutter/product_detail/view_model/product_detail_view_model.dart';
 import 'package:eshop_flutter/product_detail/view_model/size_state_view_model.dart';
@@ -14,6 +15,7 @@ class ProductDetailWidget extends ConsumerWidget {
   Widget build(BuildContext context, ScopedReader watch) {
     var shoeDetail = watch(productDetailViewModelProvider);
     var cartList = watch(cartProvider);
+    var colorAvailable = watch(colorAvailableViewModelProvider);
     return (shoeDetail is Success)
         ? Container(
             padding: EdgeInsets.all(16),
@@ -57,7 +59,8 @@ class ProductDetailWidget extends ConsumerWidget {
                 SizedBox(height: 16),
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: Text("\$${currencyNumber.format(shoeDetail.data!.price)}",
+                  child: Text(
+                      "\$${currencyNumber.format(shoeDetail.data!.price)}",
                       style: Theme.of(context).textTheme.headline6,
                       textAlign: TextAlign.start),
                 ),
@@ -118,7 +121,13 @@ class ProductDetailWidget extends ConsumerWidget {
                                                   .read(sizeViewModelProvider
                                                       .notifier)
                                                   .selectSize(indexSize),
-                                              // print("Cliked size ${index}");
+                                              context
+                                                  .read(
+                                                      colorAvailableViewModelProvider
+                                                          .notifier)
+                                                  .loadColorAvailable(
+                                                      shoeDetail.data, shoeDetail.data!.shoeSizes[indexSize])
+                                              // print("Cliked size ${i    .data!.shoeSizes[indexSize]ndex}");
                                               // shoeSize = "Cliked size ${index}";
                                             },
                                           ),
@@ -156,7 +165,9 @@ class ProductDetailWidget extends ConsumerWidget {
                               child: ListView.builder(
                                 shrinkWrap: true,
                                 scrollDirection: Axis.horizontal,
-                                itemCount: shoeDetail.data!.shoeColors.length,
+                                itemCount: (colorAvailable is Success)
+                                    ? colorAvailable.data!.length
+                                    : shoeDetail.data!.shoeColors.length,
                                 itemBuilder: (context, indexColor) {
                                   return Row(
                                     children: [
@@ -175,8 +186,13 @@ class ProductDetailWidget extends ConsumerWidget {
                                           child: FloatingActionButton(
                                             heroTag: null,
                                             elevation: 0,
-                                            backgroundColor: Color(shoeDetail
-                                                .data!.shoeColors[indexColor]),
+                                            backgroundColor: Color(
+                                                (colorAvailable is Success)
+                                                    ? colorAvailable
+                                                        .data![indexColor]
+                                                    : shoeDetail
+                                                            .data!.shoeColors[
+                                                        indexColor]),
                                             child: stateColor == indexColor
                                                 ? Container(
                                                     width: 16,
@@ -241,8 +257,7 @@ class ProductDetailWidget extends ConsumerWidget {
                                 .textTheme
                                 .bodyText1!
                                 .apply(color: Color(0xFF9098B1)),
-                            text:
-                                shoeDetail.data!.name),
+                            text: shoeDetail.data!.name),
                       ),
                     ),
                   ],
@@ -283,8 +298,7 @@ class ProductDetailWidget extends ConsumerWidget {
                             .textTheme
                             .bodyText1!
                             .apply(color: Color(0xFF9098B1)),
-                        text:
-                            shoeDetail.data!.description),
+                        text: shoeDetail.data!.description),
                   ),
                 ),
                 Consumer(
@@ -296,25 +310,32 @@ class ProductDetailWidget extends ConsumerWidget {
                         boxShadow: [
                           BoxShadow(
                             color: Color(0xFF40BFFF).withOpacity(0.5),
-                            spreadRadius: 3,
-                            blurRadius: 7,
-                            offset: Offset(1, 3),
+                            spreadRadius: 7,
+                            blurRadius: 10,
+                            offset: Offset(0, 7),
                           ),
                         ],
                       ),
                       child: ElevatedButton(
-                        onPressed: () => {
-                          context.read(cartProvider.notifier).addToCartList(
-                              (cartList is Initial) ? null : cartList.data!,
-                              shoeDetail.data!.shoeColors[stateColor],
-                              shoeDetail.data!.shoeSizes[stateSize],
-                              shoeDetail.data!.id,
-                              shoeDetail.data!.name,
-                              shoeDetail.data!.price,
-                              shoeDetail.data!.imageUrls[0]),
-                          Navigator.pushReplacementNamed(
-                              context, '/SuccessAddWidget'),
-                        },
+                        onPressed: stateSize >= 0 && stateColor >= 0
+                            ? () => {
+                                  context
+                                      .read(cartProvider.notifier)
+                                      .addToCartList(
+                                          (cartList is Initial)
+                                              ? null
+                                              : cartList.data!,
+                                          shoeDetail.data!,
+                                          colorAvailable
+                                              .data![stateColor],
+                                          shoeDetail.data!.shoeSizes[stateSize],
+                                          shoeDetail.data!.name,
+                                          shoeDetail.data!.price,
+                                          shoeDetail.data!.imageUrls[0]),
+                                  Navigator.pushReplacementNamed(
+                                      context, '/SuccessAddWidget', arguments: shoeDetail.data!.name),
+                                }
+                            : () => {},
                         style: stateSize >= 0 && stateColor >= 0
                             ? Theme.of(context).elevatedButtonTheme.style
                             : ElevatedButton.styleFrom(

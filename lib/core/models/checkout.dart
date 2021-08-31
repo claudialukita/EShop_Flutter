@@ -1,3 +1,4 @@
+
 class Checkout {
   List<ShoeItems> shoeItemOrder;
   AddressDetail address;
@@ -65,21 +66,66 @@ class ShoeItems {
       };
 }
 
+class ShoeItemsRes {
+  String shoeItemId;
+  int quantity;
+
+  ShoeItemsRes(this.shoeItemId, this.quantity);
+
+  ShoeItemsRes.fromJson(Map<String, dynamic> json)
+      : shoeItemId = json['shoeItemId'],
+        quantity = json['quantity'];
+
+  Map<String, dynamic> toJson() => {
+        'shoeItemId': shoeItemId,
+        'quantity': quantity
+      };
+}
+
 class CheckoutResponse {
   int statusCode;
   String message;
-  Checkout result;
+  CheckoutRes result;
 
   CheckoutResponse(this.statusCode, this.message, this.result);
 
   CheckoutResponse.fromJson(Map<String, dynamic> json)
       : statusCode = json['statusCode'],
         message = json['message'],
-        result = json['result'];
+        result = CheckoutRes.fromJson(json['result']);
 
   Map<String, dynamic> toJson() => {
         'statusCode': statusCode,
         'message': message,
         'result': result,
       };
+}
+
+class CheckoutRes {
+  List<ShoeItemsRes> shoeItemOrder;
+  AddressDetail address;
+
+  CheckoutRes(this.shoeItemOrder, this.address);
+
+  factory CheckoutRes.fromJson(dynamic json) {
+    var tagObjsJson = json['shoeItemOrder'] as List;
+    List<ShoeItemsRes> _shoeItemOrder = tagObjsJson.map((tagJson) => ShoeItemsRes.fromJson(tagJson)).toList();
+
+    return CheckoutRes(
+        _shoeItemOrder,
+        AddressDetail.fromJson(json['address'])
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> address = this.address.toJson();
+
+    List<Map> shoeItemOrder =
+    this.shoeItemOrder.map((i) => i.toJson()).toList();
+
+    return {
+      'shoeItemOrder': shoeItemOrder,
+      'address': address
+    };
+  }
 }

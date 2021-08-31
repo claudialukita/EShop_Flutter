@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:eshop_flutter/core/common/constant.dart';
+import 'package:eshop_flutter/core/models/async_state.dart';
 import 'package:eshop_flutter/core/models/checkout.dart';
 import 'package:eshop_flutter/core/models/shoe.dart';
 import 'package:eshop_flutter/core/providers/dio_provider.dart';
@@ -78,10 +81,13 @@ class ShoeService {
     var response = await _dio.get('${API_URL_SHOE_SERVICE}/shoe/${shoeId}');
     if (response.data.length > 0) {
       for (var shoeStock in response.data['result']['shoeItem']) {
+        var resColor = shoeStock['color'];
+        var newColor = resColor.replaceAll('#', 'FF');
+        int hexColor = int.parse(newColor, radix: 16);
         Stock newStock = new Stock(
           shoeStock['id'],
           shoeStock['size'],
-          shoeStock['color'],
+          hexColor,
           shoeStock['stock'],
           shoeStock['imageUrl'],
         );
@@ -123,20 +129,18 @@ class ShoeService {
     }
   }
 
-  Future<CheckoutResponse> postCheckout(Checkout commCheckout) async {
-    var response = await _dio.post('${API_URL_CHECKOUT_SERVICE}/checkout',
-        data: commCheckout.toJson());
-    if (response.data.length > 0) {
-      var shoeItemOrder = response.data['result']['shoeItemOrder']
-          .map((tagJson) => ShoeItems.fromJson(tagJson))
-          .toList();
-
-      CheckoutResponse checkoutResponse = new CheckoutResponse(
-          response.data['statusCode'], response.data['message'], shoeItemOrder);
-
-      return checkoutResponse;
-    } else {
-      throw Exception('Shoe not found.');
+  Future postCheckout(Checkout commCheckout) async {
+    CheckoutResponse checkoutResponse;
+    try {
+      var response = await _dio.post('${API_URL_CHECKOUT_SERVICE}/checkout',
+          data: jsonEncode(commCheckout));
+      if (response.data['statusCode'] == 200) {
+        return Success(true);
+      } else {
+        throw Exception('Shoe not found.');
+      }
+    } catch (Exception) {
+      throw Exception;
     }
   }
 }

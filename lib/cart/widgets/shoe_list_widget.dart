@@ -1,7 +1,6 @@
 import 'package:eshop_flutter/core/models/cart.dart';
 import 'package:eshop_flutter/core/providers/cart_provider.dart';
 import 'package:eshop_flutter/core/providers/currency_number_provider.dart';
-import 'package:eshop_flutter/main_tab/main_tab_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -67,6 +66,7 @@ class _ListTileItemState extends State<ListTileItem> {
     return (subTotalItem > 0)
         ? Container(
             margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            // padding: EdgeInsets.all(16),
             width: MediaQuery.of(context).size.width *
                 343 /
                 MediaQuery.of(context).size.width,
@@ -86,8 +86,8 @@ class _ListTileItemState extends State<ListTileItem> {
                     Container(
                       child: Container(
                         margin: EdgeInsets.all(16),
-                        height: 83,
-                        width: 83,
+                        height: 90,
+                        width: 90,
                         // margin: EdgeInsets.symmetric(vertical: 20),
                         decoration: BoxDecoration(
                           color: Color(0xFFEBF0FF),
@@ -98,9 +98,10 @@ class _ListTileItemState extends State<ListTileItem> {
                         ),
                       ),
                     ),
+                    // SizedBox(width: 16),
                     Container(
                       width: MediaQuery.of(context).size.width * 0.58,
-                      margin: EdgeInsets.symmetric(vertical: 16),
+                      margin: EdgeInsets.only(right: 16, top: 16),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -124,8 +125,20 @@ class _ListTileItemState extends State<ListTileItem> {
                               IconButton(
                                   padding: EdgeInsets.zero,
                                   constraints: BoxConstraints(),
-                                  icon: Icon(Icons.delete_outline,
-                                      size: 20, color: Color(0xFF9098B1)),
+                                  icon: Container(
+                                    padding: EdgeInsets.symmetric(horizontal: 5),
+                                    width: 17.75,
+                                    height: 20,
+                                    child: FittedBox(
+                                      fit: BoxFit.cover,
+                                      child: ImageIcon(
+                                        AssetImage("assets/images/trash_icon.png"),
+                                        color: Color(0xFF9098B1),
+                                      ),
+                                    ),
+                                  ),
+                                  // Icon(Icons.delete_outline,
+                                  //     size: 20, color: Color(0xFF9098B1)),
                                   onPressed: () => {
                                         context
                                             .read(cartProvider.notifier)
@@ -134,9 +147,8 @@ class _ListTileItemState extends State<ListTileItem> {
                                       }),
                             ],
                           ),
-                          // SizedBox(height: 12),
                           ListTile(
-                            contentPadding: EdgeInsets.all(0),
+                            contentPadding: EdgeInsets.zero,
                             title: Container(
                               child:
                                   //   Consumer(builder: (context, watch, widget) {

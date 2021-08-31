@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/framework.dart';
 class SuccessAddWidget extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
+    var shoeName = ModalRoute.of(context)!.settings.arguments as String;
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 78,
@@ -24,7 +25,7 @@ class SuccessAddWidget extends StatelessWidget{
               style: Theme.of(context)
                   .textTheme
                   .headline5,
-              text: "Nike Air Max 270 React ENG Nike Air Max 270 React ENG"),
+              text: shoeName),
         ),
         actions: [
           Container(
@@ -75,9 +76,9 @@ class SuccessAddWidget extends StatelessWidget{
                 boxShadow: [
                   BoxShadow(
                     color: Color(0xFF40BFFF).withOpacity(0.5),
-                    spreadRadius: 3,
-                    blurRadius: 7,
-                    offset: Offset(1, 3), // changes position of shadow
+                    spreadRadius: 7,
+                    blurRadius: 10,
+                    offset: Offset(0, 7), // changes position of shadow
                   ),
                 ],
               ),

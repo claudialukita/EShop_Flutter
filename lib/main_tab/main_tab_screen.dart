@@ -1,4 +1,5 @@
 import 'package:eshop_flutter/cart/cart_screen.dart';
+import 'package:eshop_flutter/core/providers/cart_provider.dart';
 import 'package:eshop_flutter/home/home_screen.dart';
 import 'package:eshop_flutter/main_tab/main_tab_view_model.dart';
 import 'package:eshop_flutter/main_tab/widgets/cart_icon_widget.dart';
@@ -26,6 +27,9 @@ class MainTabScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
+      await context.read(cartProvider.notifier).getCartList();
+    });
     final _index = watch(mainTabViewModelProvider);
     return Scaffold(
         body: getScreen(_index),
