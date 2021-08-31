@@ -25,9 +25,6 @@ class CartService {
       Map<String, String> allDataInStorage = await _storageProvider.readAll();
       String? allShoeInCartStr = allDataInStorage['shoeInCart'];
       SummaryCart allShoeInCart = SummaryCart.fromJson(jsonDecode(allShoeInCartStr!));
-      print("open: cart");
-      print(allShoeInCart.toJson());
-      print("close: cart");
       return allShoeInCart;
     // await _storageProvider.write(key: 'shoeInCart', value: listShoeInCart);
   }

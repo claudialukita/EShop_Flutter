@@ -69,14 +69,15 @@ class CarouselSliderState extends State {
             ],
           ),
           Container(
-            margin: EdgeInsets.all(16),
+            width: MediaQuery.of(context).size.width,
+            margin: EdgeInsets.symmetric(vertical: 16),
             decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
                   color: Color(0xFF40BFFF).withOpacity(0.5),
-                  spreadRadius: 3,
-                  blurRadius: 7,
-                  offset: Offset(1, 3), // changes position of shadow
+                  spreadRadius: 7,
+                  blurRadius: 10,
+                  offset: Offset(0, 7), // changes position of shadow
                 ),
               ],
             ),
@@ -97,10 +98,14 @@ class CarouselSliderState extends State {
                             addressDetail.data!,
                             cartState.data!.summary.totalPrice,
                             stateProfile.data!.limit),
+                    cartState.data!.summary.totalPrice <=
+                        stateProfile.data!.limit
+                        ? context.read(cartProvider.notifier).resetShoeCart() : {},
                     Navigator.pushNamed(context, '/CommitOrderScreen',
-                        arguments: cartState.data!.summary.totalPrice > 1000000
-                            ? "Failed"
-                            : "Success")
+                        arguments: cartState.data!.summary.totalPrice <=
+                                stateProfile.data!.limit
+                            ? "Success"
+                            : "Failed")
                   },
                   style: Theme.of(context).elevatedButtonTheme.style,
                   child: Text(

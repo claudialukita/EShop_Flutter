@@ -2,10 +2,9 @@ import 'dart:convert';
 
 import 'package:eshop_flutter/core/models/async_state.dart';
 import 'package:eshop_flutter/core/models/cart.dart';
-import 'package:eshop_flutter/core/providers/storage_provider.dart';
+import 'package:eshop_flutter/core/models/shoe.dart';
 import 'package:eshop_flutter/core/services/cart_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 final cartProvider =
     StateNotifierProvider<CartProvider, AsyncState<SummaryCart>>(
@@ -22,9 +21,9 @@ class CartProvider extends StateNotifier<AsyncState<SummaryCart>> {
 
   addToCartList(
       SummaryCart? listCart,
+      ShoeDetail? shoeDetail,
       int shoeColor,
       int shoeSize,
-      String shoeId,
       String shoeName,
       double shoePrice,
       String shoeImageUrl) async {
@@ -43,12 +42,16 @@ class CartProvider extends StateNotifier<AsyncState<SummaryCart>> {
       double totalPrice = 0;
       double allShoePrice = 0;
 
+      int indexOfShoeId = shoeDetail!.shoeItem.indexWhere((element) =>
+          (element.color == shoeColor) && (element.size == shoeSize));
+
       if (listCart == null) {
         listShoeInCart = [];
         Cart inCart = new Cart(
-            shoeColor, shoeSize, shoeName, shoePrice, shoeImageUrl, totalShoe);
+            shoeColor, shoeSize, shoeName, shoePrice, shoeDetail.shoeItem[indexOfShoeId].imageUrl, totalShoe);
 
-        shoeInCart = new ShoeInCart(shoeId, inCart);
+        shoeInCart =
+            new ShoeInCart(shoeDetail.shoeItem[indexOfShoeId].id, inCart);
         listShoeInCart.add(shoeInCart);
 
         shippingCost = 40;
@@ -63,8 +66,8 @@ class CartProvider extends StateNotifier<AsyncState<SummaryCart>> {
         state = Success(summaryCart);
       } else {
         listShoeInCart = listCart.listCart;
-        indexOfShoe =
-            listShoeInCart.indexWhere((element) => element.shoeId == shoeId);
+        indexOfShoe = listShoeInCart.indexWhere((element) =>
+            element.shoeId == shoeDetail.shoeItem[indexOfShoeId].id);
         if (indexOfShoe >= 0) {
           int updateQty = listShoeInCart[indexOfShoe].result.totalShoe + 1;
           double updateShoePrice =
@@ -74,9 +77,9 @@ class CartProvider extends StateNotifier<AsyncState<SummaryCart>> {
           // listShoeInCart.removeAt(indexOfShoe);
 
           Cart inCart = new Cart(shoeColor, shoeSize, shoeName, updateShoePrice,
-              shoeImageUrl, updateQty);
+              shoeDetail.shoeItem[indexOfShoeId].imageUrl, updateQty);
 
-          shoeInCart = new ShoeInCart(shoeId, inCart);
+          shoeInCart = new ShoeInCart(shoeDetail.shoeItem[indexOfShoeId].id, inCart);
 
           // listShoeInCart.add(shoeInCart);
           listShoeInCart[indexOfShoe] = shoeInCart;
@@ -96,9 +99,9 @@ class CartProvider extends StateNotifier<AsyncState<SummaryCart>> {
           state = Success(summaryCart);
         } else {
           Cart inCart = new Cart(shoeColor, shoeSize, shoeName, shoePrice,
-              shoeImageUrl, totalShoe);
+              shoeDetail.shoeItem[indexOfShoeId].imageUrl, totalShoe);
 
-          shoeInCart = new ShoeInCart(shoeId, inCart);
+          shoeInCart = new ShoeInCart(shoeDetail.shoeItem[indexOfShoeId].id, inCart);
           listShoeInCart.add(shoeInCart);
 
           for (var itemShoePrice in listShoeInCart) {
@@ -144,6 +147,11 @@ class CartProvider extends StateNotifier<AsyncState<SummaryCart>> {
       double totalPrice = 0;
       double allShoePrice = 0;
 
+      SummaryCart allShoeInCart = await _cartService.getShoeInCart();
+
+      int indexOfShoeId = allShoeInCart.listCart.indexWhere((element) =>
+      (element.result.shoeColor == shoeColor) && (element.result.shoeSize == shoeSize));
+
       if (listCart == null) {
         listShoeInCart = [];
         Cart inCart = new Cart(
@@ -164,7 +172,7 @@ class CartProvider extends StateNotifier<AsyncState<SummaryCart>> {
       } else {
         listShoeInCart = listCart.listCart;
         indexOfShoe =
-            listShoeInCart.indexWhere((element) => element.shoeId == shoeId);
+            listShoeInCart.indexWhere((element) => element.shoeId == allShoeInCart.listCart[indexOfShoeId].shoeId);
         if (indexOfShoe >= 0) {
           double updateShoePrice =
               (listShoeInCart[indexOfShoe].result.shoePrice /
@@ -175,7 +183,7 @@ class CartProvider extends StateNotifier<AsyncState<SummaryCart>> {
           Cart inCart = new Cart(shoeColor, shoeSize, shoeName, updateShoePrice,
               shoeImageUrl, qty);
 
-          shoeInCart = new ShoeInCart(shoeId, inCart);
+          shoeInCart = new ShoeInCart(allShoeInCart.listCart[indexOfShoeId].shoeId, inCart);
 
           // listShoeInCart.add(shoeInCart);
           listShoeInCart[indexOfShoe] = shoeInCart;
@@ -197,7 +205,7 @@ class CartProvider extends StateNotifier<AsyncState<SummaryCart>> {
           Cart inCart = new Cart(
               shoeColor, shoeSize, shoeName, shoePrice, shoeImageUrl, qty);
 
-          shoeInCart = new ShoeInCart(shoeId, inCart);
+          shoeInCart = new ShoeInCart(allShoeInCart.listCart[indexOfShoeId].shoeId, inCart);
           listShoeInCart.add(shoeInCart);
 
           for (var itemShoePrice in listShoeInCart) {
@@ -259,5 +267,10 @@ class CartProvider extends StateNotifier<AsyncState<SummaryCart>> {
     } catch (exception) {
       state = Error('Something went wrong', state.data);
     }
+  }
+
+  resetShoeCart() async {
+    await _cartService.resetShoeInCart();
+    state = Initial(null);
   }
 }

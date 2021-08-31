@@ -13,17 +13,18 @@ class ProductListWidget extends ConsumerWidget {
     var stateSearch = watch(shoeGridViewModelProvider);
     return (stateSearch is Success)
         ? Container(
-            margin: EdgeInsets.all(16),
+            margin: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+            // color: Colors.black,
             child: Column(
               children: [
                 Container(
+                  margin: EdgeInsets.only(left: 8),
                   alignment: Alignment.centerLeft,
                   child: Text("${stateSearch.data!.length} Result",
                       style: Theme.of(context).textTheme.subtitle2),
                 ),
                 SizedBox(height: 16),
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: 5),
                   height: MediaQuery.of(context).size.height * 0.75,
                   child: GridView.count(
                     crossAxisCount: 2,
@@ -43,7 +44,8 @@ class ProductListWidget extends ConsumerWidget {
                                     stateSearch.data![index].name))
                           },
                           child: Container(
-                            margin: EdgeInsets.all(5),
+                            margin: EdgeInsets.all(8),
+                            padding: EdgeInsets.all(16),
                             decoration: BoxDecoration(
                               border: Border.all(color: Color(0xFFEBF0FF)),
                               borderRadius: BorderRadius.circular(5),
@@ -53,7 +55,7 @@ class ProductListWidget extends ConsumerWidget {
                                 Container(
                                   height: 155,
                                   width: 155,
-                                  margin: EdgeInsets.symmetric(vertical: 10),
+                                  // margin: EdgeInsets.symmetric(vertical: 10),
                                   decoration: BoxDecoration(
                                       color: Color(0xFFEBF0FF),
                                       borderRadius: BorderRadius.circular(5),
@@ -62,6 +64,7 @@ class ProductListWidget extends ConsumerWidget {
                                               .data![index].imageUrls[0]),
                                           fit: BoxFit.cover)),
                                 ),
+                                SizedBox(height: 16),
                                 Container(
                                   width: 155,
                                   child: Text(stateSearch.data![index].name,
@@ -94,8 +97,9 @@ class ProductListWidget extends ConsumerWidget {
                                     },
                                   ),
                                 ),
+                                SizedBox(height: 16),
                                 Container(
-                                  padding: EdgeInsets.symmetric(vertical: 15),
+                                  // padding: EdgeInsets.symmetric(vertical: 15),
                                   width: 155,
                                   child: Text(
                                       "\$${currencyNumber.format(stateSearch.data![index].price)}",
