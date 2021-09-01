@@ -30,7 +30,7 @@ class OrderDetail extends StatelessWidget {
         backgroundColor: Colors.white,
         toolbarHeight: _heightScreen * (78 / _heightScreen),
         title: Container(
-          width: _widthScreen * (114/_widthScreen),
+          width: _widthScreen * (114 / _widthScreen),
           alignment: Alignment.centerLeft,
           margin: EdgeInsets.only(
               top: _heightScreen * (26 / _heightScreen),
@@ -216,7 +216,7 @@ class OrderDetail extends StatelessWidget {
                         decoration: BoxDecoration(
                             border: Border.all(
                                 color: const Color(0xFFEBF0FF), width: 2),
-                            borderRadius: BorderRadius.circular(10)),
+                            borderRadius: BorderRadius.circular(5)),
                         child: Row(
                           children: [
                             Container(
@@ -231,45 +231,41 @@ class OrderDetail extends StatelessWidget {
                               ),
                               // Image.asset("assets/images/shoes.png"),
                             ),
-                            Column(
-                              children: [
-                                Container(
-                                  // color: Colors.red,
-                                  alignment: Alignment.centerLeft,
-                                  width: _widthScreen * (90/ _widthScreen),
-                                  height: _heightScreen * (36 / _heightScreen),
-                                  margin: EdgeInsets.only(
-                                      top: _heightScreen * (16 / _heightScreen),
-                                      left: _widthScreen * (12 / _widthScreen)),
-                                  child: AutoSizeText(
-                                    state.data!.shoes[index].nama,
-                                    maxLines: 2,
-                                    style: TextStyle(
-                                        fontFamily: 'Poppins',
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 12,
-                                        color: const Color(0xFF223263)),
-                                  ),
-                                ),
-                                SizedBox(height: 5,),
-                                Container(
-                                  // width: _widthScreen * (52 / _widthScreen),
-                                  // alignment: Alignment.centerLeft,
-                                  margin: EdgeInsets.only(
-                                      top: _heightScreen * (12 / _heightScreen),),
-                                  child: Text(
-                                    r"$" +
-                                        numberFormat.format(state.data!.shoes[index].price),
-                                    style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w700,
-                                      color: const Color(0xFF40BFFF),
+                            Container(
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 16),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    child: AutoSizeText(
+                                      state.data!.shoes[index].nama,
+                                      maxLines: 2,
+                                      style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 12,
+                                          color: const Color(0xFF223263)),
                                     ),
-                                    textAlign: TextAlign.left,
                                   ),
-                                )
-                              ],
+                                  Container(
+                                    padding: EdgeInsets.only(left: 10),
+                                    child: Text(
+                                      r"$" +
+                                          numberFormat.format(
+                                              state.data!.shoes[index].price),
+                                      style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w700,
+                                        color: const Color(0xFF40BFFF),
+                                      ),
+                                      textAlign: TextAlign.left,
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           ],
                         ),
@@ -295,19 +291,21 @@ class OrderDetail extends StatelessWidget {
               Container(
                 width: _widthScreen,
                 height: _heightScreen * (179 / _heightScreen),
-                margin: EdgeInsets.symmetric(horizontal: _widthScreen * (16/_widthScreen)),
+                margin: EdgeInsets.symmetric(
+                    horizontal: _widthScreen * (16 / _widthScreen)),
                 decoration: BoxDecoration(
                     border:
                         Border.all(color: const Color(0xFFEBF0FF), width: 2),
-                    borderRadius: BorderRadius.circular(10)),
+                    borderRadius: BorderRadius.circular(5)),
                 child: Column(
                   children: [
                     Row(
                       children: [
                         Container(
                           margin: EdgeInsets.only(
-                              top: _heightScreen * (16 / _heightScreen),
-                              left: _widthScreen * (16 / _widthScreen),),
+                            top: _heightScreen * (16 / _heightScreen),
+                            left: _widthScreen * (16 / _widthScreen),
+                          ),
                           child: Text(
                             "Date Shipping",
                             style: TextStyle(
@@ -318,7 +316,7 @@ class OrderDetail extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          width: _widthScreen * (250/_widthScreen),
+                          width: _widthScreen * (250 / _widthScreen),
                           alignment: Alignment.centerRight,
                           margin: EdgeInsets.only(
                             top: _heightScreen * (16 / _heightScreen),
@@ -338,8 +336,9 @@ class OrderDetail extends StatelessWidget {
                       children: [
                         Container(
                           margin: EdgeInsets.only(
-                              top: _heightScreen * (16 / _heightScreen),
-                              left: _widthScreen * (16 / _widthScreen),),
+                            top: _heightScreen * (16 / _heightScreen),
+                            left: _widthScreen * (16 / _widthScreen),
+                          ),
                           child: Text(
                             "Shipping",
                             style: TextStyle(
@@ -350,7 +349,7 @@ class OrderDetail extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          width: _widthScreen * (280/_widthScreen),
+                          width: _widthScreen * (280 / _widthScreen),
                           alignment: Alignment.centerRight,
                           margin: EdgeInsets.only(
                             top: _heightScreen * (16 / _heightScreen),
@@ -382,7 +381,7 @@ class OrderDetail extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          width: _widthScreen * (286/_widthScreen),
+                          width: _widthScreen * (286 / _widthScreen),
                           alignment: Alignment.centerRight,
                           margin: EdgeInsets.only(
                             top: _heightScreen * (16 / _heightScreen),
@@ -398,42 +397,45 @@ class OrderDetail extends StatelessWidget {
                         )
                       ],
                     ),
-                    Row(
-                      children: [
-                        Container(
-                          width: _widthScreen * (52/_widthScreen),
-                          height: _heightScreen *(22/_heightScreen),
-                          margin: EdgeInsets.only(
-                              left: _widthScreen * (16 / _widthScreen)),
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            "Address",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 12,
-                                fontFamily: 'Poppins',
-                                color: Colors.grey),
+                    Container(
+                      margin: EdgeInsets.only(top: 12),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: _widthScreen * (52 / _widthScreen),
+                            height: _heightScreen * (44 / _heightScreen),
+                            margin: EdgeInsets.only(
+                                left: _widthScreen * (16 / _widthScreen)),
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              "Address",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 12,
+                                  fontFamily: 'Poppins',
+                                  color: Colors.grey),
+                            ),
                           ),
-                        ),
-                        Container(
-                          width: _widthScreen * (280 / _widthScreen),
-                          height: _heightScreen * (44 / _heightScreen),
-                          alignment: Alignment.topRight,
-                          margin: EdgeInsets.only(
-                            top: _heightScreen * (16 / _heightScreen),
-                          ),
-                          child: AutoSizeText(
-                            state.data!.address,
-                            maxLines: 2,
-                            style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 12,
-                                fontFamily: 'Poppins',
-                                color: const Color(0xFF223263)),
-                            textAlign: TextAlign.right,
-                          ),
-                        )
-                      ],
+                          Container(
+                            width: _widthScreen * (280 / _widthScreen),
+                            height: _heightScreen * (44 / _heightScreen),
+                            alignment: Alignment.topRight,
+                            // margin: EdgeInsets.only(
+                            //   top: _heightScreen * (16 / _heightScreen),
+                            // ),
+                            child: AutoSizeText(
+                              state.data!.address,
+                              maxLines: 2,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 12,
+                                  fontFamily: 'Poppins',
+                                  color: const Color(0xFF223263)),
+                              textAlign: TextAlign.right,
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -457,9 +459,12 @@ class OrderDetail extends StatelessWidget {
               Container(
                 width: _widthScreen,
                 height: _heightScreen * (164 / _heightScreen),
-                margin: EdgeInsets.only(bottom: _heightScreen * (21/_heightScreen), left: _widthScreen * (16/_widthScreen), right: _widthScreen * (16/_widthScreen)),
+                margin: EdgeInsets.only(
+                    bottom: _heightScreen * (21 / _heightScreen),
+                    left: _widthScreen * (16 / _widthScreen),
+                    right: _widthScreen * (16 / _widthScreen)),
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(5),
                     border:
                         Border.all(color: const Color(0xFFEBF0FF), width: 2)),
                 child: Column(
@@ -468,11 +473,11 @@ class OrderDetail extends StatelessWidget {
                       children: [
                         Container(
                           margin: EdgeInsets.only(
-                              top: _heightScreen * (16 / _heightScreen),
-                              left: _widthScreen * (16 / _widthScreen),
-                              ),
+                            top: _heightScreen * (16 / _heightScreen),
+                            left: _widthScreen * (16 / _widthScreen),
+                          ),
                           child: Text(
-                            "Items ("+ state.data!.totalItem.toString() +")",
+                            "Items (" + state.data!.totalItem.toString() + ")",
                             style: TextStyle(
                                 fontWeight: FontWeight.w400,
                                 fontSize: 12,
@@ -481,13 +486,15 @@ class OrderDetail extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          width: _widthScreen *(280/_widthScreen),
+                          width: _widthScreen * (280 / _widthScreen),
                           alignment: Alignment.centerRight,
                           margin: EdgeInsets.only(
                             top: _heightScreen * (16 / _heightScreen),
                           ),
                           child: Text(
-                            r"$" + numberFormat.format(state.data!.totalItemPrices),
+                            r"$" +
+                                numberFormat
+                                    .format(state.data!.totalItemPrices),
                             style: TextStyle(
                                 fontWeight: FontWeight.w400,
                                 fontSize: 12,
@@ -501,8 +508,9 @@ class OrderDetail extends StatelessWidget {
                       children: [
                         Container(
                           margin: EdgeInsets.only(
-                              top: _heightScreen * (16 / _heightScreen),
-                              left: _widthScreen * (16 / _widthScreen),),
+                            top: _heightScreen * (16 / _heightScreen),
+                            left: _widthScreen * (16 / _widthScreen),
+                          ),
                           child: Text(
                             "Shipping",
                             style: TextStyle(
@@ -513,13 +521,14 @@ class OrderDetail extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          width: _widthScreen *(281/_widthScreen),
+                          width: _widthScreen * (281 / _widthScreen),
                           alignment: Alignment.centerRight,
                           margin: EdgeInsets.only(
                             top: _heightScreen * (16 / _heightScreen),
                           ),
                           child: Text(
-                            r"$" + numberFormat.format(state.data!.shippingPrice),
+                            r"$" +
+                                numberFormat.format(state.data!.shippingPrice),
                             style: TextStyle(
                                 fontWeight: FontWeight.w400,
                                 fontSize: 12,
@@ -545,7 +554,7 @@ class OrderDetail extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          width: _widthScreen *(313/_widthScreen),
+                          width: _widthScreen * (313 / _widthScreen),
                           alignment: Alignment.centerRight,
                           margin: EdgeInsets.only(
                             top: _heightScreen * (16 / _heightScreen),
@@ -591,7 +600,7 @@ class OrderDetail extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          width: _widthScreen *(270/_widthScreen),
+                          width: _widthScreen * (270 / _widthScreen),
                           alignment: Alignment.centerRight,
                           margin: EdgeInsets.only(
                             top: _heightScreen * (16 / _heightScreen),
@@ -612,45 +621,47 @@ class OrderDetail extends StatelessWidget {
               ),
               Visibility(
                 visible: state.data!.status == "Shipping",
-                  child: Container(
-                    width: _widthScreen * (343 / _widthScreen),
-                    height: _heightScreen * (57 / _heightScreen),
-                    margin: EdgeInsets.only(
-                        left: _widthScreen * (16 / _widthScreen),
-                        right: _widthScreen * (16 / _widthScreen),
-                        bottom: _heightScreen * (50 / _heightScreen)),
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: const Color(0xFF40BFFF).withOpacity(0.5),
-                          spreadRadius: 7,
-                          blurRadius: 10,
-                          offset: Offset(0, 7), // changes position of shadow
-                        ),
-                      ],
-                    ),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        primary: const Color(0xFF40BFFF),
-                        shadowColor: const Color(0xFF40BFFF),
+                child: Container(
+                  width: _widthScreen * (343 / _widthScreen),
+                  height: _heightScreen * (57 / _heightScreen),
+                  margin: EdgeInsets.only(
+                      left: _widthScreen * (16 / _widthScreen),
+                      right: _widthScreen * (16 / _widthScreen),
+                      bottom: _heightScreen * (50 / _heightScreen)),
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color(0xFF40BFFF).withOpacity(0.5),
+                        spreadRadius: 7,
+                        blurRadius: 10,
+                        offset: Offset(0, 7), // changes position of shadow
                       ),
-                      onPressed: () {
+                    ],
+                  ),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: const Color(0xFF40BFFF),
+                      shadowColor: const Color(0xFF40BFFF),
+                    ),
+                    onPressed: () {
                       context
-                          .read(orderDetailViewModelProvider.notifier).finishOrder(state.data!.id);
+                          .read(orderDetailViewModelProvider.notifier)
+                          .finishOrder(state.data!.id);
                       // final finish = watch(orderDetailViewModelProvider);
                       context
-                          .read(orderDetailViewModelProvider.notifier).loadData(orderList.id);
-                      },
-                      child: Text(
-                        "Finish Order",
-                        style: TextStyle(
-                            fontFamily: "Poppins",
-                            fontSize: 14,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.white),
-                      ),
+                          .read(orderDetailViewModelProvider.notifier)
+                          .loadData(orderList.id);
+                    },
+                    child: Text(
+                      "Finish Order",
+                      style: TextStyle(
+                          fontFamily: "Poppins",
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white),
                     ),
                   ),
+                ),
               ),
             ],
           );

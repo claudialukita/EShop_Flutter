@@ -82,14 +82,6 @@ class HomeScreenState extends State {
                   width: 30,
                   height: 30,
                   child: NotifIconWidget(),
-
-                  // FittedBox(
-                  //   fit: BoxFit.cover,
-                  //   child: ImageIcon(
-                  //     AssetImage("assets/images/notif_icon.png"),
-                  //     color: Color(0xFF9098B1),
-                  //   ),
-                  // ),
                 ),
               ],
             ),
