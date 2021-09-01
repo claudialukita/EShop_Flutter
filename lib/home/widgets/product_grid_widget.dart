@@ -12,8 +12,10 @@ class ProductGridWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final _state = watch(shoeGridViewModelProvider);
-    return (_state is Error) ? AlertDialogs():
-     (_state is Success)
+    return
+      (_state is Error)
+        ? AlertDialogs() :
+        (_state is Success)
         ? Container(
             margin: EdgeInsets.symmetric(horizontal: 12),
             height: MediaQuery.of(context).size.height * 0.33,
