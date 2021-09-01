@@ -1,9 +1,12 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:eshop_flutter/card_detail/view_model/cart_view_model.dart';
 import 'package:eshop_flutter/card_detail/widgets/card_list_item_widget.dart';
-import 'package:eshop_flutter/cart/view_model/checkout_view_model.dart';
-import 'package:eshop_flutter/cart/view_model/summary_view_model.dart';
-import 'package:eshop_flutter/delivery_detail/view_model/commit_addres_view_model.dart';
+import 'package:eshop_flutter/core/models/async_state.dart';
+import 'package:eshop_flutter/core/providers/cart_address_provider.dart';
+import 'package:eshop_flutter/core/providers/cart_init_checkout_provider.dart';
+import 'package:eshop_flutter/core/providers/cart_provider.dart';
+import 'package:eshop_flutter/core/providers/checkout_provider.dart';
+import 'package:eshop_flutter/core/providers/currency_number_provider.dart';
+import 'package:eshop_flutter/profile/profile_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -28,7 +31,7 @@ class CarouselSliderState extends State {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.85,
+      height: MediaQuery.of(context).size.height * 1,
       padding: EdgeInsets.all(16),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -37,12 +40,6 @@ class CarouselSliderState extends State {
             children: [
               CarouselSlider(
                 options: CarouselOptions(
-                    // autoPlay: true,
-                    // autoPlayInterval: Duration(seconds: 3),
-                    // autoPlayAnimationDuration: Duration(milliseconds: 800),
-                    // autoPlayCurve: Curves.fastOutSlowIn,
-                    // pauseAutoPlayOnTouch: true,
-                    // enlargeCenterPage: true,
                     viewportFraction: 1,
                     onPageChanged: (index, reason) {
                       setState(() {
@@ -50,7 +47,7 @@ class CarouselSliderState extends State {
                       });
                     }),
                 items: cardList.map((item) {
-                  return CardListItemWidget(title: item.toString());
+                  return CardListItemWidget();
                 }).toList(),
               ),
               Row(
@@ -73,35 +70,49 @@ class CarouselSliderState extends State {
             ],
           ),
           Container(
-            margin: EdgeInsets.all(16),
+            width: MediaQuery.of(context).size.width,
+            margin: EdgeInsets.symmetric(vertical: 16),
             decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
                   color: Color(0xFF40BFFF).withOpacity(0.5),
-                  spreadRadius: 3,
-                  blurRadius: 7,
-                  offset: Offset(1, 3), // changes position of shadow
+                  spreadRadius: 7,
+                  blurRadius: 10,
+                  offset: Offset(0, 7), // changes position of shadow
                 ),
               ],
             ),
             child: Consumer(
               builder: (context, watch, child) {
-                var shoeSummary = watch(summaryModelProvider);
-                var initCheckout = watch(checkoutViewModelProvider);
-                var addressDetail = watch(commitAddressViewModelProvider);
-                return ElevatedButton(
+                // var shoeSummary = watch(summaryModelProvider);
+                var cartState = watch(cartProvider);
+                var initCheckout = watch(cartInitCheckoutProvider);
+                var addressDetail = watch(commitAddressProvider);
+                final stateProfile = watch(profileViewModelProvider);
+
+                return (cartState is Success) ? ElevatedButton(
                   onPressed: () => {
                     context
-                        .read(commitCheckoutViewModelProvider
-                        .notifier)
-                        .commitCheckout(initCheckout.data!, addressDetail.data!, shoeSummary.data!.totalPrice),
+                        .read(commitCheckoutProvider.notifier)
+                        .commitCheckout(
+                            initCheckout.data!,
+                            addressDetail.data!,
+                            cartState.data!.summary.totalPrice,
+                            stateProfile.data!.limit),
+                    cartState.data!.summary.totalPrice <=
+                        stateProfile.data!.limit
+                        ? context.read(cartProvider.notifier).resetShoeCart() : {},
                     Navigator.pushNamed(context, '/CommitOrderScreen',
-                        arguments: shoeSummary.data!.totalPrice > 1000000 ? "Failed" : "Success")
+                        arguments: cartState.data!.summary.totalPrice <=
+                                stateProfile.data!.limit
+                            ? "Success"
+                            : "Failed")
                   },
                   style: Theme.of(context).elevatedButtonTheme.style,
-                  child: Text('Pay \$${shoeSummary.data!.totalPrice}',
+                  child: Text(
+                      'Pay \$${currencyNumber.format(cartState.data!.summary.totalPrice)}',
                       style: Theme.of(context).textTheme.button),
-                );
+                ) : CircularProgressIndicator();
               },
             ),
           ),

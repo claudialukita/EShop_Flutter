@@ -1,10 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final sizeViewModelProvider = StateNotifierProvider<SizeMovieViewModel, int>(
-    (ref) => SizeMovieViewModel());
+final sizeViewModelProvider = StateNotifierProvider<SizeViewModel, int>(
+    (ref) => SizeViewModel());
 
-class SizeMovieViewModel extends StateNotifier<int> {
-  SizeMovieViewModel() : super(-1);
+class SizeViewModel extends StateNotifier<int> {
+  SizeViewModel() : super(-1);
 
   selectSize(int indexSize) async {
     state = indexSize;

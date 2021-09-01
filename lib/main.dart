@@ -64,7 +64,7 @@ class MyApp extends StatelessWidget {
                 borderRadius: BorderRadius.circular(5.0),
               ),
               primary: Color(0xFF40BFFF),
-              fixedSize: Size(343, 57),
+              minimumSize: Size(343, 57),
               padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               elevation: 3,
             ),

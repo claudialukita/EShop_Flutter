@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
-import 'package:eshop_flutter/core/common/constrants.dart';
+import 'package:eshop_flutter/core/common/constant.dart';
+import 'package:eshop_flutter/core/models/async_state.dart';
 import 'package:eshop_flutter/core/models/checkout.dart';
 import 'package:eshop_flutter/core/models/shoe.dart';
 import 'package:eshop_flutter/core/providers/dio_provider.dart';
@@ -18,21 +21,18 @@ class ShoeService {
     List<String> newImageUrls = [];
     //GET {{host}}/shoes?name={{name_keyword}}
     var response =
-        await _dio.get('${API_URL_SHOE_SERVICE}/shoes?name=${keyword}');
-    if (response.data.length > 0) {
-      for (var shoeImgListRes in response.data['results']['imageUrls']) {
-        newImageUrls.add(shoeImgListRes);
-      }
-
-      for (var shoeListRes in response.data['results']) {
+        await _dio.get('${API_URL_SHOE_SERVICE}/shoe?name=${keyword}');
+    if (response.data['statusCode'] == 200) {
+      for (var shoeListRes in response.data['result']['result']) {
         ShoeList shoeList = new ShoeList(
           shoeListRes['id'],
           shoeListRes['name'],
           shoeListRes['rating'],
-          shoeListRes['price'],
-          newImageUrls,
+          shoeListRes['price'].toDouble(),
+          shoeListRes['imageUrls'],
         );
         shoes.add(shoeList);
+        newImageUrls.clear();
       }
     }
     return shoes;
@@ -57,38 +57,21 @@ class ShoeService {
     return shoes;
   }
 
-  Future<List<ShoeList>> getAllShoesByKeyword(String keyword) async {
-    List<ShoeList> shoes = [];
-    var response = await _dio.get('${API_URL_SHOE_SERVICE}/shoe/${keyword}');
-
-    if (response.data.length > 0) {
-      for (int i = 0; i < response.data['result']['result'].length; i++) {
-        ShoeList shoeList = new ShoeList(
-          response.data['result']['result'][i]['id'],
-          response.data['result']['result'][i]['name'],
-          response.data['result']['result'][i]['rating'],
-          response.data['result']['result'][i]['price'].toDouble(),
-          response.data['result']['result'][i]['imageUrls'],
-        );
-        shoes.add(shoeList);
-      }
-    }
-    return shoes;
-  }
-
   Future<ShoeDetail> getShoeDetail(String shoeId) async {
     List<int> shoeSizes = [];
     List<int> shoeColors = [];
     List<String> shoeImageUrls = [];
     List<Stock> listStock = [];
-    //GET {{host}}/shoes/{{shoes_id}}
     var response = await _dio.get('${API_URL_SHOE_SERVICE}/shoe/${shoeId}');
     if (response.data.length > 0) {
       for (var shoeStock in response.data['result']['shoeItem']) {
+        var resColor = shoeStock['color'];
+        var newColor = resColor.replaceAll('#', 'FF');
+        int hexColor = int.parse(newColor, radix: 16);
         Stock newStock = new Stock(
           shoeStock['id'],
           shoeStock['size'],
-          shoeStock['color'],
+          hexColor,
           shoeStock['stock'],
           shoeStock['imageUrl'],
         );
@@ -122,6 +105,7 @@ class ShoeService {
         listStock,
         shoeSizes,
         shoeColors,
+        response.data['result']['description'],
       );
       return newShoe;
     } else {
@@ -129,20 +113,18 @@ class ShoeService {
     }
   }
 
-  Future<CheckoutResponse> postCheckout(Checkout commCheckout) async {
-    var response = await _dio.post('${API_URL_CHECKOUT_SERVICE}/checkout',
-        data: commCheckout.toJson());
-    if (response.data.length > 0) {
-      var shoeItemOrder = response.data['result']['shoeItemOrder']
-          .map((tagJson) => ShoeItems.fromJson(tagJson))
-          .toList();
-
-      CheckoutResponse checkoutResponse = new CheckoutResponse(
-          response.data['statusCode'], response.data['message'], shoeItemOrder);
-
-      return checkoutResponse;
-    } else {
-      throw Exception('Shoe not found.');
+  Future postCheckout(Checkout commCheckout) async {
+    CheckoutResponse checkoutResponse;
+    try {
+      var response = await _dio.post('${API_URL_CHECKOUT_SERVICE}/checkout',
+          data: jsonEncode(commCheckout));
+      if (response.data['statusCode'] == 200) {
+        return Success(true);
+      } else {
+        throw Exception('Shoe not found.');
+      }
+    } catch (Exception) {
+      throw Exception;
     }
   }
 }

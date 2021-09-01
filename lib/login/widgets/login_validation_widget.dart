@@ -5,11 +5,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LoginValidationWidget extends StatelessWidget{
+class LoginValidationWidget extends StatefulWidget{
+  @override
+  _LoginValidationWidgetState createState() => _LoginValidationWidgetState();
+}
+
+class _LoginValidationWidgetState extends State<LoginValidationWidget> {
   final _passController = TextEditingController();
+
   final _emailController = TextEditingController();
 
   bool _validatePass = false;
+
   bool _validateEmail = false;
 
   @override
@@ -299,5 +306,4 @@ class LoginValidationWidget extends StatelessWidget{
       ),
     );
   }
-
 }

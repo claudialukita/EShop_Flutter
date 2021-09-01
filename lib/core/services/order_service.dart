@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:eshop_flutter/core/common/constant.dart';
-import 'package:eshop_flutter/core/common/constrants.dart';
+// import 'package:eshop_flutter/core/common/constrants.dart';
 import 'package:eshop_flutter/core/models/order_model.dart';
 import 'package:eshop_flutter/core/providers/dio_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,48 +15,41 @@ class OrderService {
   OrderService(this._dio);
 
   Future<List<OrderList>> getOrders() async {
-    List<OrderList> orders = [];
-    DateFormat formatter = DateFormat.yMMMMd('en_US');
-    var numberFormater = NumberFormat('#,###,000');
+    try {
+      List<OrderList> orders = [];
+      DateFormat formatter = DateFormat.yMMMMd('en_US');
 
-    // GET {{host}}/orders
-    var response = await _dio.get('${API_URL_ORDER}orders');
-    if (response.data.length > 0) {
-      if (response.data['result'].length > 0) {
-        for (var orderListTemp in response.data['result']) {
-          int totalItem = 0;
-          for (var b in orderListTemp['shoeItems']) {
-            totalItem += 1;
+      // GET {{host}}/orders
+      var response = await _dio.get('${API_URL_ORDER}orders');
+      if (response.data.length > 0) {
+        if (response.data['result'].length > 0) {
+          for (var orderListTemp in response.data['result']) {
+            int totalItem = 0;
+            for (var b in orderListTemp['shoeItems']) {
+              totalItem += 1;
+            }
+            var stringList = orderListTemp['orderDate'].toString().split('T');
+            var tanggal = DateTime.parse(stringList[0] + " " + stringList[1]);
+            String orderdate = formatter.format(tanggal);
+            OrderList orderList = new OrderList(
+              orderListTemp['id'],
+              orderListTemp['status'] == 0
+                  ? "Processed"
+                  : orderListTemp['status'] == 1
+                  ? "Shipping"
+                  : "Finished",
+              orderdate,
+              totalItem.toString(),
+              double.parse(orderListTemp['totalItemPrice'].toString()),
+            );
+            orders.add(orderList);
           }
-          var stringList = orderListTemp['orderDate'].toString().split('T');
-          var tanggal = DateTime.parse(stringList[0] + " " + stringList[1]);
-          String orderdate = formatter.format(tanggal);
-          OrderList orderList = new OrderList(
-            orderListTemp['id'],
-            orderListTemp['status'] == 0
-                ? "Processed"
-                : orderListTemp['status'] == 1
-                    ? "Shipping"
-                    : "Finished",
-            orderdate,
-            totalItem.toString(),
-            double.parse(orderListTemp['totalItemPrice'].toString()),
-          );
-          orders.add(orderList);
         }
       }
+      return orders;
+    }catch(e){
+      throw new Exception(e);
     }
-
-    // OrderList order = new OrderList(
-    //     "IDORDER", "Shipping", "August 1, 2017", "2", double.parse("299.43"));
-    // OrderList order1 = new OrderList(
-    //     "IDORDER1", "Processed", "August 2, 2017", "1", double.parse("29.43"));
-    // OrderList order2 = new OrderList(
-    //     "IDORDER2", "Finished", "August 3, 2017", "3", double.parse("99.43"));
-    // orders.add(order);
-    // orders.add(order1);
-    // orders.add(order2);
-    return orders;
   }
 
   Future<Order> getDetailOrder(String orderId) async {

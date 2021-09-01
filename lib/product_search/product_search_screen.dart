@@ -21,15 +21,15 @@ class ProductSearchScreen extends ConsumerWidget{
         backgroundColor: Colors.white,
         titleSpacing: 0,
         leading: IconButton(
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => Navigator.of(context).pushReplacementNamed('/MainTabScreen'),
           icon: Icon(
             Icons.arrow_back_ios,
             color: Color(0xFF9098B1),
           ),
         ),
         title: Container(
-            margin: EdgeInsets.only(top: 5, right: 10),
-            height: 45,
+            margin: EdgeInsets.only(top: 5, right: 16),
+            height: 54,
             child: TextField(
               controller: searchStr.isNotEmpty ? txt : null,
               autofocus: false,
@@ -46,6 +46,9 @@ class ProductSearchScreen extends ConsumerWidget{
               onSubmitted: (String searchStr) async {
                 Navigator.pushReplacementNamed(
                     context, '/ProductSearchScreen', arguments: searchStr);
+                context
+                    .read(shoeGridViewModelProvider.notifier)
+                    .loadDataByKeyword(searchStr);
               },
             )
         ),
@@ -54,7 +57,7 @@ class ProductSearchScreen extends ConsumerWidget{
         child: Column(
           children: <Widget>[
             (stateSearch is Success) ?
-            ProductListWidget() : (stateSearch is DataIsEmpty) ?
+            ProductListWidget() : (stateSearch is Error) ?
             ProductNotFoundWidget() : CircularProgressIndicator(),
           ],
         ),

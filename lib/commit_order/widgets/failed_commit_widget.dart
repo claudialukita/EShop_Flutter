@@ -52,9 +52,9 @@ class FailedCommitWidget extends ConsumerWidget {
               boxShadow: [
                 BoxShadow(
                   color: Color(0xFF40BFFF).withOpacity(0.5),
-                  spreadRadius: 3,
-                  blurRadius: 7,
-                  offset: Offset(1, 3), // changes position of shadow
+                  spreadRadius: 7,
+                  blurRadius: 10,
+                  offset: Offset(0, 7),// changes position of shadow
                 ),
               ],
             ),

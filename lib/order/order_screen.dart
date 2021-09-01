@@ -1,4 +1,5 @@
 import 'package:eshop_flutter/core/models/async_state.dart';
+import 'package:eshop_flutter/core/providers/alert_dialog.dart';
 import 'package:eshop_flutter/order/order_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,27 +18,22 @@ class OrderScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        toolbarHeight: 78,
+        elevation: 0.5,
         backgroundColor: Colors.white,
-        // toolbarHeight: _heightScreen * (78 / _heightScreen),
+        titleSpacing: 0,
+        automaticallyImplyLeading: false,
         title: Container(
-          width: _widthScreen * (59/_widthScreen),
-          alignment: Alignment.centerLeft,
-          margin: EdgeInsets.only(
-              left: _widthScreen * (30 / _widthScreen),
-              top: _heightScreen * (26 / _heightScreen),
-              bottom: _heightScreen * (20 / _heightScreen)),
+          margin: EdgeInsets.all(20),
+          // height: 45,
           child: Text(
             "Orders",
-            style: TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
-                color: const Color(0xFF223263),
-            ),textAlign: TextAlign.left,
+            style: Theme.of(context)
+                .textTheme
+                .headline4!
+                .apply(color: Color(0xFF223263)),
           ),
         ),
-        shadowColor: Colors.transparent,
-        automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -57,7 +53,8 @@ class OrderScreen extends StatelessWidget {
                     alignment: Alignment.center,
                     child: CircularProgressIndicator());
               } else if(state is Error){
-                return Container(child: Text("Something went wrong!", style: TextStyle(fontSize: 24, color: Colors.black),),);
+                return AlertDialogs();
+                  // Container(child: );
               } else {
                 return Container(
                   height: _heightScreen * (690 / _heightScreen),

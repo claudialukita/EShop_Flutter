@@ -1,4 +1,5 @@
 import 'package:eshop_flutter/core/models/async_state.dart';
+import 'package:eshop_flutter/core/providers/alert_dialog.dart';
 import 'package:eshop_flutter/profile/profile_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,23 +17,42 @@ class Profile extends StatelessWidget {
 
     return Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          toolbarHeight: _height * (78 / _height),
-          title: Container(
-              margin: EdgeInsets.only(
-                  top: _height * (26 / _height),
-                  bottom: _height * (28 / _height)),
-              child: Text(
-                "Profile",
-                style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black),
-              )),
+        appBar:
+        AppBar(
+          toolbarHeight: 78,
+          elevation: 0.5,
           backgroundColor: Colors.white,
-          shadowColor: Colors.transparent,
+          titleSpacing: 0,
+          automaticallyImplyLeading: false,
+          title: Container(
+            margin: EdgeInsets.all(20),
+            // height: 45,
+            child: Text(
+              "Profile",
+              style: Theme.of(context)
+                  .textTheme
+                  .headline4!
+                  .apply(color: Color(0xFF223263)),
+            ),
+          ),
         ),
+        // AppBar(
+        //   toolbarHeight: _height * (78 / _height),
+        //   title: Container(
+        //       margin: EdgeInsets.only(
+        //           top: _height * (26 / _height),
+        //           bottom: _height * (28 / _height)),
+        //       child: Text(
+        //         "Profile",
+        //         style: TextStyle(
+        //             fontFamily: 'Poppins',
+        //             fontSize: 16,
+        //             fontWeight: FontWeight.w700,
+        //             color: Colors.black),
+        //       )),
+        //   backgroundColor: Colors.white,
+        //   shadowColor: Colors.transparent,
+        // ),
         body: SingleChildScrollView(
           child: Consumer(builder: (context, watch, child) {
             final state = watch(profileViewModelProvider);
@@ -43,12 +63,7 @@ class Profile extends StatelessWidget {
                   alignment: Alignment.center,
                   child: CircularProgressIndicator());
             } else if (state is Error) {
-              return Container(
-                child: Text(
-                  "Something went wrong!",
-                  style: TextStyle(fontSize: 24, color: Colors.black),
-                ),
-              );
+              return AlertDialogs();
             } else {
               return Column(
                 children: [
@@ -367,9 +382,9 @@ class Profile extends StatelessWidget {
                       boxShadow: [
                         BoxShadow(
                           color: const Color(0xFF40BFFF).withOpacity(0.5),
-                          spreadRadius: 3,
-                          blurRadius: 7,
-                          offset: Offset(0, 5), // changes position of shadow
+                          spreadRadius: 7,
+                          blurRadius: 10,
+                          offset: Offset(0, 7), // changes position of shadow
                         ),
                       ],
                     ),

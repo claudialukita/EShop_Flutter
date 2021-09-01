@@ -11,19 +11,12 @@ class ShoeList {
     var tagObjsJson = json['imageUrls'] as List;
     List<dynamic> _imageUrls = tagObjsJson.map((tagJson) => tagJson).toList();
 
-    return ShoeList(
-        json['id'] as String,
-        json['name'] as String,
-        json['rating'] as int,
-        json['price'] as double,
-        _imageUrls
-    );
+    return ShoeList(json['id'] as String, json['name'] as String,
+        json['rating'] as int, json['price'] as double, _imageUrls);
   }
 
   Map<String, dynamic> toJson() {
-
-    List<dynamic> imageUrls =
-    this.imageUrls.map((i) => i.toJson()).toList();
+    List<dynamic> imageUrls = this.imageUrls.map((i) => i.toJson()).toList();
 
     return {
       'id': id,
@@ -33,23 +26,22 @@ class ShoeList {
       'imageUrls': imageUrls
     };
   }
-
 }
 
-class ShoeListResult{
+class ShoeListResult {
   List<ShoeList> result;
 
   ShoeListResult(this.result);
 
   factory ShoeListResult.fromJson(dynamic json) {
     var tagObjsJson = json['shoeItemOrder'] as List;
-    List<ShoeList> _shoeItemOrder = tagObjsJson.map((tagJson) => ShoeList.fromJson(tagJson)).toList();
+    List<ShoeList> _shoeItemOrder =
+        tagObjsJson.map((tagJson) => ShoeList.fromJson(tagJson)).toList();
 
     return ShoeListResult(
-        _shoeItemOrder,
+      _shoeItemOrder,
     );
   }
-
 }
 
 class ShoeListResponse {
@@ -58,7 +50,6 @@ class ShoeListResponse {
   ShoeListResult result;
 
   ShoeListResponse(this.statusCode, this.message, this.result);
-
 }
 
 class Shoe extends ShoeList {
@@ -83,14 +74,16 @@ class ShoeDetail {
   List<Stock> shoeItem;
   List<int> shoeSizes;
   List<int> shoeColors;
+  String description;
 
-  ShoeDetail(this.id, this.productCode, this.name, this.rating, this.price, this.imageUrls, this.shoeItem, this.shoeSizes, this.shoeColors);
+  ShoeDetail(this.id, this.productCode, this.name, this.rating, this.price,
+      this.imageUrls, this.shoeItem, this.shoeSizes, this.shoeColors, this.description);
 }
 
 class Stock {
   String id;
   int size;
-  String color;
+  int color;
   int stock;
   String imageUrl;
 
@@ -109,5 +102,4 @@ class ShoeColorSize {
   int shoeSize;
 
   ShoeColorSize(this.shoeColor, this.shoeSize);
-
 }
