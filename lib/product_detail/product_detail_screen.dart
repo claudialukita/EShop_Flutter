@@ -1,5 +1,6 @@
 import 'package:eshop_flutter/core/models/async_state.dart';
 import 'package:eshop_flutter/core/models/shoe.dart';
+import 'package:eshop_flutter/core/providers/alert_dialog.dart';
 import 'package:eshop_flutter/core/providers/cart_provider.dart';
 import 'package:eshop_flutter/product_detail/view_model/color_available_view_model.dart';
 import 'package:eshop_flutter/product_detail/view_model/color_state_view_model.dart';
@@ -75,7 +76,8 @@ class ProductDetailScreen extends ConsumerWidget {
           children: <Widget>[
             Consumer(builder: (context, watch, child) {
               final _shoeDetail = watch(productDetailViewModelProvider);
-              return (_shoeDetail is Success)
+              return (_shoeDetail is Error) ? AlertDialogs() :
+              (_shoeDetail is Success)
                   ? CarouselSliderDetailWidget(_shoeDetail.data!.imageUrls)
                   : Container(
                       height: MediaQuery.of(context).size.height * 0.8,

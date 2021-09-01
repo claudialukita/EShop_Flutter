@@ -2,6 +2,7 @@ import 'package:dotted_line/dotted_line.dart';
 import 'package:eshop_flutter/cart/widgets/cart_is_empty_widget.dart';
 import 'package:eshop_flutter/cart/widgets/shoe_list_widget.dart';
 import 'package:eshop_flutter/core/models/async_state.dart';
+import 'package:eshop_flutter/core/providers/alert_dialog.dart';
 import 'package:eshop_flutter/core/providers/cart_init_checkout_provider.dart';
 import 'package:eshop_flutter/core/providers/cart_provider.dart';
 import 'package:eshop_flutter/core/providers/currency_number_provider.dart';
@@ -15,7 +16,7 @@ class CartListWidget extends ConsumerWidget {
     var cartState = watch(cartProvider);
     return (cartState is Initial)
         ? CartIsEmptyWidget()
-        : (cartState is Success)
+        : (cartState is Error) ? AlertDialogs() : (cartState is Success)
             ? ListView(
                 children: <Widget>[
                   Column(

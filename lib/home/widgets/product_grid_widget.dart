@@ -1,5 +1,6 @@
 import 'package:eshop_flutter/core/models/async_state.dart';
 import 'package:eshop_flutter/core/models/shoe.dart';
+import 'package:eshop_flutter/core/providers/alert_dialog.dart';
 import 'package:eshop_flutter/core/providers/currency_number_provider.dart';
 import 'package:eshop_flutter/home/view_model/home_view_model.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,7 +12,10 @@ class ProductGridWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final _state = watch(shoeGridViewModelProvider);
-    return (_state is Success)
+    return
+      (_state is Error)
+        ? AlertDialogs() :
+        (_state is Success)
         ? Container(
             margin: EdgeInsets.symmetric(horizontal: 12),
             height: MediaQuery.of(context).size.height * 0.33,
