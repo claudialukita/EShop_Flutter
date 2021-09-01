@@ -20,3 +20,10 @@ class LoginResponse {
 
   LoginResponse(this.message);
 }
+
+class LoginValidation {
+  final bool validateEmail;
+  final bool validatePass;
+
+  LoginValidation(this.validateEmail, this.validatePass);
+}
