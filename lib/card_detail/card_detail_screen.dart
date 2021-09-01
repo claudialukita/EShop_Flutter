@@ -1,10 +1,17 @@
 import 'package:eshop_flutter/card_detail/widgets/card_carousel_widget.dart';
+import 'package:eshop_flutter/core/providers/checkout_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 
 class CardDetailScreen extends StatelessWidget{
   @override
+
   Widget build(BuildContext context) {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      context.read(commitCheckoutProvider.notifier).initialState();
+    });
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 78,

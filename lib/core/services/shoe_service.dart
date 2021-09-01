@@ -121,10 +121,12 @@ class ShoeService {
       if (response.data['statusCode'] == 200) {
         return Success(true);
       } else {
-        throw Exception('Shoe not found.');
+        return ResponseError(false);
       }
     } catch (Exception) {
-      throw Exception;
+      // throw Exception;
+      return ResponseError(false);
+
     }
   }
 }

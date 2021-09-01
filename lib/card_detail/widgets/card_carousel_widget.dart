@@ -89,6 +89,7 @@ class CarouselSliderState extends State {
                 var initCheckout = watch(cartInitCheckoutProvider);
                 var addressDetail = watch(commitAddressProvider);
                 final stateProfile = watch(profileViewModelProvider);
+                final statePay = watch(commitCheckoutProvider);
 
                 return (cartState is Success) ? ElevatedButton(
                   onPressed: () => {
@@ -99,14 +100,14 @@ class CarouselSliderState extends State {
                             addressDetail.data!,
                             cartState.data!.summary.totalPrice,
                             stateProfile.data!.limit),
-                    cartState.data!.summary.totalPrice <=
+                    (statePay is Success) && cartState.data!.summary.totalPrice <=
                         stateProfile.data!.limit
                         ? context.read(cartProvider.notifier).resetShoeCart() : {},
-                    Navigator.pushNamed(context, '/CommitOrderScreen',
-                        arguments: cartState.data!.summary.totalPrice <=
-                                stateProfile.data!.limit
-                            ? "Success"
-                            : "Failed")
+                    (statePay is Success) ? Navigator.pushNamed(context, '/CommitOrderScreen',
+                        arguments:
+                        "Success") : CircularProgressIndicator(),
+                    (statePay is ResponseError) ? Navigator.pushNamed(context, '/CommitOrderScreen',
+                        arguments: "Failed") : CircularProgressIndicator(),
                   },
                   style: Theme.of(context).elevatedButtonTheme.style,
                   child: Text(
