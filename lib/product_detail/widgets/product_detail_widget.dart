@@ -1,4 +1,5 @@
 import 'package:eshop_flutter/core/models/async_state.dart';
+import 'package:eshop_flutter/core/providers/alert_dialog.dart';
 import 'package:eshop_flutter/core/providers/cart_provider.dart';
 import 'package:eshop_flutter/core/providers/currency_number_provider.dart';
 import 'package:eshop_flutter/product_detail/view_model/color_available_view_model.dart';
@@ -16,7 +17,7 @@ class ProductDetailWidget extends ConsumerWidget {
     var shoeDetail = watch(productDetailViewModelProvider);
     var cartList = watch(cartProvider);
     var colorAvailable = watch(colorAvailableViewModelProvider);
-    return (shoeDetail is Success)
+    return (shoeDetail is Error) ? AlertDialogs() : (shoeDetail is Success)
         ? Container(
             padding: EdgeInsets.all(16),
             width: MediaQuery.of(context).size.width,
