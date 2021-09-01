@@ -183,6 +183,7 @@ class _ListTileItemState extends State<ListTileItem> {
                             style: Theme.of(context).textTheme.button),
                       ),
                     ),
+                    SizedBox(width: 10),
                     Material (
                       child: IconButton(
                         padding: EdgeInsets.symmetric(horizontal: 30),
