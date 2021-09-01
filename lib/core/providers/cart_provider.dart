@@ -57,7 +57,7 @@ class CartProvider extends StateNotifier<AsyncState<SummaryCart>> {
         shippingCost = 40;
         subTotal = shoePrice * totalShoe;
         tax = subTotal * 0.1;
-        totalPrice = subTotal + shippingCost - tax;
+        totalPrice = subTotal + shippingCost + tax;
         summary = new Summary(subTotal, shippingCost, tax, totalPrice);
 
         summaryCart = new SummaryCart(listShoeInCart, summary);
@@ -91,7 +91,7 @@ class CartProvider extends StateNotifier<AsyncState<SummaryCart>> {
           shippingCost = 40;
           subTotal = allShoePrice; // shoePrice * totalShoe;
           tax = subTotal * 0.1;
-          totalPrice = subTotal + shippingCost - tax;
+          totalPrice = subTotal + shippingCost + tax;
           summary = new Summary(subTotal, shippingCost, tax, totalPrice);
 
           summaryCart = new SummaryCart(listShoeInCart, summary);
@@ -111,7 +111,7 @@ class CartProvider extends StateNotifier<AsyncState<SummaryCart>> {
           shippingCost = 40;
           subTotal = allShoePrice;
           tax = subTotal * 0.1;
-          totalPrice = subTotal + shippingCost - tax;
+          totalPrice = subTotal + shippingCost + tax;
           summary = new Summary(subTotal, shippingCost, tax, totalPrice);
 
           summaryCart = new SummaryCart(listShoeInCart, summary);
@@ -163,7 +163,7 @@ class CartProvider extends StateNotifier<AsyncState<SummaryCart>> {
         shippingCost = 40;
         subTotal = shoePrice * qty;
         tax = subTotal * 0.1;
-        totalPrice = subTotal + shippingCost - tax;
+        totalPrice = subTotal + shippingCost + tax;
         summary = new Summary(subTotal, shippingCost, tax, totalPrice);
 
         summaryCart = new SummaryCart(listShoeInCart, summary);
@@ -195,7 +195,7 @@ class CartProvider extends StateNotifier<AsyncState<SummaryCart>> {
           shippingCost = 40;
           subTotal = allShoePrice; // shoePrice * totalShoe;
           tax = subTotal * 0.1;
-          totalPrice = subTotal + shippingCost - tax;
+          totalPrice = subTotal + shippingCost + tax;
           summary = new Summary(subTotal, shippingCost, tax, totalPrice);
 
           summaryCart = new SummaryCart(listShoeInCart, summary);
@@ -215,7 +215,7 @@ class CartProvider extends StateNotifier<AsyncState<SummaryCart>> {
           shippingCost = 40;
           subTotal = allShoePrice;
           tax = subTotal * 0.1;
-          totalPrice = subTotal + shippingCost - tax;
+          totalPrice = subTotal + shippingCost + tax;
           summary = new Summary(subTotal, shippingCost, tax, totalPrice);
 
           summaryCart = new SummaryCart(listShoeInCart, summary);
@@ -255,7 +255,7 @@ class CartProvider extends StateNotifier<AsyncState<SummaryCart>> {
         shippingCost = 40;
         subTotal = allShoePrice; // shoePrice * totalShoe;
         tax = subTotal * 0.1;
-        totalPrice = subTotal + shippingCost - tax;
+        totalPrice = subTotal + shippingCost + tax;
         summary = new Summary(subTotal, shippingCost, tax, totalPrice);
         summaryCart = new SummaryCart(listShoeInCart, summary);
         await _cartService.setShoeInCart(jsonEncode(summaryCart));
