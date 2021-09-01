@@ -8,12 +8,13 @@ import 'package:mockito/mockito.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 
 import '../mock/profile_screen_response.dart';
+import 'profile_screen_test.mocks.dart';
 
 @GenerateMocks([ProfileService])
 void main() {
   final mockProfileService = MockProfileService();
 
-  when(mockProfileService.getProfile('510fd0f3-a21e-41de-a23a-82a55b41e739')).thenAnswer((realInvocation) async =>
+  when(mockProfileService.getProfile()).thenAnswer((realInvocation) async =>
       Future.delayed(Duration(milliseconds: 1000000),
               () => Future.value(dummyProfile)));
 
