@@ -20,11 +20,9 @@ class LoginViewModel extends StateNotifier<AsyncState<LoginResponse>> {
   loadData(String email, String pass) async {
     state = Loading(state.data);
     try {
-      if(email != "" && pass != ""){
         var shoeList = await _orderService.getLogin(email, pass);
         print(shoeList);
         state = new Success(shoeList);
-      }
     }
     catch (exception) {
       state = Error('Something went wrong', state.data);

@@ -2,11 +2,15 @@
 // in eshop_flutter/test/screens/profile_screen_test.dart.
 // Do not manually edit this file.
 
-import 'dart:async' as _i4;
+import 'dart:async' as _i5;
 
+import 'package:eshop_flutter/core/models/async_state.dart' as _i3;
 import 'package:eshop_flutter/core/models/profile_model.dart' as _i2;
-import 'package:eshop_flutter/core/services/profile_service.dart' as _i3;
+import 'package:eshop_flutter/core/services/profile_service.dart' as _i4;
+import 'package:eshop_flutter/profile/profile_view_model.dart' as _i6;
+import 'package:flutter_riverpod/flutter_riverpod.dart' as _i7;
 import 'package:mockito/mockito.dart' as _i1;
+import 'package:state_notifier/state_notifier.dart' as _i8;
 
 // ignore_for_file: avoid_redundant_argument_values
 // ignore_for_file: avoid_setters_without_getters
@@ -18,24 +22,81 @@ import 'package:mockito/mockito.dart' as _i1;
 
 class _FakeProfileModel_0 extends _i1.Fake implements _i2.ProfileModel {}
 
+class _FakeAsyncState_1<T> extends _i1.Fake implements _i3.AsyncState<T> {}
+
 /// A class which mocks [ProfileService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockProfileService extends _i1.Mock implements _i3.ProfileService {
+class MockProfileService extends _i1.Mock implements _i4.ProfileService {
   MockProfileService() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.Future<_i2.ProfileModel> getProfile() => (super.noSuchMethod(
+  _i5.Future<_i2.ProfileModel> getProfile() => (super.noSuchMethod(
           Invocation.method(#getProfile, []),
           returnValue: Future<_i2.ProfileModel>.value(_FakeProfileModel_0()))
-      as _i4.Future<_i2.ProfileModel>);
+      as _i5.Future<_i2.ProfileModel>);
   @override
-  _i4.Future<_i2.ProfileModel> logOut() => (super.noSuchMethod(
+  _i5.Future<_i2.ProfileModel> logOut() => (super.noSuchMethod(
           Invocation.method(#logOut, []),
           returnValue: Future<_i2.ProfileModel>.value(_FakeProfileModel_0()))
-      as _i4.Future<_i2.ProfileModel>);
+      as _i5.Future<_i2.ProfileModel>);
+  @override
+  String toString() => super.toString();
+}
+
+/// A class which mocks [ProfileDetailViewModel].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockProfileDetailViewModel extends _i1.Mock
+    implements _i6.ProfileDetailViewModel {
+  MockProfileDetailViewModel() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  set onError(_i7.ErrorListener? _onError) =>
+      super.noSuchMethod(Invocation.setter(#onError, _onError),
+          returnValueForMissingStub: null);
+  @override
+  bool get mounted =>
+      (super.noSuchMethod(Invocation.getter(#mounted), returnValue: false)
+          as bool);
+  @override
+  _i5.Stream<_i3.AsyncState<_i2.ProfileModel>> get stream =>
+      (super.noSuchMethod(Invocation.getter(#stream),
+              returnValue: Stream<_i3.AsyncState<_i2.ProfileModel>>.empty())
+          as _i5.Stream<_i3.AsyncState<_i2.ProfileModel>>);
+  @override
+  _i3.AsyncState<_i2.ProfileModel> get state =>
+      (super.noSuchMethod(Invocation.getter(#state),
+              returnValue: _FakeAsyncState_1<_i2.ProfileModel>())
+          as _i3.AsyncState<_i2.ProfileModel>);
+  @override
+  set state(_i3.AsyncState<_i2.ProfileModel>? value) =>
+      super.noSuchMethod(Invocation.setter(#state, value),
+          returnValueForMissingStub: null);
+  @override
+  _i3.AsyncState<_i2.ProfileModel> get debugState =>
+      (super.noSuchMethod(Invocation.getter(#debugState),
+              returnValue: _FakeAsyncState_1<_i2.ProfileModel>())
+          as _i3.AsyncState<_i2.ProfileModel>);
+  @override
+  bool get hasListeners =>
+      (super.noSuchMethod(Invocation.getter(#hasListeners), returnValue: false)
+          as bool);
+  @override
+  _i7.RemoveListener addListener(
+          _i8.Listener<_i3.AsyncState<_i2.ProfileModel>>? listener,
+          {bool? fireImmediately = true}) =>
+      (super.noSuchMethod(
+          Invocation.method(
+              #addListener, [listener], {#fireImmediately: fireImmediately}),
+          returnValue: () {}) as _i7.RemoveListener);
+  @override
+  void dispose() => super.noSuchMethod(Invocation.method(#dispose, []),
+      returnValueForMissingStub: null);
   @override
   String toString() => super.toString();
 }
