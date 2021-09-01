@@ -1,7 +1,6 @@
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:eshop_flutter/core/providers/storage_provider.dart';
-import 'package:eshop_flutter/core/toast/toast/toast.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -38,7 +37,6 @@ class AppDio with DioMixin implements Dio {
         },
         onError: (requestOptions, handler){
           print('Error...');
-          toast('this is a message from toast');
           return handler.next(requestOptions);
         },
         onResponse: (requestOptions, handler){
