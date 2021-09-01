@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:eshop_flutter/core/models/async_state.dart';
 import 'package:eshop_flutter/core/models/order_model.dart';
+import 'package:eshop_flutter/core/providers/alert_dialog.dart';
 import 'package:eshop_flutter/order/detail/order_detail_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -68,10 +69,7 @@ class OrderDetail extends StatelessWidget {
               alignment: Alignment.center,
               child: CircularProgressIndicator());
         } else if (state is Error) {
-          return Container(
-              height: 350,
-              alignment: Alignment.center,
-              child: CircularProgressIndicator());
+          return AlertDialogs();
           //   Container(
           //   child: Text(
           //     "Something went wrong!",

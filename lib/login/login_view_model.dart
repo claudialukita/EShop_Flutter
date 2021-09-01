@@ -1,7 +1,9 @@
 
+import 'package:dio/dio.dart';
 import 'package:eshop_flutter/core/models/async_state.dart';
 import 'package:eshop_flutter/core/models/login_model.dart';
 import 'package:eshop_flutter/core/services/login_service.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final loginViewModelProvider =
@@ -23,7 +25,8 @@ class LoginViewModel extends StateNotifier<AsyncState<LoginResponse>> {
         print(shoeList);
         state = new Success(shoeList);
       }
-    } catch (exception) {
+    }
+    catch (exception) {
       state = Error('Something went wrong', state.data);
     }
   }
