@@ -17,21 +17,25 @@ class LoginService {
   LoginService(this._dio, this._secureStorage);
 
    Future<LoginResponse> getLogin(String email, String password) async {
-    LoginModel login = new LoginModel(email, password);
-    var response = await _dio.post(
-        '${API_URL}sign-in-by-email',data: login.toJson());
+     try{
+       LoginModel login = new LoginModel(email, password);
+       var response = await _dio.post(
+           '${API_URL}sign-in-by-email',data: login.toJson());
 
-    if(response.data.length > 0){
-      if(response.data['message'] == "Success"){
-        LoginResponse logins = new LoginResponse(response.data['message']);
-        _secureStorage.write(key: "token", value: response.data['result']['accessToken']);
-        return logins;
-      }else{
-        LoginResponse logins = new LoginResponse(response.data['message']);
-        return logins;
-      }
-    }else{
-      throw new Exception("Tidak dapat login");
-    }
-  }
+       if(response.data.length > 0){
+         if(response.data['message'] == "Success"){
+           LoginResponse logins = new LoginResponse(response.data['message']);
+           _secureStorage.write(key: "token", value: response.data['result']['accessToken']);
+           return logins;
+         }else{
+           LoginResponse logins = new LoginResponse(response.data['message']);
+           return logins;
+         }
+     }
+       LoginResponse logins = new LoginResponse("Gagal Login");
+       return logins;
+  } catch(e){
+     throw new Exception(e);
+     }
+   }
 }
