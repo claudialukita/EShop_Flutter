@@ -5,9 +5,9 @@ import 'package:eshop_flutter/core/services/shoe_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final commitCheckoutProvider =
-StateNotifierProvider<CommitCheckout, AsyncState<bool>>(
-        (ref) => CommitCheckout(
-        ref.read(shoeServiceProvider), ref.read(cartServiceProvider)));
+    StateNotifierProvider<CommitCheckout, AsyncState<bool>>((ref) =>
+        CommitCheckout(
+            ref.read(shoeServiceProvider), ref.read(cartServiceProvider)));
 
 class CommitCheckout extends StateNotifier<AsyncState<bool>> {
   final ShoeService _shoeService;
@@ -16,26 +16,31 @@ class CommitCheckout extends StateNotifier<AsyncState<bool>> {
   CommitCheckout(this._shoeService, this._cartService)
       : super(Initial<bool>(false));
 
-  commitCheckout(List<ShoeItems> initCheckout, AddressDetail addressDetail, double totalPrice, double limit) async {
-
+  commitCheckout(List<ShoeItems> initCheckout, AddressDetail addressDetail,
+      double totalPrice, double limit) async {
     state = Loading(state.data);
     try {
-      if(totalPrice <= limit){
+      if (totalPrice <= limit) {
         Checkout commCheckout = new Checkout(initCheckout, addressDetail);
 
         var resCommCheckout = await _shoeService.postCheckout(commCheckout);
 
-        if(resCommCheckout.statusCode == 200){
-          state = Success(resCommCheckout);
-        } else {
-          state = ResponseError(resCommCheckout);
+        if (resCommCheckout is ResponseError) {
+          state = ResponseError(false);
         }
-        await _cartService.resetShoeInCart();
+        if (resCommCheckout is Success) {
+          state = Success(true);
+          await _cartService.resetShoeInCart();
+        }
       } else {
         throw new Exception('Limit');
       }
     } catch (exception) {
       state = Error('Something went wrong', state.data);
     }
+  }
+
+  initialState() async{
+    state = Initial(false);
   }
 }
