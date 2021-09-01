@@ -8,6 +8,7 @@ import 'package:mockito/mockito.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 
 import '../mock/order_screen_response.dart';
+import 'order_detail_screen_test.mocks.dart';
 
 @GenerateMocks([OrderService])
 void main() {
@@ -25,9 +26,11 @@ void main() {
           await tester.pumpWidget(
             ProviderScope(
               child: MaterialApp(
-                home: SingleChildScrollView(
-                  child: screen,
-                ),
+                home: Scaffold(
+                  body: SingleChildScrollView(
+                    child: screen,
+                  ),
+                )
               ),
             ),
           );
