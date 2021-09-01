@@ -1,5 +1,4 @@
 import 'package:eshop_flutter/core/models/async_state.dart';
-import 'package:eshop_flutter/core/providers/alert_dialog.dart';
 import 'package:eshop_flutter/profile/profile_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,8 +16,7 @@ class Profile extends StatelessWidget {
 
     return Scaffold(
         backgroundColor: Colors.white,
-        appBar:
-        AppBar(
+        appBar: AppBar(
           toolbarHeight: 78,
           elevation: 0.5,
           backgroundColor: Colors.white,
@@ -36,23 +34,6 @@ class Profile extends StatelessWidget {
             ),
           ),
         ),
-        // AppBar(
-        //   toolbarHeight: _height * (78 / _height),
-        //   title: Container(
-        //       margin: EdgeInsets.only(
-        //           top: _height * (26 / _height),
-        //           bottom: _height * (28 / _height)),
-        //       child: Text(
-        //         "Profile",
-        //         style: TextStyle(
-        //             fontFamily: 'Poppins',
-        //             fontSize: 16,
-        //             fontWeight: FontWeight.w700,
-        //             color: Colors.black),
-        //       )),
-        //   backgroundColor: Colors.white,
-        //   shadowColor: Colors.transparent,
-        // ),
         body: SingleChildScrollView(
           child: Consumer(builder: (context, watch, child) {
             final state = watch(profileViewModelProvider);
@@ -63,321 +44,412 @@ class Profile extends StatelessWidget {
                   alignment: Alignment.center,
                   child: CircularProgressIndicator());
             } else if (state is Error) {
-              return AlertDialogs();
+              return Container(
+                child: Text(
+                  "Something went wrong!",
+                  style: TextStyle(fontSize: 24, color: Color(0xFF223263)),
+                ),
+              );
             } else {
               return Column(
                 children: [
-                  Divider(
-                    height: 10,
-                    thickness: 1,
-                    indent: 0,
-                    color: const Color(0xFFEBF0FF),
-                  ),
-                  // SizedBox(height: 24,),
-                  Row(
-                    children: [
-                      Container(
-                          width: _width * (72 / _width),
-                          height: _height * (72 / _height),
-                          alignment: Alignment.topLeft,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(100),
-                              color: Colors.red),
-                          margin: EdgeInsets.only(
-                              left: _width * (16 / _width),
-                              top: _height * (24 / _height)),
-                          child: ClipOval(
-                              child: Image.network(
-                            state.data!.photoUrl,
+                  Container(
+                    margin: EdgeInsets.all(16),
+                    height: 72,
+                    child: Row(
+                      children: [
+                        Container(
                             width: _width * (72 / _width),
                             height: _height * (72 / _height),
-                            fit: BoxFit.fill,
-                          ))
-                          // Image.asset("assets/images/Profile_Picture.png"),
-                          ),
-                      Column(
-                        children: [
-                          Container(
-                            width: _width * (97/_width),
-                            alignment: Alignment.topLeft,
-                            margin: EdgeInsets.only(top: 20),
-                            child: Text(
-                              state.data!.name,
-                              style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 14,
-                                  color: Colors.black),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100),
+                                color: Colors.red),
+                            // margin: EdgeInsets.only(
+                            //     left: _width * (16 / _width),
+                            //     top: _height * (24 / _height)),
+                            child: ClipOval(
+                                child: Image.network(
+                              state.data!.photoUrl,
+                              width: _width * (72 / _width),
+                              height: _height * (72 / _height),
+                              fit: BoxFit.fill,
+                            ))
+                            // Image.asset("assets/images/Profile_Picture.png"),
                             ),
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                width: _width * (120 / _width),
+                                margin: EdgeInsets.symmetric(horizontal: 16),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        state.data!.name,
+                                        style: TextStyle(
+                                            fontFamily: 'Poppins',
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 14,
+                                            color: Color(0xFF223263)),
+                                      ),
+                                    ),
+                                    Container(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        state.data!.instagramUrl,
+                                        style: TextStyle(
+                                            fontFamily: 'Poppins',
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 12,
+                                            color: Colors.grey),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Row(
+                                children: [
+                                  Container(
+                                    // margin: EdgeInsets.only(left: 100, top: 20),
+                                    child:
+                                        Image.asset("assets/images/coin.png"),
+                                  ),
+                                  Container(
+                                    // margin: EdgeInsets.only(top: 20, left: 5),
+                                    child: Text(
+                                      state.data!.point.floor().toString(),
+                                      style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600,
+                                          color: Color(0xFF223263)),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
-                          Container(
-                            width: _width * (120/_width),
-                            alignment: Alignment.topLeft,
-                            margin: EdgeInsets.only(top: 5, left: 16),
-                            child: Text(
-                              state.data!.instagramUrl,
-                              style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 12,
-                                  color: Colors.grey),
-                            ),
-                          )
-                        ],
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 100, top: 20),
-                        child: Image.asset("assets/images/coin.png"),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 20, left: 5),
-                        child: Text(
-                          state.data!.point.floor().toString(),
-                          style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
+
                   // gender section
                   Container(
-                    child: Row(
+                    margin: EdgeInsets.only(
+                        left: 16, right: 16, top: 32, bottom: 16),
+                    child: Column(
                       children: [
                         Container(
-                          margin: EdgeInsets.only(top: 49, left: 16),
-                          child: Icon(
-                            Icons.female,
-                            color: const Color(0xFF40BFFF),
-                            size: 30,
+                          height: 45,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    // margin: EdgeInsets.only(top: 49),
+                                    child: Container(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 5),
+                                      width: 20,
+                                      height: 20,
+                                      child: FittedBox(
+                                        fit: BoxFit.cover,
+                                        child: ImageIcon(
+                                          AssetImage(
+                                              "assets/images/gender_icon.png"),
+                                          color: Color(0xFF40BFFF),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(left: 16),
+                                    child: Text(
+                                      "Gender",
+                                      style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w700,
+                                          color: Color(0xFF223263)),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(children: [
+                                Container(
+                                  width: _width * (235 / _width),
+                                  alignment: Alignment.centerRight,
+                                  // margin: EdgeInsets.only(top: 49),
+                                  child: Text(
+                                    state.data!.gender,
+                                    style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.grey),
+                                    textAlign: TextAlign.right,
+                                  ),
+                                ),
+                                Container(
+                                    margin: EdgeInsets.only(left: 15),
+                                    child: Icon(
+                                      Icons.arrow_forward_ios,
+                                      color: const Color(0xFF9098B1),
+                                    )),
+                              ]),
+                            ],
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.only(top: 49, left: 10),
-                          child: Text(
-                            "Gender",
-                            style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 12,
-                                fontWeight: FontWeight.w700,
-                            color: Colors.black),
+                          height: 45,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    // margin: EdgeInsets.only(top: 49),
+                                    child: Container(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 5),
+                                      width: 20,
+                                      height: 20,
+                                      child: FittedBox(
+                                        fit: BoxFit.cover,
+                                        child: ImageIcon(
+                                          AssetImage(
+                                              "assets/images/calendar_icon.png"),
+                                          color: Color(0xFF40BFFF),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(left: 16),
+                                    child: Text(
+                                      "Birthday",
+                                      style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w700,
+                                          color: Color(0xFF223263)),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(children: [
+                                Container(
+                                  child: Text(
+                                    state.data!.birthday,
+                                    style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.grey),
+                                    textAlign: TextAlign.right,
+                                  ),
+                                ),
+                                Container(
+                                    margin: EdgeInsets.only(left: 15),
+                                    child: Icon(
+                                      Icons.arrow_forward_ios,
+                                      color: const Color(0xFF9098B1),
+                                    )),
+                              ]),
+                            ],
                           ),
                         ),
                         Container(
-                          width: _width * (235/_width),
-                          alignment: Alignment.centerRight,
-                          margin: EdgeInsets.only(top: 49),
-                          child: Text(
-                            state.data!.gender,
-                            style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.grey),
-                            textAlign: TextAlign.right,
+                          height: 45,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    // margin: EdgeInsets.only(top: 49),
+                                    child: Container(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 5),
+                                      width: 20,
+                                      height: 20,
+                                      child: FittedBox(
+                                        fit: BoxFit.cover,
+                                        child: ImageIcon(
+                                          AssetImage(
+                                              "assets/images/mail_icon.png"),
+                                          color: Color(0xFF40BFFF),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(left: 16),
+                                    child: Text(
+                                      "Email",
+                                      style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w700,
+                                          color: Color(0xFF223263)),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(children: [
+                                Container(
+                                  child: Text(
+                                    state.data!.email,
+                                    style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.grey),
+                                    textAlign: TextAlign.right,
+                                  ),
+                                ),
+                                Container(
+                                    margin: EdgeInsets.only(left: 15),
+                                    child: Icon(
+                                      Icons.arrow_forward_ios,
+                                      color: const Color(0xFF9098B1),
+                                    )),
+                              ]),
+                            ],
                           ),
                         ),
                         Container(
-                            margin: EdgeInsets.only(top: 49, left: 25),
-                            child: Icon(
-                              Icons.arrow_forward_ios,
-                              color: const Color(0xFF9098B1),
-                            )),
-                      ],
-                    ),
-                  ),
-                  //birthday section
-                  Container(
-                    child: Row(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(top: 25, left: 16),
-                          child: Icon(
-                            Icons.calendar_today_outlined,
-                            color: const Color(0xFF40BFFF),
-                            size: 30,
+                          height: 45,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    // margin: EdgeInsets.only(top: 49),
+                                    child: Container(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 5),
+                                      width: 20,
+                                      height: 20,
+                                      child: FittedBox(
+                                        fit: BoxFit.cover,
+                                        child: ImageIcon(
+                                          AssetImage(
+                                              "assets/images/phone_icon.png"),
+                                          color: Color(0xFF40BFFF),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(left: 16),
+                                    child: Text(
+                                      "Phone Number",
+                                      style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w700,
+                                          color: Color(0xFF223263)),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(children: [
+                                Container(
+                                  child: Text(
+                                    state.data!.phone,
+                                    style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.grey),
+                                    textAlign: TextAlign.right,
+                                  ),
+                                ),
+                                Container(
+                                    margin: EdgeInsets.only(left: 15),
+                                    child: Icon(
+                                      Icons.arrow_forward_ios,
+                                      color: const Color(0xFF9098B1),
+                                    )),
+                              ]),
+                            ],
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.only(top: 25, left: 10),
-                          child: Text(
-                            "Birthday",
-                            style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 12,
-                                fontWeight: FontWeight.w700,
-                            color: Colors.black),
+                          height: 45,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    // margin: EdgeInsets.only(top: 49),
+                                    child: Container(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 5),
+                                      width: 20,
+                                      height: 20,
+                                      child: FittedBox(
+                                        fit: BoxFit.cover,
+                                        child: ImageIcon(
+                                          AssetImage(
+                                              "assets/images/lock_icon.png"),
+                                          color: Color(0xFF40BFFF),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(left: 16),
+                                    child: Text(
+                                      "Change Password",
+                                      style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w700,
+                                          color: Color(0xFF223263)),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(children: [
+                                Container(
+                                  child: Text(
+                                    "•••••••••••••••••",
+                                    style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.grey),
+                                    textAlign: TextAlign.right,
+                                  ),
+                                ),
+                                Container(
+                                    margin: EdgeInsets.only(left: 15),
+                                    child: Icon(
+                                      Icons.arrow_forward_ios,
+                                      color: const Color(0xFF9098B1),
+                                    )),
+                              ]),
+                            ],
                           ),
                         ),
-                        Container(
-                          width: _width * (230/_width),
-                          alignment: Alignment.centerRight,
-                          margin: EdgeInsets.only(top: 25),
-                          child: Text(
-                            state.data!.birthday,
-                            style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.grey),
-                            textAlign: TextAlign.right,
-                          ),
-                        ),
-                        Container(
-                            margin: EdgeInsets.only(top: 25, left: 25),
-                            child: Icon(
-                              Icons.arrow_forward_ios,
-                              color: const Color(0xFF9098B1),
-                            )),
-                      ],
-                    ),
-                  ),
-                  //email section
-                  Container(
-                    child: Row(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(top: 25, left: 16),
-                          child: Icon(
-                            Icons.email_outlined,
-                            color: const Color(0xFF40BFFF),
-                            size: 30,
-                          ),
-                        ),
-                        Container(
-                          alignment: Alignment.centerRight,
-                          margin: EdgeInsets.only(top: 25, left: 10),
-                          child: Text(
-                            "Email",
-                            style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 12,
-                                fontWeight: FontWeight.w700,
-                            color: Colors.black), textAlign: TextAlign.right,
-                          ),
-                        ),
-                        Container(
-                          width: _width * (250/_width),
-                          alignment: Alignment.centerRight,
-                          margin: EdgeInsets.only(top: 25),
-                          child: Text(
-                            state.data!.email,
-                            style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.grey),
-                            textAlign: TextAlign.right,
-                          ),
-                        ),
-                        Container(
-                            margin: EdgeInsets.only(top: 25, left: 25),
-                            child: Icon(
-                              Icons.arrow_forward_ios,
-                              color: const Color(0xFF9098B1),
-                            )),
-                      ],
-                    ),
-                  ),
-                  // phone number section
-                  Container(
-                    child: Row(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(top: 25, left: 16),
-                          child: Icon(
-                            Icons.phone_android_sharp,
-                            color: const Color(0xFF40BFFF),
-                            size: 30,
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 25, left: 10),
-                          child: Text(
-                            "Phone Number",
-                            style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 12,
-                                fontWeight: FontWeight.w700,
-                            color: Colors.black),
-                          ),
-                        ),
-                        Container(
-                          width: _width * (195/_width),
-                          alignment: Alignment.centerRight,
-                          margin: EdgeInsets.only(top: 25),
-                          child: Text(
-                            state.data!.phone,
-                            style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.grey),
-                            textAlign: TextAlign.right,
-                          ),
-                        ),
-                        Container(
-                            margin: EdgeInsets.only(top: 25, left: 25),
-                            child: Icon(
-                              Icons.arrow_forward_ios,
-                              color: const Color(0xFF9098B1),
-                            )),
-                      ],
-                    ),
-                  ),
-                  //change password section
-                  Container(
-                    child: Row(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(top: 25, left: 16),
-                          child: Icon(
-                            Icons.lock_outlined,
-                            color: const Color(0xFF40BFFF),
-                            size: 30,
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 25, left: 10),
-                          child: Text(
-                            "Change Password",
-                            style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 12,
-                                fontWeight: FontWeight.w700,
-                            color: Colors.black),
-                          ),
-                        ),
-                        Container(
-                          width: _width * (175/_width),
-                          alignment: Alignment.centerRight,
-                          margin: EdgeInsets.only(top: 25),
-                          child: Text(
-                            "•••••••••••••••••",
-                            style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.grey),
-                            textAlign: TextAlign.right,
-                          ),
-                        ),
-                        Container(
-                            margin: EdgeInsets.only(top: 25, left: 25),
-                            child: Icon(
-                              Icons.arrow_forward_ios,
-                              color: const Color(0xFF9098B1),
-                            )),
                       ],
                     ),
                   ),
                   Container(
                     width: double.infinity,
                     height: 57,
-                    margin: EdgeInsets.only(
-                        left: 16, right: 16, top: 53, bottom: 20),
+                    margin: EdgeInsets.symmetric(horizontal: 16),
                     decoration: BoxDecoration(
                       boxShadow: [
                         BoxShadow(
@@ -394,7 +466,9 @@ class Profile extends StatelessWidget {
                         shadowColor: const Color(0xFF40BFFF),
                       ),
                       onPressed: () {
-                        context.read(profileViewModelProvider.notifier).logOut();
+                        context
+                            .read(profileViewModelProvider.notifier)
+                            .logOut();
                         Navigator.pushNamed(context, "/login");
                       },
                       child: Text(
