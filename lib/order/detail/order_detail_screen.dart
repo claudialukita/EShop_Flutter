@@ -70,13 +70,14 @@ class OrderDetail extends StatelessWidget {
               child: CircularProgressIndicator());
         } else if (state is Error) {
           var cek = state as Error;
-          return AlertDialogs(cek.error);
-          //   Container(
-          //   child: Text(
-          //     "Something went wrong!",
-          //     style: TextStyle(fontSize: 24, color: const Color(0xFF223263)),
-          //   ),
-          // );
+          return
+            // AlertDialogs(cek.error);
+            Container(
+            // child: Text(
+            //   "Something went wrong!",
+            //   style: TextStyle(fontSize: 24, color: const Color(0xFF223263)),
+            // ),
+          );
         } else {
           return Column(
             children: [

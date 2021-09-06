@@ -76,7 +76,7 @@ class ProductDetailScreen extends ConsumerWidget {
           children: <Widget>[
             Consumer(builder: (context, watch, child) {
               final _shoeDetail = watch(productDetailViewModelProvider);
-              return (_shoeDetail is Error) ? AlertDialogs() :
+              return (_shoeDetail is Error) ? AlertDialog() :
               (_shoeDetail is Success)
                   ? CarouselSliderDetailWidget(_shoeDetail.data!.imageUrls)
                   : Container(

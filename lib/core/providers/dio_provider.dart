@@ -28,36 +28,37 @@ class AppDio with DioMixin implements Dio {
     );
 
     this.options = options;
-    this.interceptors.add(InterceptorsWrapper(
-        onRequest: (requestOptions, handler) async{
-          var token = await ref.read(storageProvider).read(key: 'token');
-          Map tokenHeader = new Map<String, String>();
-          if (token != null){
-            tokenHeader['Authorization'] = 'Bearer' + token.toString();
-            requestOptions.headers.addAll(tokenHeader as Map<String, dynamic>);
-          }
-
-          return handler.next(requestOptions);
-        },
-        onError: (requestOptions, handler){
-          // print('Error...');
-          // return handler.next(requestOptions);
-          Fluttertoast.showToast(
-              msg: "Something went wrong, please try again",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-              backgroundColor: Colors.red,
-              textColor: Colors.white,
-              fontSize: 16.0);
-          return handler.next(requestOptions);
-        },
-        onResponse: (requestOptions, handler){
-          var temp = requestOptions.data;
-          requestOptions.data = temp;
-          return handler.next(requestOptions);
-        }
-    ));
+    // this.interceptors.add(InterceptorsWrapper(
+    //     onRequest: (requestOptions, handler) async{
+    //       var token = await ref.read(storageProvider).read(key: 'token');
+    //       Map tokenHeader = new Map<String, String>();
+    //       if (token != null){
+    //         tokenHeader['Authorization'] = 'Bearer' + token.toString();
+    //         requestOptions.headers.addAll(tokenHeader as Map<String, dynamic>);
+    //       }
+    //
+    //       return handler.next(requestOptions);
+    //     },
+    //     onError: (requestOptions, handler){
+    //       // print('Error...');
+    //       // return handler.next(requestOptions);
+    //       Get.dialog(AlertDialogs("message"));
+    //       // Fluttertoast.showToast(
+    //       //     msg: "Something went wrong, please try again",
+    //       //     toastLength: Toast.LENGTH_SHORT,
+    //       //     gravity: ToastGravity.BOTTOM,
+    //       //     timeInSecForIosWeb: 1,
+    //       //     backgroundColor: Colors.red,
+    //       //     textColor: Colors.white,
+    //       //     fontSize: 16.0);
+    //       return handler.next(requestOptions);
+    //     },
+    //     onResponse: (requestOptions, handler){
+    //       var temp = requestOptions.data;
+    //       requestOptions.data = temp;
+    //       return handler.next(requestOptions);
+    //     }
+    // ));
 
 
     this.interceptors.add(InterceptorsWrapper(
@@ -73,6 +74,28 @@ class AppDio with DioMixin implements Dio {
         },
         onError: (requestOptions, handler){
           print('error woy');
+          Get.dialog(AlertDialogs(requestOptions.error));
+          // Get.defaultDialog(
+          //   title: "CEK ERROR",
+          //     middleText: "Hello world!",
+          //     backgroundColor: Colors.green,
+          //     titleStyle: TextStyle(color: Colors.white),
+          //     middleTextStyle: TextStyle(color: Colors.white),
+          //     textConfirm: "Confirm",
+          //     textCancel: "Cancel",
+          //     cancelTextColor: Colors.white,
+          //     confirmTextColor: Colors.white,
+          //     buttonColor: Colors.red,
+          //     barrierDismissible: false,
+          //     radius: 50,
+          //     content: Column(
+          //       children: [
+          //         Container(child:Text("Hello 1")),
+          //         Container(child:Text("Hello 2")),
+          //         Container(child:Text("Hello 3")),
+          //       ],
+          //     )
+          // );
           return handler.next(requestOptions);
         },
         onResponse: (requestOptions, handler){

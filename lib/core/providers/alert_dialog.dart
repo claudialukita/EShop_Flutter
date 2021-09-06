@@ -14,8 +14,7 @@ class AlertDialogs extends StatelessWidget {
       ),
       actions: [
         TextButton(
-          onPressed: () => Navigator.of(context)
-              .pushNamed("/MainTabScreen"), // passing false
+          onPressed: () => Navigator.of(context, rootNavigator: true).pop('dialog'), // passing false
           child: Text('Close'),
         ),
       ],
