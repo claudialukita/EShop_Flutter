@@ -1,4 +1,5 @@
 import 'package:eshop_flutter/core/models/async_state.dart';
+import 'package:eshop_flutter/core/providers/alert_dialog.dart';
 import 'package:eshop_flutter/order/order_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -68,14 +69,12 @@ class OrderScreen extends StatelessWidget {
                     height: 350,
                     alignment: Alignment.center,
                     child: CircularProgressIndicator());
-              } else if (state is Error) {
-                return Container(
-                  child: Text(
-                    "Something went wrong!",
-                    style: TextStyle(fontSize: 24, color: Colors.black),
-                  ),
-                );
-              } else {
+              }
+              // else if (state is Error) {
+              //   var cek = state as Error;
+              //   return AlertDialogs(cek.error);
+              // }
+              else {
                 return Container(
                   height: _heightScreen * (690 / _heightScreen),
                   width: _widthScreen,

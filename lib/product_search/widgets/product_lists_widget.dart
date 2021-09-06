@@ -12,7 +12,7 @@ class ProductListWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     var stateSearch = watch(shoeGridViewModelProvider);
-    return (stateSearch is Error) ? AlertDialogs() : (stateSearch is Success)
+    return (stateSearch is Error) ? AlertDialog() : (stateSearch is Success)
         ? Container(
             margin: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
             // color: Colors.black,

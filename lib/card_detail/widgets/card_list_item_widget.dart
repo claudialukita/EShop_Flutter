@@ -10,7 +10,7 @@ class CardListItemWidget extends ConsumerWidget {
   Widget build(BuildContext context, watch) {
     var profileDetail = watch(profileViewModelProvider);
     return (profileDetail is Error)
-        ? AlertDialogs()
+        ? AlertDialog()
         : (profileDetail is Success)
             ? Container(
                 width: MediaQuery.of(context).size.width * 0.9,

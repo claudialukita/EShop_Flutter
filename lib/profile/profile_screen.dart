@@ -1,4 +1,5 @@
 import 'package:eshop_flutter/core/models/async_state.dart';
+import 'package:eshop_flutter/core/providers/alert_dialog.dart';
 import 'package:eshop_flutter/profile/profile_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -44,12 +45,8 @@ class Profile extends StatelessWidget {
                   alignment: Alignment.center,
                   child: CircularProgressIndicator());
             } else if (state is Error) {
-              return Container(
-                child: Text(
-                  "Something went wrong!",
-                  style: TextStyle(fontSize: 24, color: Color(0xFF223263)),
-                ),
-              );
+              var cek = state as Error;
+              return AlertDialogs(cek.error);
             } else {
               return Column(
                 children: [

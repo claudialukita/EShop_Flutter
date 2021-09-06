@@ -1,8 +1,12 @@
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
+import 'package:eshop_flutter/core/providers/alert_dialog.dart';
 import 'package:eshop_flutter/core/providers/storage_provider.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 
 final dioProvider = Provider<Dio>((ref) {
   final Dio dio = AppDio.getInstance(ref);
@@ -36,7 +40,16 @@ class AppDio with DioMixin implements Dio {
           return handler.next(requestOptions);
         },
         onError: (requestOptions, handler){
-          print('Error...');
+          // print('Error...');
+          // return handler.next(requestOptions);
+          Fluttertoast.showToast(
+              msg: "Something went wrong, please try again",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0);
           return handler.next(requestOptions);
         },
         onResponse: (requestOptions, handler){

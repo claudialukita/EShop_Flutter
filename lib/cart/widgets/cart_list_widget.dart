@@ -16,7 +16,7 @@ class CartListWidget extends ConsumerWidget {
     var cartState = watch(cartProvider);
     return (cartState is Initial)
         ? CartIsEmptyWidget()
-        : (cartState is Error) ? AlertDialogs() : (cartState is Success)
+        : (cartState is Error) ? AlertDialog() : (cartState is Success)
             ? ListView(
                 children: <Widget>[
                   Column(

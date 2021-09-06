@@ -17,7 +17,7 @@ class ProductDetailWidget extends ConsumerWidget {
     var shoeDetail = watch(productDetailViewModelProvider);
     var cartList = watch(cartProvider);
     var colorAvailable = watch(colorAvailableViewModelProvider);
-    return (shoeDetail is Error) ? AlertDialogs() : (shoeDetail is Success)
+    return (shoeDetail is Error) ? AlertDialog() : (shoeDetail is Success)
         ? Container(
             padding: EdgeInsets.all(16),
             width: MediaQuery.of(context).size.width,

@@ -69,7 +69,8 @@ class OrderDetail extends StatelessWidget {
               alignment: Alignment.center,
               child: CircularProgressIndicator());
         } else if (state is Error) {
-          return AlertDialogs();
+          var cek = state as Error;
+          return AlertDialogs(cek.error);
           //   Container(
           //   child: Text(
           //     "Something went wrong!",

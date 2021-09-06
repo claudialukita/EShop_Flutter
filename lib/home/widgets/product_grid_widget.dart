@@ -14,7 +14,7 @@ class ProductGridWidget extends ConsumerWidget {
     final _state = watch(shoeGridViewModelProvider);
     return
       (_state is Error)
-        ? AlertDialogs() :
+        ? AlertDialog() :
         (_state is Success)
         ? Container(
             margin: EdgeInsets.symmetric(horizontal: 12),
