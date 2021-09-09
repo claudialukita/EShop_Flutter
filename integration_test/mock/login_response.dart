@@ -1,0 +1,9 @@
+const mockedLoginResponse = {
+  "statusCode": 200,
+  "message": "Success",
+  "result": {
+    "accessToken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiZWYxZDRjMy05Y2QwLTQ4YTYtOTgxYy0wMDE0OGM4MzliYzAiLCJnaXZlbl9uYW1lIjoiQnJ1Y2UiLCJmYW1pbHlfbmFtZSI6IkxlZSIsIm5iZiI6MTYyOTg2MjQ0MywiZXhwIjoxNjYwOTY2NDQzLCJpc3MiOiJFY29tTWluaVByb2plY3RTaG9lcy5Vc2VyU2VydmljZSIsImF1ZCI6IkVjb21NaW5pUHJvamVjdFNob2VzLkFjY2Vzc1Rva2VuSGFuZGxlciJ9.fMYszxEUPJa0-vbEGNxKUdA4qnY7laQi4IDmTK8B99lxXdoHybXdklqdcydEdhE_-4OzhNGwn4IWs56-vk5dpBgeWS2awNkuwTj6sNyzwpH2F9N9T0iczLzGEOSEOHMqRqn8pM2bmywN2S1VhxVyfwWAhkUDcDeMfK_4RjNRbvyNIUFtK619ErelNia-kkziPRSXfmnrdq8V7uYINFcYMLh0bIE6hFvk5zHPmbd7tYLebZ_8sz7io6ITHDs5nlL5dKDjn2N1fUjfYkJXcfRCGDnSiQ0kOQJSU7hjo9vecxpsEG6wlV74dxthJcNOpT4n7DYMD_OFwazNayBmODwx6w",
+    "tokenType": "Bearer",
+    "expiresIn": 31104000
+  }
+};

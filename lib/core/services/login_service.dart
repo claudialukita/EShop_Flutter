@@ -35,6 +35,7 @@ class LoginService {
        LoginResponse logins = new LoginResponse("Gagal Login");
        return logins;
   } catch(e){
+       print("catch error nih");
      throw new Exception(e);
      }
    }

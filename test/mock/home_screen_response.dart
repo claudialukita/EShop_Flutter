@@ -58,6 +58,12 @@ final dummyShoeListResApi = {
   }
 };
 
+final dummyError404ResApi = {
+  "statusCode": 404,
+  "message": "Shoe Not Found",
+  "result": null
+};
+
 final dummyShoeListByKeywordResApi = {
   "statusCode": 200,
   "message": "Success",

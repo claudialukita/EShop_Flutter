@@ -60,6 +60,7 @@ class _LoginValidationWidgetState extends State<LoginValidationWidget> {
               margin:
               EdgeInsets.only(left: 16, right: 16, top: 28, bottom: 10),
               child: TextField(
+                key: Key("sign_in_form_text_input_email"),
                 // onChanged: (value) => _emailController.text = value,
                 controller: _emailController,
                 decoration: InputDecoration(
@@ -87,6 +88,7 @@ class _LoginValidationWidgetState extends State<LoginValidationWidget> {
               height: 48,
               margin: EdgeInsets.only(left: 16, right: 16),
               child: TextField(
+                key: Key("sign_in_form_text_input_password"),
                 controller: _passController,
                 obscureText: true,
                 textAlign: TextAlign.left,
@@ -159,6 +161,8 @@ class _LoginValidationWidgetState extends State<LoginValidationWidget> {
                         } else {
                           _validatePass = true;
                         }
+                      } else {
+                        CircularProgressIndicator();
                       }
                     },
                     child: Text(
