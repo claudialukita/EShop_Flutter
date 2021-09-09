@@ -149,7 +149,7 @@ class _LoginValidationWidgetState extends State<LoginValidationWidget> {
                       if ((state is Error) || (state is Initial)) {
                         ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text("something error")));
-                      } else {
+                      } else if (state is Success){
                         print(state.data!.message);
                         if (state.data!.message == "Success") {
                           Navigator.pushNamed(context, '/MainTabScreen');

@@ -17,25 +17,29 @@ class ShoeService {
   ShoeService(this._dio);
 
   Future<List<ShoeList>> getShoesByKeyword(String keyword) async {
-    List<ShoeList> shoes = [];
-    List<String> newImageUrls = [];
-    //GET {{host}}/shoes?name={{name_keyword}}
-    var response =
-        await _dio.get('${API_URL_SHOE_SERVICE}/shoe?name=${keyword}');
-    if (response.data['statusCode'] == 200) {
-      for (var shoeListRes in response.data['result']['result']) {
-        ShoeList shoeList = new ShoeList(
-          shoeListRes['id'],
-          shoeListRes['name'],
-          shoeListRes['rating'],
-          shoeListRes['price'].toDouble(),
-          shoeListRes['imageUrls'],
-        );
-        shoes.add(shoeList);
-        newImageUrls.clear();
+    try {
+      List<ShoeList> shoes = [];
+      List<String> newImageUrls = [];
+      //GET {{host}}/shoes?name={{name_keyword}}
+      var response =
+          await _dio.get('${API_URL_SHOE_SERVICE}/shoe?name=${keyword}');
+      if (response.data['statusCode'] == 200) {
+        for (var shoeListRes in response.data['result']['result']) {
+          ShoeList shoeList = new ShoeList(
+            shoeListRes['id'],
+            shoeListRes['name'],
+            shoeListRes['rating'],
+            shoeListRes['price'].toDouble(),
+            shoeListRes['imageUrls'],
+          );
+          shoes.add(shoeList);
+          newImageUrls.clear();
+        }
       }
+      return shoes;
+    } catch (Exception) {
+      throw Exception;
     }
-    return shoes;
   }
 
   Future<List<ShoeList>> getAllShoes() async {
@@ -126,7 +130,6 @@ class ShoeService {
     } catch (Exception) {
       // throw Exception;
       return ResponseError(false);
-
     }
   }
 }
