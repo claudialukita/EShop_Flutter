@@ -41,10 +41,10 @@ void main() {
 
       await tester.pumpAndSettle(Duration(milliseconds: 3000));
       await tester.enterText(
-          find.byKey(Key("sign_in_form_text_input_email")), mockedEmail);
+          find.byKey(Key("sign_form_text_input_email")), mockedEmail);
       await tester.pumpAndSettle();
       await tester.enterText(
-          find.byKey(Key("sign_in_form_text_input_password")), mockedPassword);
+          find.byKey(Key("sign_form_text_input_password")), mockedPassword);
       await tester.pumpAndSettle();
       await tester.tap(find.widgetWithText(ElevatedButton, "Sign In"));
       await tester.pumpAndSettle();

@@ -17,7 +17,7 @@ class ItemCardWidget extends StatelessWidget {
         image: DecorationImage(image: AssetImage("assets/images/carousel_home.png"),
             fit: BoxFit.cover),
         boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.4), blurRadius: 2),
+          BoxShadow(color: Color(0xFF223263).withOpacity(0.4), blurRadius: 2),
         ],
       ),
       child: Container(

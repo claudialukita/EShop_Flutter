@@ -148,13 +148,16 @@ class _LoginValidationWidgetState extends State<LoginValidationWidget> {
                           _emailController.text, _passController.text);
                       final state = watch(loginViewModelProvider);
                       print("ini succes ");
+                      print(state);
                       if ((state is Error) || (state is Initial)) {
+                        print("if ${state}");
                         ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text("something error")));
                       } else if (state is Success){
+                        print("else if ${state}");
                         print(state.data!.message);
                         if (state.data!.message == "Success") {
-                          Navigator.pushNamed(context, '/MainTabScreen');
+                            Navigator.pushNamed(context, '/MainTabScreen');
                         } else if (state.data!.message ==
                             "Not a valid email") {
                           _validateEmail = true;
@@ -162,6 +165,7 @@ class _LoginValidationWidgetState extends State<LoginValidationWidget> {
                           _validatePass = true;
                         }
                       } else {
+                        print("else ${state}");
                         CircularProgressIndicator();
                       }
                     },

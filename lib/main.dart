@@ -6,6 +6,7 @@ import 'package:eshop_flutter/order/detail/order_detail_screen.dart';
 import 'package:eshop_flutter/product_detail/product_detail_screen.dart';
 import 'package:eshop_flutter/product_detail/widgets/success_add_widget.dart';
 import 'package:eshop_flutter/product_search/product_search_screen.dart';
+import 'package:eshop_flutter/sign_in/sign_in_screen.dart';
 import 'package:eshop_flutter/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
                 fontSize: 16,
                 fontWeight: FontWeight.w700),
             headline5: TextStyle(
-                fontSize: 21, color: Colors.black, fontWeight: FontWeight.w700),
+                fontSize: 21, color: Color(0xFF223263), fontWeight: FontWeight.w700),
             headline6: TextStyle(
                 fontSize: 21,
                 color: Color(0xFF40BFFF),
@@ -77,7 +78,8 @@ class MyApp extends StatelessWidget {
         // ],
         routes: {
           '/': (context) => Splash(),
-          '/login': (context) => Login(),
+          '/login': (context) => SignInScreen(),
+          // '/login': (context) => Login(),
           '/MainTabScreen': (context) => MainTabScreen(),
           '/ProductSearchScreen': (context) => ProductSearchScreen(),
           '/ProductDetailScreen': (context) => ProductDetailScreen(),

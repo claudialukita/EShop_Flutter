@@ -23,7 +23,7 @@ class LoginViewModel extends StateNotifier<AsyncState<LoginResponse>> {
       if(email != "" && pass != ""){
         var shoeList = await _orderService.getLogin(email, pass);
         print(shoeList);
-        state = new Success(shoeList);
+        state = new Success(LoginResponse.fromJson(shoeList.toJson()));
       }
     }
     catch (exception) {
