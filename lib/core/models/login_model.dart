@@ -19,6 +19,15 @@ class LoginResponse {
   final String message;
 
   LoginResponse(this.message);
+
+  LoginResponse.fromJson(Map<String, dynamic> json) :
+        message = json['message'];
+
+  Map<String, dynamic> toJson() =>
+      {
+        'message': message,
+      };
+
 }
 
 class LoginValidation {

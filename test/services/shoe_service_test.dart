@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:eshop_flutter/core/common/constant.dart';
 import 'package:eshop_flutter/core/models/async_state.dart';
@@ -39,6 +41,31 @@ void main() {
     final service = container.read(shoeServiceProvider);
     List<ShoeList> shoeList = await service.getShoesByKeyword("i");
     expect(shoeList.length, Success(dummyShoeListByKeyword).data!.length);
+  });
+
+  // test('ShoeService - getShoesByKeyword - Error 404 not found', () async {
+  //   mockDioAdapter.onGet(pathGetShoesByKeyword,
+  //       (request) => request.reply(404, dummyError404ResApi));
+  //
+  //   final container = ProviderContainer(
+  //       overrides: [dioProvider.overrideWithValue(mockDioProvider)]);
+  //   final service = container.read(shoeServiceProvider);
+  //   List<ShoeList> shoeList = await service.getShoesByKeyword("test");
+  //   expect(mockDioAdapter.isMockDioError('404'), throwsException);
+  // });
+
+
+  test('ShoeService - getShoesByKeyword - Failed', () async {
+    // mockDioAdapter.onGet(
+    //   pathGetShoesByKeyword,
+    //       (request) => request.reply(404, {'message': 'Error'}),
+    // );
+    final container = ProviderContainer(
+      overrides: [dioProvider.overrideWithValue(mockDioProvider)],
+    );
+    final service = container.read(shoeServiceProvider);
+    List<ShoeList> shoeList = await service.getShoesByKeyword("test");
+    expect(service.getShoesByKeyword("test"), {"statusCode" : 404});
   });
 
   test('ShoeService - getShoeDetail - Success', () async {

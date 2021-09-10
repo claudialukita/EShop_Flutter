@@ -60,6 +60,7 @@ class _LoginValidationWidgetState extends State<LoginValidationWidget> {
               margin:
               EdgeInsets.only(left: 16, right: 16, top: 28, bottom: 10),
               child: TextField(
+                key: Key("sign_in_form_text_input_email"),
                 // onChanged: (value) => _emailController.text = value,
                 controller: _emailController,
                 decoration: InputDecoration(
@@ -87,6 +88,7 @@ class _LoginValidationWidgetState extends State<LoginValidationWidget> {
               height: 48,
               margin: EdgeInsets.only(left: 16, right: 16),
               child: TextField(
+                key: Key("sign_in_form_text_input_password"),
                 controller: _passController,
                 obscureText: true,
                 textAlign: TextAlign.left,
@@ -146,19 +148,25 @@ class _LoginValidationWidgetState extends State<LoginValidationWidget> {
                           _emailController.text, _passController.text);
                       final state = watch(loginViewModelProvider);
                       print("ini succes ");
+                      print(state);
                       if ((state is Error) || (state is Initial)) {
+                        print("if ${state}");
                         ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text("something error")));
                       } else if (state is Success){
+                        print("else if ${state}");
                         print(state.data!.message);
                         if (state.data!.message == "Success") {
-                          Navigator.pushNamed(context, '/MainTabScreen');
+                            Navigator.pushNamed(context, '/MainTabScreen');
                         } else if (state.data!.message ==
                             "Not a valid email") {
                           _validateEmail = true;
                         } else {
                           _validatePass = true;
                         }
+                      } else {
+                        print("else ${state}");
+                        CircularProgressIndicator();
                       }
                     },
                     child: Text(

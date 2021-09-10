@@ -72,7 +72,7 @@ class OrderScreen extends StatelessWidget {
                 return Container(
                   child: Text(
                     "Something went wrong!",
-                    style: TextStyle(fontSize: 24, color: Colors.black),
+                    style: TextStyle(fontSize: 24, color: Color(0xFF223263)),
                   ),
                 );
               } else {
