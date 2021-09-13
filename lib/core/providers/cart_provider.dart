@@ -15,8 +15,12 @@ class CartProvider extends StateNotifier<AsyncState<SummaryCart>> {
   CartProvider(this._cartService) : super(Initial(null));
 
   getCartList() async {
-    SummaryCart summaryCartInStorage = await _cartService.getShoeInCart();
-    state = Success(summaryCartInStorage);
+    try{
+      SummaryCart summaryCartInStorage = await _cartService.getShoeInCart();
+      state = Success(summaryCartInStorage);
+    } catch (Exception){
+      state = DataIsEmpty(null);
+    }
   }
 
   addToCartList(
